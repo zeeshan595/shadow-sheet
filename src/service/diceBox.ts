@@ -2,10 +2,34 @@
 import DiceBox from "@3d-dice/dice-box";
 import { sendNotification } from "./owlbear";
 
+const THEME_KEY = "dicebox-theme";
+
+export enum DiceBoxThemes {
+  BlueGreenMetal = "blueGreenMetal",
+  Default = "default",
+  DiceOfRolling = "diceOfRolling",
+  Gemstone = "gemstone",
+  GemstoneMarble = "gemstoneMarble",
+  Rock = "rock",
+  Rust = "rust",
+  Smooth = "smooth",
+  Wooden = "wooden",
+}
 export const diceBox = new DiceBox("#dice-box", {
   assetPath: "/assets/dice-box/",
+  themes: Object.values(DiceBoxThemes),
 });
 diceBox.init();
+
+export async function setDiceBoxTheme(theme: DiceBoxThemes) {
+  localStorage.setItem(THEME_KEY, theme);
+  await diceBox.updateConfig({ theme: theme });
+}
+export function getDiceBoxTheme(): DiceBoxThemes {
+  const theme = localStorage.getItem(THEME_KEY);
+  if (!theme) return DiceBoxThemes.Default;
+  return (theme as DiceBoxThemes) ?? DiceBoxThemes.Default;
+}
 
 let diceClearTimeout: number | null = null;
 export type RollDiceOptions = {
@@ -36,5 +60,7 @@ export async function rollDice(options: RollDiceOptions) {
     total += options.modifier;
   }
   diceClearTimeout = setTimeout(() => diceBox.clear(), 1000);
-  sendNotification(`rolled: ${total}`);
+  if (!options.hidden) {
+    sendNotification(`rolled: ${total}`);
+  }
 }
