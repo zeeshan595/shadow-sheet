@@ -78,13 +78,34 @@ const charismaNum = computed(() => stringToNum(character.value.charisma));
         <Toggle v-model="character.sync" />
       </div>
       <div class="flex-row justify-end gap20">
-        <Dice type="d4" @click="() => rollDice({ dice: '1d4' })" />
-        <Dice type="d6" @click="() => rollDice({ dice: '1d6' })" />
-        <Dice type="d8" @click="() => rollDice({ dice: '1d8' })" />
-        <Dice type="d10" @click="() => rollDice({ dice: '1d10' })" />
-        <Dice type="d12" @click="() => rollDice({ dice: '1d12' })" />
-        <Dice type="d20" @click="() => rollDice({ dice: '1d20' })" />
-        <Dice type="d100" @click="() => rollDice({ dice: '1d100' })" />
+        <Dice
+          type="d4"
+          @click="() => rollDice({ dice: '1d4' }, character.playerName)"
+        />
+        <Dice
+          type="d6"
+          @click="() => rollDice({ dice: '1d6' }, character.playerName)"
+        />
+        <Dice
+          type="d8"
+          @click="() => rollDice({ dice: '1d8' }, character.playerName)"
+        />
+        <Dice
+          type="d10"
+          @click="() => rollDice({ dice: '1d10' }, character.playerName)"
+        />
+        <Dice
+          type="d12"
+          @click="() => rollDice({ dice: '1d12' }, character.playerName)"
+        />
+        <Dice
+          type="d20"
+          @click="() => rollDice({ dice: '1d20' }, character.playerName)"
+        />
+        <Dice
+          type="d100"
+          @click="() => rollDice({ dice: '1d100' }, character.playerName)"
+        />
       </div>
     </div>
     <div class="flex-row gap10">
@@ -105,7 +126,13 @@ const charismaNum = computed(() => stringToNum(character.value.charisma));
           spaceBetween
           label="strength"
           v-model="character.strength"
-          @label-click="() => rollDice({ dice: '1d20', modifier: strengthNum })"
+          @label-click="
+            () =>
+              rollDice(
+                { dice: '1d20', modifier: strengthNum },
+                character.playerName
+              )
+          "
         />
         <TextField
           stat
@@ -114,7 +141,11 @@ const charismaNum = computed(() => stringToNum(character.value.charisma));
           label="dexterity"
           v-model="character.dexterity"
           @label-click="
-            () => rollDice({ dice: '1d20', modifier: dexterityNum })
+            () =>
+              rollDice(
+                { dice: '1d20', modifier: dexterityNum },
+                character.playerName
+              )
           "
         />
         <TextField
@@ -124,7 +155,11 @@ const charismaNum = computed(() => stringToNum(character.value.charisma));
           label="intelligence"
           v-model="character.intelligence"
           @label-click="
-            () => rollDice({ dice: '1d20', modifier: intelligenceNum })
+            () =>
+              rollDice(
+                { dice: '1d20', modifier: intelligenceNum },
+                character.playerName
+              )
           "
         />
         <TextField
@@ -133,7 +168,13 @@ const charismaNum = computed(() => stringToNum(character.value.charisma));
           spaceBetween
           label="charisma"
           v-model="character.charisma"
-          @label-click="() => rollDice({ dice: '1d20', modifier: charismaNum })"
+          @label-click="
+            () =>
+              rollDice(
+                { dice: '1d20', modifier: charismaNum },
+                character.playerName
+              )
+          "
         />
       </div>
       <div class="gap10 flex-shrink flex-basis-0">
