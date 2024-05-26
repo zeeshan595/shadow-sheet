@@ -1,7 +1,7 @@
 import OBR from "@owlbear-rodeo/sdk";
 import { ref } from "vue";
-import { characters } from "./service/character";
-import type { Character } from "./types/character";
+import { characters } from "./character";
+import type { Character } from "../types/character";
 
 export const owlbearRole = ref<"GM" | "PLAYER">("GM");
 

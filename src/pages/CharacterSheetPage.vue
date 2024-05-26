@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { watch, computed, ref } from "vue";
-import { owlbearRole, sendNotification } from "@/owlbear";
+import { watch, computed } from "vue";
+import { owlbearRole } from "@/service/owlbear";
 import { router } from "@/router";
 import { characters } from "@/service/character";
 import Button from "@/components/button.vue";
 import TextField from "@/components/text-field.vue";
 import Gear from "@/components/gear.vue";
 import Toggle from "@/components/toggle.vue";
+import Dice from "@/components/dice.vue";
 import { useRoute } from "vue-router";
 import { stringToNum } from "@/service/helpers";
 import type { Character } from "@/types/character";
-import { DiceRoll } from "@dice-roller/rpg-dice-roller";
+import { rollDice } from "@/service/diceBox";
 
 const BASE_HEALTH = 5;
 const BASE_EVASION = 10;
 const BASE_GEAR = 10;
 
-const diceRoller = ref<string>("");
 const route = useRoute();
 const character = computed<Character>({
   get() {
@@ -57,15 +57,10 @@ const dexterityNum = computed(() => stringToNum(character.value.dexterity));
 watch(dexterityNum, (newVal) => {
   character.value.evasion = `${BASE_EVASION + newVal}`;
 });
-function rollDice(command: string) {
-  const roll = new DiceRoll(command);
-  const regex = /\= ([0-9]+)$/i;
-  const matches = regex.exec(roll.output);
-  if (!matches) return;
-  sendNotification(
-    `${character.value.playerName} rolled ${roll.notation} and got ${matches[1]}`
-  );
-}
+const intelligenceNum = computed(() =>
+  stringToNum(character.value.intelligence)
+);
+const charismaNum = computed(() => stringToNum(character.value.charisma));
 </script>
 
 <template>
@@ -82,8 +77,15 @@ function rollDice(command: string) {
       >
         <Toggle v-model="character.sync" />
       </div>
-      <TextField label="dice roller" v-model="diceRoller" />
-      <Button label="Roll" @click="rollDice(diceRoller)" />
+      <div class="flex-row justify-end gap20">
+        <Dice type="d4" @click="() => rollDice({ dice: '1d4' })" />
+        <Dice type="d6" @click="() => rollDice({ dice: '1d6' })" />
+        <Dice type="d8" @click="() => rollDice({ dice: '1d8' })" />
+        <Dice type="d10" @click="() => rollDice({ dice: '1d10' })" />
+        <Dice type="d12" @click="() => rollDice({ dice: '1d12' })" />
+        <Dice type="d20" @click="() => rollDice({ dice: '1d20' })" />
+        <Dice type="d100" @click="() => rollDice({ dice: '1d100' })" />
+      </div>
     </div>
     <div class="flex-row gap10">
       <TextField label="player name" v-model="character.playerName" />
@@ -103,7 +105,7 @@ function rollDice(command: string) {
           spaceBetween
           label="strength"
           v-model="character.strength"
-          @label-click="() => rollDice(`d20+${character.strength}`)"
+          @label-click="() => rollDice({ dice: '1d20', modifier: strengthNum })"
         />
         <TextField
           stat
@@ -111,7 +113,9 @@ function rollDice(command: string) {
           spaceBetween
           label="dexterity"
           v-model="character.dexterity"
-          @label-click="() => rollDice(`d20+${character.dexterity}`)"
+          @label-click="
+            () => rollDice({ dice: '1d20', modifier: dexterityNum })
+          "
         />
         <TextField
           stat
@@ -119,7 +123,9 @@ function rollDice(command: string) {
           spaceBetween
           label="intelligence"
           v-model="character.intelligence"
-          @label-click="() => rollDice(`d20+${character.intelligence}`)"
+          @label-click="
+            () => rollDice({ dice: '1d20', modifier: intelligenceNum })
+          "
         />
         <TextField
           stat
@@ -127,7 +133,7 @@ function rollDice(command: string) {
           spaceBetween
           label="charisma"
           v-model="character.charisma"
-          @label-click="() => rollDice(`d20+${character.charisma}`)"
+          @label-click="() => rollDice({ dice: '1d20', modifier: charismaNum })"
         />
       </div>
       <div class="gap10 flex-shrink flex-basis-0">
