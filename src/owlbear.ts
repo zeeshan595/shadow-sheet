@@ -45,7 +45,7 @@ function fetchCharactersFromPlayers() {
 }
 function fetchNotification() {
   OBR.broadcast.onMessage(OWLBEAR_NOTIFY_CHANNEL_ID, async (event) => {
-    await OBR.notification.show(event.data as string);
+    OBR.notification.show(event.data as string);
   });
 }
 let isReady = false;
