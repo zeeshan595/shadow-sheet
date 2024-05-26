@@ -1,0 +1,12 @@
+{
+  "name": "Character Sheet",
+  "version": "1.0.0",
+  "manifest_version": 1,
+  "action": {
+    "title": "Character Sheet",
+    "icon": "/icon.svg",
+    "popover": "/",
+    "height": 800,
+    "width": 800
+  }
+}

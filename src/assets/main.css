@@ -1,0 +1,89 @@
+@import "./base.css";
+
+#app {
+  padding: 10px 20px;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+div {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  flex-basis: 100%;
+  justify-content: center;
+}
+
+.box {
+  border: 2px solid #f4f4f4;
+  color: #f4f4f4;
+  border-radius: 7px;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+.gap5 {
+  gap: 10px;
+}
+.gap10 {
+  gap: 10px;
+}
+.gap15 {
+  gap: 15px;
+}
+.gap20 {
+  gap: 20px;
+}
+.p10 {
+  padding: 10px;
+}
+.p20 {
+  padding: 20px;
+}
+.flex-shrink {
+  flex-grow: 0;
+  flex-shrink: 1;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-start {
+  justify-content: start;
+}
+.justify-space-between {
+  justify-content: space-between;
+}
+.align-start {
+  align-items: start;
+}
+.align-center {
+  align-items: center;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.flex-basis-0 {
+  flex-basis: 0;
+}
+.flex-basis-100 {
+  flex-basis: 100%;
+}
+.flex-basis-half {
+  flex-basis: 50%;
+}
+.flex-basis-quarter {
+  flex-basis: 25%;
+}
