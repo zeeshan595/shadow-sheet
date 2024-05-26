@@ -22,7 +22,6 @@ button {
   cursor: pointer;
   padding: 10px 15px;
   border-radius: 7px;
-  background-color: #333333;
   outline: 0;
   border: 0;
   background: v-bind(backgroundPaper);
@@ -31,5 +30,9 @@ button {
   text-transform: uppercase;
   font-weight: bold;
   font-size: 14px;
+  transition: 0.3s;
+
+  &:hover {
+  }
 }
 </style>

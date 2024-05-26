@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { watch, computed } from "vue";
-import { owlbearRole } from "@/owlbear";
+import { watch, computed, ref } from "vue";
+import { owlbearRole, sendNotification } from "@/owlbear";
 import { router } from "@/router";
 import { characters } from "@/service/character";
 import Button from "@/components/button.vue";
@@ -10,11 +10,13 @@ import Toggle from "@/components/toggle.vue";
 import { useRoute } from "vue-router";
 import { stringToNum } from "@/service/helpers";
 import type { Character } from "@/types/character";
+import { DiceRoll } from "@dice-roller/rpg-dice-roller";
 
 const BASE_HEALTH = 5;
 const BASE_EVASION = 10;
 const BASE_GEAR = 10;
 
+const diceRoller = ref<string>("");
 const route = useRoute();
 const character = computed<Character>({
   get() {
@@ -55,13 +57,33 @@ const dexterityNum = computed(() => stringToNum(character.value.dexterity));
 watch(dexterityNum, (newVal) => {
   character.value.evasion = `${BASE_EVASION + newVal}`;
 });
+function rollDice(command: string) {
+  const roll = new DiceRoll(command);
+  const regex = /\= ([0-9]+)$/i;
+  const matches = regex.exec(roll.output);
+  if (!matches) return;
+  sendNotification(
+    `${character.value.playerName} rolled ${roll.notation} and got ${matches[1]}`
+  );
+}
 </script>
 
 <template>
   <div class="gap10">
-    <div class="flex-row gap10 justify-start">
+    <div
+      class="flex-row gap10 justify-start"
+      style="padding-bottom: 10px; border-bottom: 1px solid rgba(0, 0, 0, 0.3)"
+    >
       <Button label="Back" @click="() => router.push('/')" />
-      <Toggle v-if="owlbearRole === 'PLAYER'" v-model="character.sync" />
+      <div
+        v-if="owlbearRole === 'PLAYER'"
+        class="flex-shrink flex-basis-0"
+        style="min-width: 170px"
+      >
+        <Toggle v-model="character.sync" />
+      </div>
+      <TextField label="dice roller" v-model="diceRoller" />
+      <Button label="Roll" @click="rollDice(diceRoller)" />
     </div>
     <div class="flex-row gap10">
       <TextField label="player name" v-model="character.playerName" />
@@ -77,27 +99,35 @@ watch(dexterityNum, (newVal) => {
       <div class="gap10 flex-shrink flex-basis-0">
         <TextField
           stat
+          clickable-label
           spaceBetween
           label="strength"
           v-model="character.strength"
+          @label-click="() => rollDice(`d20+${character.strength}`)"
         />
         <TextField
           stat
+          clickable-label
           spaceBetween
           label="dexterity"
           v-model="character.dexterity"
+          @label-click="() => rollDice(`d20+${character.dexterity}`)"
         />
         <TextField
           stat
+          clickable-label
           spaceBetween
           label="intelligence"
           v-model="character.intelligence"
+          @label-click="() => rollDice(`d20+${character.intelligence}`)"
         />
         <TextField
           stat
+          clickable-label
           spaceBetween
           label="charisma"
           v-model="character.charisma"
+          @label-click="() => rollDice(`d20+${character.charisma}`)"
         />
       </div>
       <div class="gap10 flex-shrink flex-basis-0">
@@ -121,15 +151,15 @@ watch(dexterityNum, (newVal) => {
           v-model="character.armor"
         />
       </div>
-      <div class="flex-shrink" style="max-width: 200px">
+      <div class="gap10">
         <TextField
           large
           label="skills & talents"
           sub-label="skills = (INT x 2) + 1"
           v-model="character.skills"
         />
+        <TextField large label="attacks & spells" v-model="character.attacks" />
       </div>
-      <TextField large label="attacks & spells" v-model="character.attacks" />
     </div>
     <div class="flex-row gap10 justify-start">
       <TextField large label="notes" v-model="character.notes" />

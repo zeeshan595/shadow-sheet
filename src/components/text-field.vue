@@ -15,9 +15,11 @@ const props = defineProps<{
   stat?: boolean;
   large?: boolean;
   spaceBetween?: boolean;
+  clickableLabel?: boolean;
 }>();
 const emits = defineEmits<{
   (e: "update:modelValue", value: string): void;
+  (e: "label-click"): void;
 }>();
 
 function onChange(payload: Event) {
@@ -36,7 +38,13 @@ function onChange(payload: Event) {
       'justify-space-between': props.spaceBetween,
     }"
   >
-    <div class="justify-start align-start flex-shrink flex-basis-0">
+    <div
+      class="justify-start align-start flex-shrink flex-basis-0"
+      :class="{
+        clickable: props.clickableLabel,
+      }"
+      @click="() => emits('label-click')"
+    >
       <span class="label">{{ props.label }}</span>
       <span v-if="props.subLabel" class="sub-label">{{ subLabel }}</span>
     </div>
@@ -101,5 +109,9 @@ function onChange(payload: Event) {
       text-align: center;
     }
   }
+}
+
+.clickable {
+  cursor: pointer;
 }
 </style>
