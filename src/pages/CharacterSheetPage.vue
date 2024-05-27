@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, computed } from "vue";
+import { watch, computed, ref } from "vue";
 import { owlbearRole } from "@/service/owlbear";
 import { router } from "@/router";
 import { characters } from "@/service/character";
@@ -12,11 +12,13 @@ import { useRoute } from "vue-router";
 import { stringToNum } from "@/service/helpers";
 import type { Character } from "@/types/character";
 import { rollDice } from "@/service/diceBox";
+import { modal } from "@/hooks/modal";
 
 const BASE_HEALTH = 5;
 const BASE_EVASION = 10;
 const BASE_GEAR = 10;
 
+const diceToRoll = ref<string[]>([]);
 const route = useRoute();
 const character = computed<Character>({
   get() {
@@ -61,6 +63,39 @@ const intelligenceNum = computed(() =>
   stringToNum(character.value.intelligence)
 );
 const charismaNum = computed(() => stringToNum(character.value.charisma));
+
+function addDiceRoll(dice: string) {
+  diceToRoll.value.push(dice);
+  const dices: Record<string, number> = {};
+  for (const dice of diceToRoll.value) {
+    if (dices[dice]) {
+      dices[dice] = dices[dice] + 1;
+    } else {
+      dices[dice] = 1;
+    }
+  }
+  const finalDice: string[] = [];
+  for (const dice of Object.keys(dices)) {
+    finalDice.push(`${dices[dice]}${dice}`);
+  }
+  modal.value = {
+    message: finalDice.join(" + "),
+    actions: ["Cancel", "Roll"],
+    onActionClick(index) {
+      modal.value = null;
+      diceToRoll.value = [];
+      switch (index) {
+        case 1:
+          rollDice({ dice: finalDice }, character.value.playerName);
+          break;
+      }
+    },
+  };
+}
+function onBackClick() {
+  modal.value = null;
+  router.push("/");
+}
 </script>
 
 <template>
@@ -69,7 +104,7 @@ const charismaNum = computed(() => stringToNum(character.value.charisma));
       class="flex-row gap10 justify-start"
       style="padding-bottom: 10px; border-bottom: 1px solid rgba(0, 0, 0, 0.3)"
     >
-      <Button label="Back" @click="() => router.push('/')" />
+      <Button label="Back" @click="onBackClick" />
       <div
         v-if="owlbearRole === 'PLAYER'"
         class="flex-shrink flex-basis-0"
@@ -78,34 +113,13 @@ const charismaNum = computed(() => stringToNum(character.value.charisma));
         <Toggle v-model="character.sync" />
       </div>
       <div class="flex-row justify-end gap20">
-        <Dice
-          type="d4"
-          @click="() => rollDice({ dice: '1d4' }, character.playerName)"
-        />
-        <Dice
-          type="d6"
-          @click="() => rollDice({ dice: '1d6' }, character.playerName)"
-        />
-        <Dice
-          type="d8"
-          @click="() => rollDice({ dice: '1d8' }, character.playerName)"
-        />
-        <Dice
-          type="d10"
-          @click="() => rollDice({ dice: '1d10' }, character.playerName)"
-        />
-        <Dice
-          type="d12"
-          @click="() => rollDice({ dice: '1d12' }, character.playerName)"
-        />
-        <Dice
-          type="d20"
-          @click="() => rollDice({ dice: '1d20' }, character.playerName)"
-        />
-        <Dice
-          type="d100"
-          @click="() => rollDice({ dice: '1d100' }, character.playerName)"
-        />
+        <Dice type="d4" @click="() => addDiceRoll('d4')" />
+        <Dice type="d6" @click="() => addDiceRoll('d6')" />
+        <Dice type="d8" @click="() => addDiceRoll('d8')" />
+        <Dice type="d10" @click="() => addDiceRoll('d10')" />
+        <Dice type="d12" @click="() => addDiceRoll('d12')" />
+        <Dice type="d20" @click="() => addDiceRoll('d20')" />
+        <Dice type="d100" @click="() => addDiceRoll('d100')" />
       </div>
     </div>
     <div class="flex-row gap10">
@@ -122,59 +136,27 @@ const charismaNum = computed(() => stringToNum(character.value.charisma));
       <div class="gap10 flex-shrink flex-basis-0">
         <TextField
           stat
-          clickable-label
           spaceBetween
           label="strength"
           v-model="character.strength"
-          @label-click="
-            () =>
-              rollDice(
-                { dice: '1d20', modifier: strengthNum },
-                character.playerName
-              )
-          "
         />
         <TextField
           stat
-          clickable-label
           spaceBetween
           label="dexterity"
           v-model="character.dexterity"
-          @label-click="
-            () =>
-              rollDice(
-                { dice: '1d20', modifier: dexterityNum },
-                character.playerName
-              )
-          "
         />
         <TextField
           stat
-          clickable-label
           spaceBetween
           label="intelligence"
           v-model="character.intelligence"
-          @label-click="
-            () =>
-              rollDice(
-                { dice: '1d20', modifier: intelligenceNum },
-                character.playerName
-              )
-          "
         />
         <TextField
           stat
-          clickable-label
           spaceBetween
           label="charisma"
           v-model="character.charisma"
-          @label-click="
-            () =>
-              rollDice(
-                { dice: '1d20', modifier: charismaNum },
-                character.playerName
-              )
-          "
         />
       </div>
       <div class="gap10 flex-shrink flex-basis-0">

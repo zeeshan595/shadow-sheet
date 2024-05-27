@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { router } from "@/router";
-import { ContextMenu } from "@/context-menu";
+import { ContextMenu } from "@/hooks/context-menu";
 import Button from "@/components/button.vue";
 import CharacterItem from "../components/character-item.vue";
 import {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref, watch, computed, onMounted } from "vue";
 import { boxShadow, backgroundPaper, textSecondary } from "@/theme";
-import { ContextMenu } from "@/context-menu";
+import { ContextMenu } from "@/hooks/context-menu";
 
 const mouse = ref<{ x: number; y: number }>({ x: 0, y: 0 });
 const contextMenuPosition = ref<{ x: number; y: number }>({ x: 0, y: 0 });
