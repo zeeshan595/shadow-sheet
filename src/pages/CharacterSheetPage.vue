@@ -96,6 +96,7 @@ function onBackClick() {
 }
 const isMobileView = computed(() => windowSize.value < MOBILE_VIEW_MAX_WIDTH);
 onMounted(() => {
+  windowSize.value = window.innerWidth;
   window.addEventListener("resize", () => {
     windowSize.value = window.innerWidth;
   });
@@ -106,6 +107,7 @@ onMounted(() => {
   <div class="gap10">
     <div
       class="flex-row gap10 justify-start"
+      :class="{ 'flex-col': isMobileView }"
       style="padding-bottom: 10px; border-bottom: 1px solid rgba(0, 0, 0, 0.3)"
     >
       <Button label="Back" @click="onBackClick" />
