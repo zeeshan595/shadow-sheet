@@ -115,12 +115,20 @@ onMounted(() => {
         v-if="owlbearRole === 'PLAYER'"
         class="flex-shrink flex-basis-0"
         style="min-width: 170px"
+        :class="{
+          'justify-center': isMobileView,
+          'align-center': isMobileView,
+        }"
       >
         <Toggle v-model="character.sync" />
       </div>
       <div
         class="flex-row justify-end gap20"
-        :class="{ 'flex-wrap': isMobileView }"
+        :class="{
+          'flex-wrap': isMobileView,
+          'justify-center': isMobileView,
+          'align-center': isMobileView,
+        }"
       >
         <Dice type="d4" @click="() => addDiceRoll('d4')" />
         <Dice type="d6" @click="() => addDiceRoll('d6')" />
