@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, computed, ref } from "vue";
+import { watch, computed, ref, onMounted } from "vue";
 import { owlbearRole } from "@/service/owlbear";
 import { router } from "@/router";
 import { characters } from "@/service/character";
@@ -17,7 +17,9 @@ import { modal } from "@/hooks/modal";
 const BASE_HEALTH = 5;
 const BASE_EVASION = 10;
 const BASE_GEAR = 10;
+const MOBILE_VIEW_MAX_WIDTH = 600;
 
+const windowSize = ref<number>(800);
 const diceToRoll = ref<string[]>([]);
 const route = useRoute();
 const character = computed<Character>({
@@ -59,10 +61,6 @@ const dexterityNum = computed(() => stringToNum(character.value.dexterity));
 watch(dexterityNum, (newVal) => {
   character.value.evasion = `${BASE_EVASION + newVal}`;
 });
-const intelligenceNum = computed(() =>
-  stringToNum(character.value.intelligence)
-);
-const charismaNum = computed(() => stringToNum(character.value.charisma));
 
 function addDiceRoll(dice: string) {
   diceToRoll.value.push(dice);
@@ -96,6 +94,12 @@ function onBackClick() {
   modal.value = null;
   router.push("/");
 }
+const isMobileView = computed(() => windowSize.value < MOBILE_VIEW_MAX_WIDTH);
+onMounted(() => {
+  window.addEventListener("resize", () => {
+    windowSize.value = window.innerWidth;
+  });
+});
 </script>
 
 <template>
@@ -112,7 +116,10 @@ function onBackClick() {
       >
         <Toggle v-model="character.sync" />
       </div>
-      <div class="flex-row justify-end gap20">
+      <div
+        class="flex-row justify-end gap20"
+        :class="{ 'flex-wrap': isMobileView }"
+      >
         <Dice type="d4" @click="() => addDiceRoll('d4')" />
         <Dice type="d6" @click="() => addDiceRoll('d6')" />
         <Dice type="d8" @click="() => addDiceRoll('d8')" />
@@ -122,79 +129,99 @@ function onBackClick() {
         <Dice type="d100" @click="() => addDiceRoll('d100')" />
       </div>
     </div>
-    <div class="flex-row gap10">
+    <div class="flex-row gap10" :class="{ 'flex-col': isMobileView }">
       <TextField label="player name" v-model="character.playerName" />
       <TextField label="character name" v-model="character.characterName" />
-      <TextField small label="level" v-model="character.level" />
+      <TextField
+        :small="!isMobileView"
+        label="level"
+        v-model="character.level"
+      />
     </div>
-    <div class="flex-row gap10">
+    <div class="flex-row gap10" :class="{ 'flex-col': isMobileView }">
       <TextField label="ancestry" v-model="character.ancestry" />
       <TextField label="background" v-model="character.background" />
       <TextField label="class" v-model="character.characterClass" />
     </div>
-    <div class="flex-row gap10">
-      <div class="gap10 flex-shrink flex-basis-0">
-        <TextField
-          stat
-          spaceBetween
-          label="strength"
-          v-model="character.strength"
-        />
-        <TextField
-          stat
-          spaceBetween
-          label="dexterity"
-          v-model="character.dexterity"
-        />
-        <TextField
-          stat
-          spaceBetween
-          label="intelligence"
-          v-model="character.intelligence"
-        />
-        <TextField
-          stat
-          spaceBetween
-          label="charisma"
-          v-model="character.charisma"
-        />
-      </div>
-      <div class="gap10 flex-shrink flex-basis-0">
-        <TextField stat label="health" v-model="character.currentHealth" />
-        <TextField
-          stat
-          label="max health"
-          sub-label="5 + STR"
-          v-model="character.health"
-        />
-        <TextField
-          stat
-          label="evasion"
-          sub-label="10 + DEX"
-          v-model="character.evasion"
-        />
-        <TextField
-          stat
-          label="armor"
-          sub-label="GEAR"
-          v-model="character.armor"
-        />
+    <div class="flex-row gap10" :class="{ 'flex-col': isMobileView }">
+      <div class="flex-row flex-shrink flex-basis-0">
+        <div class="gap10 flex-shrink flex-basis-0">
+          <TextField
+            stat
+            spaceBetween
+            label="strength"
+            v-model="character.strength"
+          />
+          <TextField
+            stat
+            spaceBetween
+            label="dexterity"
+            v-model="character.dexterity"
+          />
+          <TextField
+            stat
+            spaceBetween
+            label="intelligence"
+            v-model="character.intelligence"
+          />
+          <TextField
+            stat
+            spaceBetween
+            label="charisma"
+            v-model="character.charisma"
+          />
+        </div>
+        <div class="gap10 flex-shrink flex-basis-0">
+          <TextField stat label="health" v-model="character.currentHealth" />
+          <TextField
+            stat
+            label="max health"
+            sub-label="5 + STR"
+            v-model="character.health"
+          />
+          <TextField
+            stat
+            label="evasion"
+            sub-label="10 + DEX"
+            v-model="character.evasion"
+          />
+          <TextField
+            stat
+            label="armor"
+            sub-label="GEAR"
+            v-model="character.armor"
+          />
+        </div>
       </div>
       <div class="gap10">
         <TextField
           large
+          :mobile-view="isMobileView"
           label="skills & talents"
           sub-label="skills = (INT x 2) + 1"
           v-model="character.skills"
         />
-        <TextField large label="attacks & spells" v-model="character.attacks" />
+        <TextField
+          large
+          :mobile-view="isMobileView"
+          label="attacks & spells"
+          v-model="character.attacks"
+        />
       </div>
     </div>
-    <div class="flex-row gap10 justify-start">
-      <TextField large label="notes" v-model="character.notes" />
+    <div
+      class="flex-row gap10 justify-start"
+      :class="{ 'flex-col': isMobileView }"
+    >
+      <TextField
+        large
+        :mobile-view="isMobileView"
+        label="notes"
+        v-model="character.notes"
+      />
       <div
         class="gap10 justify-start"
-        style="min-height: 400px; max-width: 250px"
+        :style="!isMobileView ? 'min-height: 400px; max-width: 250px' : ''"
       >
         <div class="flex-shrink flex-basis-0">
           <TextField

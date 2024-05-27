@@ -15,6 +15,7 @@ const props = defineProps<{
   large?: boolean;
   spaceBetween?: boolean;
   clickableLabel?: boolean;
+  mobileView?: boolean;
 }>();
 const emits = defineEmits<{
   (e: "update:modelValue", value: string): void;
@@ -56,6 +57,7 @@ function onChange(payload: Event) {
     />
     <textarea
       v-if="props.large"
+      :class="{ 'mobile-view': mobileView }"
       :value="modelValue"
       @change="onChange"
     ></textarea>
@@ -94,6 +96,9 @@ function onChange(payload: Event) {
     height: 100%;
     height: 100%;
     resize: none;
+  }
+  .mobile-view {
+    min-height: 500px;
   }
 
   &.small {

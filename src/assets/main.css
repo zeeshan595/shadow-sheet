@@ -1,5 +1,9 @@
 @import "./base.css";
 
+body {
+  min-width: 280px;
+}
+
 #app {
   padding: 10px 20px;
 }
@@ -34,6 +38,9 @@ div {
 
 .flex-row {
   flex-direction: row;
+}
+.flex-col {
+  flex-direction: column;
 }
 .gap5 {
   gap: 10px;
