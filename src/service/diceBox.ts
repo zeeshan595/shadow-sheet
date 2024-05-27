@@ -55,9 +55,9 @@ export async function rollDice(options: RollDiceOptions, player?: string) {
   diceClearTimeout = setTimeout(() => diceBox.clear(), 1000);
   if (!options.hidden) {
     // player text
-    let playerText = "Rolled: ";
+    let playerText = "Rolled ";
     if (player) {
-      playerText = `${player} rolled: `;
+      playerText = `${player} rolled `;
     }
 
     // details text
@@ -70,9 +70,15 @@ export async function rollDice(options: RollDiceOptions, player?: string) {
     if (options.modifier) {
       modifierText = `+ ${options.modifier}`;
     }
+    let criticalText = "";
+    if (results.filter((d) => d.sides === 20).length === results.length) {
+      const success = Math.max(...results.map((r) => r.value));
+      const fail = Math.min(...results.map((r) => r.value));
+      criticalText = `, ADV. ${success}, DIS. ${fail}`;
+    }
     // send notifications
     sendNotification(
-      `${playerText}${total}\n\nDetails: ${diceDetails} ${modifierText}`
+      `${playerText}${diceDetails} ${modifierText} = Total ${total}${criticalText}`
     );
   }
 }
