@@ -48,7 +48,7 @@ export async function rollDice(options: RollDiceOptions, player?: string) {
   for (const result of results) {
     total += result.value;
   }
-  diceClearTimeout = setTimeout(() => diceBox.clear(), 1000);
+  diceClearTimeout = setTimeout(() => diceBox.clear(), 5000);
   if (!options.hidden) {
     // player text
     let playerText = "Rolled ";
