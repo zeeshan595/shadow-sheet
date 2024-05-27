@@ -34,7 +34,6 @@ export function getDiceBoxTheme(): DiceBoxThemes {
 let diceClearTimeout: number | null = null;
 export type RollDiceOptions = {
   dice: string | string[];
-  modifier?: number;
   hidden?: boolean;
 };
 export type DiceRollResult = {
@@ -49,9 +48,6 @@ export async function rollDice(options: RollDiceOptions, player?: string) {
   for (const result of results) {
     total += result.value;
   }
-  if (options.modifier) {
-    total += options.modifier;
-  }
   diceClearTimeout = setTimeout(() => diceBox.clear(), 1000);
   if (!options.hidden) {
     // player text
@@ -65,23 +61,19 @@ export async function rollDice(options: RollDiceOptions, player?: string) {
       .map((r) => `${r.value}(d${r.sides})`)
       .join(" + ");
 
-    // modifier text
-    let modifierText = "";
-    if (options.modifier) {
-      modifierText = `+ ${options.modifier}`;
-    }
+    // advantage & dis-advantage
     let criticalText = "";
     if (
       results.length > 1 &&
       results.filter((d) => d.sides === 20).length === results.length
     ) {
-      const success = Math.max(...results.map((r) => r.value));
-      const fail = Math.min(...results.map((r) => r.value));
+      let success = Math.max(...results.map((r) => r.value));
+      let fail = Math.min(...results.map((r) => r.value));
       criticalText = `, ADV. ${success}, DIS. ${fail}`;
     }
     // send notifications
     sendNotification(
-      `${playerText}${diceDetails} ${modifierText} = Total ${total}${criticalText}`
+      `${playerText}${diceDetails} = Total ${total}${criticalText}`
     );
   }
 }
