@@ -123,9 +123,10 @@ onMounted(() => {
         <Toggle v-model="character.sync" />
       </div>
       <div
-        class="flex-row justify-end gap20"
+        class="flex-row gap20"
         :class="{
           'flex-wrap': isMobileView,
+          'justify-end': !isMobileView,
           'justify-center': isMobileView,
           'align-center': isMobileView,
         }"
