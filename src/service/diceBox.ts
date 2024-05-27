@@ -62,18 +62,16 @@ export async function rollDice(options: RollDiceOptions, player?: string) {
       .join(" + ");
 
     // advantage & dis-advantage
-    let criticalText = "";
+    let finalText = `Total ${total}`;
     if (
       results.length > 1 &&
       results.filter((d) => d.sides === 20).length === results.length
     ) {
       let success = Math.max(...results.map((r) => r.value));
       let fail = Math.min(...results.map((r) => r.value));
-      criticalText = `, ADV. ${success}, DIS. ${fail}`;
+      finalText = `Total ${total}, ADV. ${success}, DIS. ${fail}`;
     }
     // send notifications
-    sendNotification(
-      `${playerText}${diceDetails} = Total ${total}${criticalText}`
-    );
+    sendNotification(`${playerText}${diceDetails} = ${finalText}`);
   }
 }
