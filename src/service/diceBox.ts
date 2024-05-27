@@ -71,7 +71,10 @@ export async function rollDice(options: RollDiceOptions, player?: string) {
       modifierText = `+ ${options.modifier}`;
     }
     let criticalText = "";
-    if (results.filter((d) => d.sides === 20).length === results.length) {
+    if (
+      results.length > 1 &&
+      results.filter((d) => d.sides === 20).length === results.length
+    ) {
       const success = Math.max(...results.map((r) => r.value));
       const fail = Math.min(...results.map((r) => r.value));
       criticalText = `, ADV. ${success}, DIS. ${fail}`;
