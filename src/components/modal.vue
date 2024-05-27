@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from "vue";
 import { backgroundPaper, boxShadow } from "@/theme";
 import Button from "./button.vue";
 

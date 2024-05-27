@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from "vue";
 
 const props = defineProps<{
   type: "d4" | "d6" | "d8" | "d10" | "d12" | "d20" | "d100";

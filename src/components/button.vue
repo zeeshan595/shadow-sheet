@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from "vue";
 import { backgroundPaper, boxShadow, textSecondary } from "@/theme";
 
 const props = defineProps<{

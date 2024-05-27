@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, defineEmits, ref, watch, computed, onMounted } from "vue";
+import { ref, watch, computed, onMounted } from "vue";
 import { boxShadow, backgroundPaper, textSecondary } from "@/theme";
 import { ContextMenu } from "@/hooks/context-menu";
 

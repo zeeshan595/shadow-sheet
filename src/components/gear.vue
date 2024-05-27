@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps, defineEmits, watch, computed, onMounted } from "vue";
 import {
   backgroundPaper,
   boxShadow,
