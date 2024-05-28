@@ -6,7 +6,7 @@ const CHARACTER_KEY = "characters";
 
 export const characters = ref<Character[]>(loadCharacters() ?? []);
 
-export function saveCharacter(characters: Character[]) {
+export function saveCharacters(characters: Character[]) {
   localStorage.setItem(CHARACTER_KEY, JSON.stringify(characters));
 }
 
@@ -64,41 +64,48 @@ export function downloadCharacter(character: Character) {
   }, 0);
 }
 
-export function isCharacterValid(character: Character | null): boolean {
-  if (!character) return false;
-  const verifyStringFields = [
+export function isCharacterValid(character: Character): boolean {
+  const fieldsToVerify: Record<keyof Character, string> = {
+    // dev
+    uuid: "string",
+    sync: "boolean",
+
     // info
-    "playerName",
-    "characterName",
-    "background",
-    "ancestry",
-    "characterClass",
-    "level",
+    playerName: "string",
+    characterName: "string",
+    background: "string",
+    ancestry: "string",
+    characterClass: "string",
+    level: "string",
+
     // stats
-    "strength",
-    "dexterity",
-    "intelligence",
-    "charisma",
+    strength: "string",
+    dexterity: "string",
+    intelligence: "string",
+    charisma: "string",
+
     // resources
-    "health",
-    "armor",
-    "evasion",
+    currentHealth: "string",
+    health: "string",
+    armor: "string",
+    evasion: "string",
 
-    // other
-    "notes",
-    "gold",
-    "skills",
-  ];
-
-  const characterAny: any = character;
-  for (const field of verifyStringFields) {
-    if (!characterAny[field] || typeof characterAny[field] !== "string")
+    skills: "string",
+    attacks: "string",
+    gear: "object", // array is a type of 'object'
+    notes: "string",
+    gold: "string",
+  };
+  for (const field of Object.keys(fieldsToVerify) as Array<keyof Character>) {
+    if (typeof character[field] !== fieldsToVerify[field]) {
       return false;
-  }
+    }
 
-  if (!character.gear || !Array.isArray(character.gear)) return false;
-  for (const gear of character.gear) {
-    if (!gear || typeof gear !== "string") return false;
+    if (typeof character[field] === "object") {
+      if (!Array.isArray(character[field])) {
+        return false;
+      }
+    }
   }
 
   return true;
@@ -108,6 +115,7 @@ export async function uploadCharacter(): Promise<Character | null> {
   const input = document.createElement("input");
   input.setAttribute("type", "file");
   input.setAttribute("accept", ".json");
+  input.style.display = "none";
   document.body.appendChild(input);
 
   const character = await new Promise<Character | null>((resolve) => {
@@ -124,10 +132,18 @@ export async function uploadCharacter(): Promise<Character | null> {
       });
       reader.readAsText(file);
     };
+    input.onabort = function () {
+      document.body.removeChild(input);
+      resolve(null);
+    };
+    input.oncancel = function () {
+      document.body.removeChild(input);
+      resolve(null);
+    };
     input.click();
   });
 
-  if (!isCharacterValid(character)) {
+  if (character && !isCharacterValid(character)) {
     alert(
       "validation error occured when loading character, some of the info may not be correct"
     );

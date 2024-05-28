@@ -8,6 +8,7 @@ import {
   downloadCharacter,
   uploadCharacter,
   createNewCharacter,
+  saveCharacters,
 } from "@/service/character";
 import type { Character } from "@/types/character";
 import { DiceBoxThemes, rollDice, setDiceBoxTheme } from "@/service/diceBox";
@@ -33,14 +34,27 @@ function onNewCharacterClick() {
     click: async (index: number) => {
       switch (index) {
         case 0:
-          const temp = createNewCharacter();
-          characters.value = [...characters.value, temp];
-          router.push(`/character/${temp.uuid}`);
+          {
+            const temp = createNewCharacter();
+            characters.value = [...characters.value, temp];
+            router.push(`/character/${temp.uuid}`);
+          }
           break;
         case 1:
-          const newCharacter = await uploadCharacter();
-          if (newCharacter) {
-            characters.value = [...characters.value, newCharacter];
+          {
+            const newCharacter = await uploadCharacter();
+            if (newCharacter) {
+              const existingCharIndex = characters.value.findIndex(
+                (c) => c.uuid === newCharacter.uuid
+              );
+              if (existingCharIndex > -1) {
+                const temp = [...characters.value];
+                temp[existingCharIndex] = characters.value[existingCharIndex];
+                characters.value = temp;
+              } else {
+                characters.value = [...characters.value, newCharacter];
+              }
+            }
           }
           break;
       }
@@ -60,6 +74,12 @@ function onDiceThemeClick() {
     },
   };
 }
+function onDeleteAllCharacters() {
+  if (confirm("Are you sure you want to delete all characters?")) {
+    characters.value = [];
+    saveCharacters(characters.value);
+  }
+}
 </script>
 
 <template>
@@ -67,6 +87,7 @@ function onDiceThemeClick() {
     <div class="flex-row justify-start gap10 align-center">
       <h2>Characters</h2>
       <Button label="Dice Theme" @click="onDiceThemeClick" />
+      <Button label="Delete All Characters" @click="onDeleteAllCharacters" />
     </div>
     <div class="characters">
       <template v-for="character in characters">

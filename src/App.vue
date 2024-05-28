@@ -4,11 +4,11 @@ import ModalComponent from "@/components/modal.vue";
 import { ContextMenu } from "./hooks/context-menu";
 import { modal } from "./hooks/modal";
 import { RouterView } from "vue-router";
-import { characters, saveCharacter } from "./service/character";
+import { characters, saveCharacters } from "./service/character";
 import "./service/owlbear";
 import "./service/diceBox";
 
-setInterval(() => saveCharacter(characters.value), 1000);
+setInterval(() => saveCharacters(characters.value), 1000);
 </script>
 
 <template>
