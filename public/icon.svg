@@ -1,7 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Svg Vector Icons : http://www.onlinewebfonts.com/icon -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" enable-background="new 0 0 256 256" xml:space="preserve">
-<metadata> Svg Vector Icons : http://www.onlinewebfonts.com/icon </metadata>
-<g><g><path fill="#000000" d="M215.3,246h13.4c-0.9-25.5-11.3-49.4-29.4-67.5l0,0c-10.8-10.8-23.5-18.8-37.4-23.7c7.3-3.6,14.1-8.5,20.1-14.5c14.4-14.4,22.3-33.6,22.3-54c0-20.4-7.9-39.6-22.3-54C167.5,17.9,148.4,10,128,10c-20.3,0-39.5,7.9-53.9,22.3c-14.4,14.4-22.3,33.6-22.3,54c0,20.4,7.9,39.5,22.3,54c6,6,12.7,10.8,20.1,14.5c-13.9,4.9-26.7,13-37.4,23.7c-18.2,18.2-28.5,42-29.5,67.5h13.3H215.3z"/></g></g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>
