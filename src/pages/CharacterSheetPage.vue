@@ -150,7 +150,13 @@ onMounted(() => {
       <TextField label="background" v-model="character.background" />
       <TextField label="class" v-model="character.characterClass" />
     </div>
-    <div class="flex-row gap10 flex-shrink flex-basis-0 justify-space-between">
+    <div
+      class="flex-row gap10 flex-shrink flex-basis-0"
+      :class="{
+        'flex-wrap': isMobileView,
+        'justify-space-between': !isMobileView,
+      }"
+    >
       <TextField
         stat
         spaceBetween
@@ -184,7 +190,13 @@ onMounted(() => {
       />
     </div>
     <div class="flex-row gap10" :class="{ 'flex-col': isMobileView }">
-      <div class="flex-shrink flex-basis-0 gap10">
+      <div
+        class="flex-shrink flex-basis-0 gap10"
+        :class="{
+          'flex-row': isMobileView,
+          'flex-wrap': isMobileView,
+        }"
+      >
         <TextField stat label="health" v-model="character.currentHealth" />
         <TextField stat label="max health" v-model="character.health" />
         <TextField stat label="armor" v-model="character.armor" />
