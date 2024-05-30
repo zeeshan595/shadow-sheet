@@ -14,14 +14,16 @@ export type Character = {
   // stats
   strength: string;
   dexterity: string;
+  constitution: string;
   intelligence: string;
+  wisdom: string;
   charisma: string;
 
   // resources
   currentHealth: string;
   health: string;
   armor: string;
-  evasion: string;
+  luck: string;
 
   skills: string;
   attacks: string;

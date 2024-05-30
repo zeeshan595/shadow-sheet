@@ -26,7 +26,7 @@ function onChange(payload: Event, index: number) {
   <div class="text-field justify-start">
     <div class="justify-start align-start flex-shrink flex-basis-0">
       <span class="label">gear</span>
-      <span class="sub-label">10 + STR</span>
+      <span class="sub-label">10 + STR x 2</span>
     </div>
     <div class="gap10 justify-start">
       <input

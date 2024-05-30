@@ -81,14 +81,16 @@ export function isCharacterValid(character: Character): boolean {
     // stats
     strength: "string",
     dexterity: "string",
+    constitution: "string",
     intelligence: "string",
+    wisdom: "string",
     charisma: "string",
 
     // resources
     currentHealth: "string",
     health: "string",
     armor: "string",
-    evasion: "string",
+    luck: "string",
 
     skills: "string",
     attacks: "string",
@@ -166,12 +168,16 @@ export function createNewCharacter(): Character {
 
     strength: "0",
     dexterity: "0",
-    charisma: "0",
+    constitution: "0",
     intelligence: "0",
+    wisdom: "0",
+    charisma: "0",
+
     currentHealth: "5",
     health: "5",
-    armor: "0",
-    evasion: "10",
+    armor: "10",
+    luck: "0",
+
     gear: new Array(10).fill(""),
     gold: "30",
     notes: "",
