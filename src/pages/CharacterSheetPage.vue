@@ -150,7 +150,7 @@ onMounted(() => {
       <TextField label="background" v-model="character.background" />
       <TextField label="class" v-model="character.characterClass" />
     </div>
-    <div class="flex-row gap10 flex-shrink flex-basis-0">
+    <div class="flex-row gap10 flex-shrink flex-basis-0 justify-space-between">
       <TextField
         stat
         spaceBetween

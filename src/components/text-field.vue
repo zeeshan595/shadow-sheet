@@ -106,6 +106,11 @@ function onChange(payload: Event) {
   }
 
   &.stat {
+    flex-shrink: 1;
+    flex-grow: 0;
+    flex-basis: 0;
+    min-width: auto;
+
     input[type="text"] {
       font-size: 34px;
       width: 45px;

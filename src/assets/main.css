@@ -82,6 +82,9 @@ div {
 .align-center {
   align-items: center;
 }
+.align-space-between {
+  align-content: space-between;
+}
 .flex-wrap {
   flex-wrap: wrap;
 }
