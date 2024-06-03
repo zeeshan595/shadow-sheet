@@ -1,6 +1,7 @@
 // @ts-ignore
 import DiceBox from "@3d-dice/dice-box";
 import { sendNotification } from "./owlbear";
+import { randomRange } from "./helpers";
 
 const THEME_KEY = "dicebox-theme";
 
@@ -18,6 +19,11 @@ export enum DiceBoxThemes {
 export const diceBox = new DiceBox("#dice-box", {
   assetPath: "/assets/dice-box/",
   themes: Object.values(DiceBoxThemes),
+  mass: randomRange(1, 3),
+  throwForce: randomRange(10, 30),
+  spinForce: randomRange(10, 30),
+  restitution: 0.7,
+  offscreen: false,
 });
 diceBox.init();
 

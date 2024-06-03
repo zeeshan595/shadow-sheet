@@ -21,3 +21,8 @@ export function modifierToStat(modifier: string): string {
   const stat = stringToNum(modifier) * 2 + 10;
   return `${stat}`;
 }
+
+export function randomRange(min: number, max: number) {
+  const rand = Math.random();
+  return Math.round(rand * (max - min) + min);
+}
