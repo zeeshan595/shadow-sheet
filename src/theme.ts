@@ -27,9 +27,11 @@ export const theme = ref<Theme>({
     secondary: "#ffffff",
   },
 });
-if (OBR && OBR.isReady) {
-  OBR.theme.getTheme().then((t) => (theme.value = t));
-  OBR.theme.onChange((t) => (theme.value = t));
+if (OBR) {
+  OBR.onReady(() => {
+    OBR.theme.getTheme().then((t) => (theme.value = t));
+    OBR.theme.onChange((t) => (theme.value = t));
+  });
 }
 document.body.style.background = theme.value.background.default;
 document.body.style.color = theme.value.text.secondary;
