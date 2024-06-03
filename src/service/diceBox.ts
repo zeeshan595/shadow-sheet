@@ -21,7 +21,7 @@ export const diceBox = new DiceBox("#dice-box", {
   themes: Object.values(DiceBoxThemes),
   mass: 5,
   throwForce: randomRange(10, 30),
-  spinForce: randomRange(10, 30),
+  spinForce: randomRange(5, 10),
   restitution: 0.6,
   offscreen: false,
 });
