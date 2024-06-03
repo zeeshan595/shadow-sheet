@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import TextField from "./text-field.vue";
-import { stringToNum } from "@/service/helpers";
+import { statToModifier } from "@/service/helpers";
 
 const props = defineProps<{
   label: string;
@@ -11,7 +11,7 @@ const emits = defineEmits<{
   (e: "update:modelValue", value: string): void;
 }>();
 
-const valueNum = computed(() => stringToNum(props.modelValue));
+const modifier = computed(() => statToModifier(props.modelValue));
 </script>
 
 <template>
@@ -24,7 +24,7 @@ const valueNum = computed(() => stringToNum(props.modelValue));
       :modelValue="props.modelValue"
       @update:modelValue="(v) => emits('update:modelValue', v)"
     />
-    <span class="stat-modifier">{{ Math.floor(valueNum / 2) - 5 }}</span>
+    <span class="stat-modifier">{{ modifier }}</span>
   </div>
 </template>
 

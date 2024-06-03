@@ -16,3 +16,8 @@ export function statToModifier(stat: string): string {
     return `${mod}`;
   }
 }
+
+export function modifierToStat(modifier: string): string {
+  const stat = stringToNum(modifier) * 2 + 10;
+  return `${stat}`;
+}
