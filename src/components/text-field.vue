@@ -1,11 +1,4 @@
 <script setup lang="ts">
-import {
-  backgroundPaper,
-  boxShadow,
-  textSecondary,
-  textPrimary,
-} from "@/theme";
-
 const props = defineProps<{
   label: string;
   subLabel?: string;
@@ -31,7 +24,7 @@ function onChange(payload: Event) {
 
 <template>
   <div
-    class="text-field justify-start"
+    class="text-field justify-start text-primary"
     :class="{
       small: props.small,
       stat: props.stat,
@@ -46,17 +39,21 @@ function onChange(payload: Event) {
       @click="() => emits('label-click')"
     >
       <span class="label">{{ props.label }}</span>
-      <span v-if="props.subLabel" class="sub-label">{{ subLabel }}</span>
+      <span v-if="props.subLabel" class="sub-label primary-main">
+        {{ subLabel }}
+      </span>
     </div>
     <input
       v-if="!props.large"
       type="text"
+      class="bg-paper shadow text-primary"
       :value="modelValue"
       @change="onChange"
       :maxlength="props.stat ? 2 : undefined"
     />
     <textarea
       v-if="props.large"
+      class="bg-paper shadow text-primary"
       :class="{ 'mobile-view': mobileView }"
       :value="modelValue"
       @change="onChange"
@@ -66,7 +63,6 @@ function onChange(payload: Event) {
 
 <style scoped lang="scss">
 .text-field {
-  color: v-bind(textSecondary);
   min-width: 100px;
 
   .label {
@@ -78,16 +74,12 @@ function onChange(payload: Event) {
     font-size: 10px;
     font-weight: bold;
     text-transform: uppercase;
-    color: v-bind(textPrimary);
   }
 
   input[type="text"],
   textarea {
     font-size: 20px;
     padding: 5px 10px;
-    background-color: v-bind(backgroundPaper);
-    box-shadow: v-bind(boxShadow);
-    color: v-bind(textSecondary);
     border-radius: 7px;
     outline: 0;
     border: 0;

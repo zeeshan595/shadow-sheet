@@ -2,7 +2,6 @@
 import { ref } from "vue";
 import { rollDice } from "@/service/diceBox";
 import { modal } from "@/hooks/modal";
-import { background, boxShadow } from "@/theme";
 import { isMobileView } from "@/consts";
 import { owlbearPlayerName } from "@/service/owlbear";
 import Dice from "./dice.vue";
@@ -43,6 +42,8 @@ function addDiceRoll(dice: string) {
   <div
     :class="{
       'top-bar': !isMobileView,
+      'bg-paper': !isMobileView,
+      shadow: !isMobileView,
     }"
   >
     <div
@@ -78,7 +79,5 @@ function addDiceRoll(dice: string) {
   left: 0;
   right: 0;
   padding: 20px;
-  background-color: v-bind(background);
-  box-shadow: v-bind(boxShadow);
 }
 </style>

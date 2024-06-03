@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { backgroundPaper, boxShadow } from "@/theme";
 import Button from "./button.vue";
 
 const props = defineProps<{
@@ -13,7 +12,7 @@ const emits = defineEmits<{
 
 <template>
   <div class="container">
-    <div class="modal flex-grow gap20">
+    <div class="modal flex-grow gap20 bg-paper shadow">
       <div
         class="flex-grow flex-basis-100 justify-start align-start"
         style="width: 100%"
@@ -45,8 +44,6 @@ const emits = defineEmits<{
   padding: 20px;
   border-radius: 7px;
   min-width: 200px;
-  background-color: v-bind(backgroundPaper);
-  box-shadow: v-bind(boxShadow);
   margin-left: auto;
   margin-right: auto;
   z-index: 50;

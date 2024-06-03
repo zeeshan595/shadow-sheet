@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { backgroundPaper, textSecondary, boxShadow } from "@/theme";
 import Seperator from "./seperator.vue";
 import type { Character } from "@/types/character";
 import { statToModifier } from "@/service/helpers";
@@ -16,7 +15,7 @@ const emits = defineEmits<{
 </script>
 
 <template>
-  <div class="character">
+  <div class="rounded bg-paper">
     <div class="flex-row gap10 justify-start flex-shrink flex-basis-0 p10">
       <span
         class="material-symbols-outlined pointer"
@@ -33,7 +32,7 @@ const emits = defineEmits<{
     </div>
     <Seperator />
     <div
-      class="character-name flex-row gap20 p10"
+      class="character-name flex-row gap20 p10 pointer"
       @click="() => emits('click')"
     >
       <div
@@ -81,17 +80,11 @@ const emits = defineEmits<{
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .character {
-  justify-content: start;
-  border-radius: 7px;
-  background-color: v-bind(backgroundPaper);
-  box-shadow: v-bind(boxShadow);
-
   .character-name {
     cursor: pointer;
     padding: 10px 15px 20px 15px;
-    color: v-bind(textSecondary);
   }
 }
 .bold {

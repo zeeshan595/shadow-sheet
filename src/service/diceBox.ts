@@ -24,7 +24,9 @@ export const diceBox = new DiceBox("#dice-box", {
   restitution: 0.6,
   offscreen: false,
 });
-diceBox.init();
+diceBox.init().then(() => {
+  setDiceBoxTheme(getDiceBoxTheme());
+});
 
 export async function setDiceBoxTheme(theme: DiceBoxThemes) {
   localStorage.setItem(THEME_KEY, theme);

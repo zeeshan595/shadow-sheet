@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { textPrimary } from "@/theme";
+import { computed } from "vue";
+import { theme } from "@/theme";
+
+const primaryMain = computed(() => theme.value.primary.main);
 
 const props = defineProps<{
   modelValue: boolean;
@@ -14,7 +17,9 @@ function onClick() {
 </script>
 
 <template>
-  <div class="flex-row justify-start align-center gap10 flex-shrink flex-basis-0">
+  <div
+    class="flex-row justify-start align-center gap10 flex-shrink flex-basis-0"
+  >
     <span class="label">Sync</span>
     <label class="switch">
       <input type="checkbox" :checked="props.modelValue" @click="onClick" />
@@ -23,7 +28,7 @@ function onClick() {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .label {
   font-size: 12px;
   font-weight: bold;
@@ -69,12 +74,13 @@ function onClick() {
   transition: 0.4s;
 }
 
+// todo: update this
 input:checked + .slider {
-  background-color: v-bind(textPrimary);
+  background-color: v-bind(primaryMain);
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px v-bind(textPrimary);
+  box-shadow: 0 0 1px v-bind(primaryMain);
 }
 
 input:checked + .slider:before {

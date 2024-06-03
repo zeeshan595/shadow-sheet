@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted } from "vue";
-import { boxShadow, backgroundPaper, textSecondary } from "@/theme";
 import { ContextMenu } from "@/hooks/context-menu";
 
 const mouse = ref<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -42,7 +41,7 @@ watch(isShowing, (newVal: boolean) => {
 <template>
   <div
     id="context-menu"
-    class="context-menu"
+    class="context-menu shadow bg-paper text-primary"
     :style="`display: ${show ? 'block' : 'none'}; left: ${
       contextMenuPosition.x
     }px; top: ${contextMenuPosition.y}px;`"
@@ -67,9 +66,6 @@ watch(isShowing, (newVal: boolean) => {
   position: fixed;
   border-radius: 7px;
   z-index: 100;
-  background-color: v-bind(backgroundPaper);
-  color: v-bind(textSecondary);
-  box-shadow: v-bind(boxShadow);
 
   div {
     padding: 10px 20px;

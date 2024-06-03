@@ -35,7 +35,9 @@ div {
   color: #f4f4f4;
   border-radius: 7px;
 }
-
+.rounded {
+  border-radius: 7px;
+}
 .flex-row {
   flex-direction: row;
 }
