@@ -19,10 +19,10 @@ export enum DiceBoxThemes {
 export const diceBox = new DiceBox("#dice-box", {
   assetPath: "/assets/dice-box/",
   themes: Object.values(DiceBoxThemes),
-  mass: randomRange(1, 3),
+  mass: 5,
   throwForce: randomRange(10, 30),
   spinForce: randomRange(10, 30),
-  restitution: 0.7,
+  restitution: 0.6,
   offscreen: false,
 });
 diceBox.init();
