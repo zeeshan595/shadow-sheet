@@ -197,7 +197,7 @@ export function createNewCharacter(): Character {
     armor: "10",
     luck: "0",
 
-    gear: new Array(10).fill(""),
+    gear: new Array(20).fill(""),
     gold: "30",
     notes: "",
     skills: "",
