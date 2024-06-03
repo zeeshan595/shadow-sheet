@@ -19,12 +19,12 @@ function modifiersToStats(character: Character): Character {
   const wis = stringToNum(character.wisdom);
   const cha = stringToNum(character.charisma);
 
-  if (str >= 10) return character;
-  if (dex >= 10) return character;
-  if (con >= 10) return character;
-  if (int >= 10) return character;
-  if (wis >= 10) return character;
-  if (cha >= 10) return character;
+  if (str >= 5) return character;
+  if (dex >= 5) return character;
+  if (con >= 5) return character;
+  if (int >= 5) return character;
+  if (wis >= 5) return character;
+  if (cha >= 5) return character;
 
   character.strength = `${str * 2 + 10}`;
   character.dexterity = `${dex * 2 + 10}`;
