@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { router } from "@/router";
 import { ContextMenu } from "@/hooks/context-menu";
-import Button from "@/components/button.vue";
-import CharacterItem from "../components/character-item.vue";
 import {
   characters,
   downloadCharacter,
@@ -12,6 +10,10 @@ import {
 } from "@/service/character";
 import type { Character } from "@/types/character";
 import { DiceBoxThemes, rollDice, setDiceBoxTheme } from "@/service/diceBox";
+import Button from "@/components/button.vue";
+import CharacterItem from "@/components/character-item.vue";
+import TopBar from "@/components/top-bar.vue";
+import { isMobileView } from "@/consts";
 
 function showOptions(character: Character) {
   ContextMenu.value = {
@@ -29,37 +31,9 @@ function showOptions(character: Character) {
   };
 }
 function onNewCharacterClick() {
-  ContextMenu.value = {
-    items: ["new", "load"],
-    click: async (index: number) => {
-      switch (index) {
-        case 0:
-          {
-            const temp = createNewCharacter();
-            characters.value = [...characters.value, temp];
-            router.push(`/character/${temp.uuid}`);
-          }
-          break;
-        case 1:
-          {
-            const newCharacter = await uploadCharacter();
-            if (newCharacter) {
-              const existingCharIndex = characters.value.findIndex(
-                (c) => c.uuid === newCharacter.uuid
-              );
-              if (existingCharIndex > -1) {
-                const temp = [...characters.value];
-                temp[existingCharIndex] = characters.value[existingCharIndex];
-                characters.value = temp;
-              } else {
-                characters.value = [...characters.value, newCharacter];
-              }
-            }
-          }
-          break;
-      }
-    },
-  };
+  const temp = createNewCharacter();
+  characters.value = [...characters.value, temp];
+  router.push(`/character/${temp.uuid}`);
 }
 function onDiceThemeClick() {
   ContextMenu.value = {
@@ -80,33 +54,62 @@ function onDeleteAllCharacters() {
     saveCharacters(characters.value);
   }
 }
+function onMenuOptionsClick() {
+  ContextMenu.value = {
+    items: ["Dice Theme", "Load Chracter", "Delete All Characters"],
+    async click(index: number) {
+      switch (index) {
+        case 0:
+          setTimeout(onDiceThemeClick, 100);
+          break;
+        case 1:
+          const newCharacter = await uploadCharacter();
+          if (newCharacter) {
+            const existingCharIndex = characters.value.findIndex(
+              (c) => c.uuid === newCharacter.uuid
+            );
+            if (existingCharIndex > -1) {
+              const temp = [...characters.value];
+              temp[existingCharIndex] = characters.value[existingCharIndex];
+              characters.value = temp;
+            } else {
+              characters.value = [...characters.value, newCharacter];
+            }
+          }
+          break;
+        case 2:
+          onDeleteAllCharacters();
+          break;
+      }
+    },
+  };
+}
 </script>
 
 <template>
   <div class="gap20">
-    <div class="flex-row justify-start gap10 align-center">
-      <h2>Characters</h2>
-      <Button label="Dice Theme" @click="onDiceThemeClick" />
-      <Button label="Delete All Characters" @click="onDeleteAllCharacters" />
-    </div>
-    <div class="characters">
+    <TopBar>
+      <div
+        class="flex-row gap10 justify-start align-center"
+        :class="{ 'flex-col': isMobileView }"
+      >
+        <h2>Characters</h2>
+        <Button @click="onMenuOptionsClick">
+          <span class="options material-symbols-outlined"> more_horiz </span>
+        </Button>
+      </div>
+    </TopBar>
+    <div class="gap20" :class="{ mt100: !isMobileView }">
       <template v-for="character in characters">
         <CharacterItem
-          :name="character.characterName"
+          :character="character"
           @click="() => router.push(`/character/${character.uuid}`)"
           @options="() => showOptions(character)"
         />
       </template>
-      <Button label="+" @click="onNewCharacterClick" />
+      <Button @click="onNewCharacterClick">+</Button>
     </div>
   </div>
 </template>
 
-<style scoped>
-.characters {
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: start;
-  gap: 20px;
-}
-</style>
+<style scoped></style>

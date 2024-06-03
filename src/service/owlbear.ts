@@ -3,7 +3,8 @@ import { ref } from "vue";
 import { characters } from "./character";
 import type { Character } from "../types/character";
 
-export const owlbearRole = ref<"GM" | "PLAYER">("PLAYER");
+export const owlbearPlayerName = ref<string>("You");
+export const owlbearRole = ref<"GM" | "PLAYER">("GM");
 
 const OWLBEAR_SYNC_CHANNEL_ID = "owlbear.character-sheet.sync";
 const OWLBEAR_NOTIFY_CHANNEL_ID = "owlbear.character-sheet.notify";
@@ -48,16 +49,30 @@ function fetchNotification() {
     OBR.notification.show(event.data as string);
   });
 }
+
+function setOwlbearRole() {
+  return OBR.player.getRole().then((role) => (owlbearRole.value = role));
+}
+
+function setOwlbearName() {
+  setInterval(() => {
+    OBR.player.getName().then((name) => (owlbearPlayerName.value = name));
+  }, 1000);
+}
+
 let isReady = false;
 if (OBR && OBR.isAvailable) {
   OBR.onReady(async () => {
     if (isReady) return;
-    const role = await OBR.player.getRole();
-    owlbearRole.value = role;
+    await setOwlbearRole();
+    setOwlbearName();
     fetchNotification();
 
-    if (role === "GM") fetchCharactersFromPlayers();
-    else sendCharacterToGM();
+    if (owlbearRole.value === "GM") {
+      fetchCharactersFromPlayers();
+    } else {
+      sendCharacterToGM();
+    }
     isReady = true;
   });
 }

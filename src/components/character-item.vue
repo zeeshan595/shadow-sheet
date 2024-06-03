@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { backgroundPaper, textSecondary, boxShadow } from "@/theme";
+import Seperator from "./seperator.vue";
+import type { Character } from "@/types/character";
+import { statToModifier } from "@/service/helpers";
 
 const props = defineProps<{
-  name: string;
+  character: Character;
 }>();
 const emits = defineEmits<{
   (e: "click"): void;
@@ -17,36 +20,69 @@ function onOptionsClick(payload: MouseEvent) {
 
 <template>
   <div class="character">
-    <span class="options material-symbols-outlined" @click="onOptionsClick">
-      more_horiz
-    </span>
-    <span class="character-name" @click="() => emits('click')">
-      {{ props.name }}
-    </span>
+    <div class="flex-row gap10 justify-start flex-shrink flex-basis-0">
+      <span
+        class="pointer p10 material-symbols-outlined"
+        @click="onOptionsClick"
+      >
+        more_horiz
+      </span>
+    </div>
+    <Seperator />
+    <div class="character-name flex-row gap20" @click="() => emits('click')">
+      <div class="flex-shrink flex-basis-0" style="min-width: 240px">
+        {{ props.character.characterName }}
+        <template v-if="props.character.playerName">
+          ({{ props.character.playerName }})
+        </template>
+      </div>
+      <div class="flex-row gap10">
+        <div class="align-center">
+          <span class="bold">STR</span> {{ statToModifier(character.strength) }}
+        </div>
+        <div class="align-center">
+          <span class="bold">DEX</span>
+          {{ statToModifier(character.dexterity) }}
+        </div>
+        <div class="align-center">
+          <span class="bold">CON</span>
+          {{ statToModifier(character.constitution) }}
+        </div>
+        <div class="align-center">
+          <span class="bold">INT</span>
+          {{ statToModifier(character.intelligence) }}
+        </div>
+        <div class="align-center">
+          <span class="bold">WIS</span> {{ statToModifier(character.wisdom) }}
+        </div>
+        <div class="align-center">
+          <span class="bold">CHA</span> {{ statToModifier(character.charisma) }}
+        </div>
+        <div class="align-center">
+          <span class="bold">AC</span> {{ character.armor }}
+        </div>
+        <div class="align-center">
+          <span class="bold">HP</span> {{ character.currentHealth }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .character {
   justify-content: start;
-  flex-shrink: 1;
-  flex-grow: 0;
-  flex-basis: 200px;
-  gap: 5px;
   border-radius: 7px;
   background-color: v-bind(backgroundPaper);
   box-shadow: v-bind(boxShadow);
-
-  .options {
-    cursor: pointer;
-    padding: 10px 15px 10px 15px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-  }
 
   .character-name {
     cursor: pointer;
     padding: 10px 15px 20px 15px;
     color: v-bind(textSecondary);
   }
+}
+.bold {
+  font-weight: bold;
 }
 </style>

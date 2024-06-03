@@ -23,9 +23,10 @@ const emits = defineEmits<{
       <div class="flex-row justify-center flex-shrink flex-basis-0 gap20">
         <Button
           v-for="(action, index) in props.actions"
-          :label="action"
           @click="() => emits('click:action', index)"
-        />
+        >
+          {{ action }}
+        </Button>
       </div>
     </div>
   </div>

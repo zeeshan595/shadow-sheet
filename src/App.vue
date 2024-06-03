@@ -7,8 +7,16 @@ import { RouterView } from "vue-router";
 import { characters, saveCharacters } from "./service/character";
 import "./service/owlbear";
 import "./service/diceBox";
+import { onMounted } from "vue";
+import { windowSize } from "./consts";
 
 setInterval(() => saveCharacters(characters.value), 1000);
+onMounted(() => {
+  windowSize.value = window.innerWidth;
+  window.addEventListener("resize", () => {
+    windowSize.value = window.innerWidth;
+  });
+});
 </script>
 
 <template>

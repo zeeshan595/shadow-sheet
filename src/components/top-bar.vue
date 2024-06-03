@@ -2,23 +2,12 @@
 import { ref } from "vue";
 import { rollDice } from "@/service/diceBox";
 import { modal } from "@/hooks/modal";
-import { router } from "@/router";
-import { owlbearRole } from "@/service/owlbear";
 import { background, boxShadow } from "@/theme";
-import Button from "./button.vue";
-import Toggle from "./toggle.vue";
+import { isMobileView } from "@/consts";
+import { owlbearPlayerName } from "@/service/owlbear";
 import Dice from "./dice.vue";
 
 const diceToRoll = ref<string[]>([]);
-
-const props = defineProps<{
-  playerName: string;
-  isMobileView: boolean;
-  modelValue: boolean;
-}>();
-const emits = defineEmits<{
-  (e: "update:modelValue", value: boolean): void;
-}>();
 
 function addDiceRoll(dice: string) {
   diceToRoll.value.push(dice);
@@ -42,39 +31,25 @@ function addDiceRoll(dice: string) {
       diceToRoll.value = [];
       switch (index) {
         case 1:
-          rollDice({ dice: finalDice }, props.playerName);
+          rollDice({ dice: finalDice }, owlbearPlayerName.value);
           break;
       }
     },
   };
-}
-function onBackClick() {
-  modal.value = null;
-  router.push("/");
 }
 </script>
 
 <template>
   <div
     :class="{
-      'top-bar': !props.isMobileView,
+      'top-bar': !isMobileView,
     }"
   >
     <div
       class="flex-row gap10 justify-start"
       :class="{ 'flex-col': isMobileView }"
     >
-      <Button label="Back" @click="onBackClick" />
-      <div
-        v-if="owlbearRole === 'PLAYER'"
-        class="flex-shrink flex-basis-0"
-        :class="{
-          'justify-center': isMobileView,
-          'align-center': isMobileView,
-        }"
-      >
-        <Toggle v-model="props.modelValue" />
-      </div>
+      <slot></slot>
       <div
         class="flex-row gap20"
         :class="{

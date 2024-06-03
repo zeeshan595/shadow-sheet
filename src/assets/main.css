@@ -42,6 +42,9 @@ div {
 .flex-col {
   flex-direction: column;
 }
+.mt100 {
+  margin-top: 100px;
+}
 .gap5 {
   gap: 10px;
 }
@@ -99,6 +102,9 @@ div {
 }
 .flex-basis-quarter {
   flex-basis: 25%;
+}
+.pointer {
+  cursor: pointer;
 }
 #dice-box {
   display: block;

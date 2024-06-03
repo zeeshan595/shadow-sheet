@@ -2,6 +2,7 @@ import type { Character } from "@/types/character";
 import { ref } from "vue";
 import * as UUID from "uuid";
 import { stringToNum } from "./helpers";
+import { owlbearPlayerName } from "./owlbear";
 
 const CHARACTER_KEY = "characters";
 
@@ -195,7 +196,7 @@ export function createNewCharacter(): Character {
   return {
     uuid: UUID.v4(),
     sync: false,
-    playerName: "",
+    playerName: owlbearPlayerName.value,
     characterName: `Character ${characters.value.length + 1}`,
     ancestry: "",
     attacks: "",

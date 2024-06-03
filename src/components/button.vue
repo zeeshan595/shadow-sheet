@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { backgroundPaper, boxShadow, textSecondary } from "@/theme";
 
-const props = defineProps<{
-  label: string;
-}>();
-
 const emits = defineEmits<{
   (e: "click"): void;
 }>();
@@ -12,7 +8,7 @@ const emits = defineEmits<{
 
 <template>
   <button @click="() => emits('click')">
-    {{ props.label }}
+    <slot></slot>
   </button>
 </template>
 
@@ -30,8 +26,5 @@ button {
   font-weight: bold;
   font-size: 14px;
   transition: 0.3s;
-
-  &:hover {
-  }
 }
 </style>

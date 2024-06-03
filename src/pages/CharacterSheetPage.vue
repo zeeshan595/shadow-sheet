@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { computed, ref, onMounted } from "vue";
+import { computed } from "vue";
 import { router } from "@/router";
 import { characters } from "@/service/character";
-import TextField from "@/components/text-field.vue";
+import { useRoute } from "vue-router";
+import { isMobileView } from "@/consts";
+import { owlbearRole } from "@/service/owlbear";
+import type { Character } from "@/types/character";
+import Seperator from "@/components/seperator.vue";
 import Gear from "@/components/gear.vue";
 import Stat from "@/components/stat.vue";
 import TopBar from "@/components/top-bar.vue";
-import { useRoute } from "vue-router";
-import type { Character } from "@/types/character";
-import Seperator from "@/components/seperator.vue";
+import TextField from "@/components/text-field.vue";
+import Button from "@/components/button.vue";
+import Toggle from "@/components/toggle.vue";
 
-const MOBILE_VIEW_MAX_WIDTH = 620;
-
-const windowSize = ref<number>(800);
 const route = useRoute();
 const character = computed<Character>({
   get() {
@@ -34,23 +35,28 @@ const character = computed<Character>({
     characters.value = temp;
   },
 });
-
-const isMobileView = computed(() => windowSize.value < MOBILE_VIEW_MAX_WIDTH);
-onMounted(() => {
-  windowSize.value = window.innerWidth;
-  window.addEventListener("resize", () => {
-    windowSize.value = window.innerWidth;
-  });
-});
+function onBackClick() {
+  router.push("/");
+}
 </script>
 
 <template>
   <div class="gap10" :class="{ 'character-sheet': !isMobileView }">
-    <TopBar
-      :player-name="character.playerName"
-      :is-mobile-view="isMobileView"
-      v-model="character.sync"
-    />
+    <TopBar :player-name="character.playerName">
+      <Button @click="onBackClick">
+        <span class="material-symbols-outlined"> arrow_back </span>
+      </Button>
+      <div
+        v-if="owlbearRole === 'PLAYER'"
+        class="flex-shrink flex-basis-0"
+        :class="{
+          'justify-center': isMobileView,
+          'align-center': isMobileView,
+        }"
+      >
+        <Toggle v-model="character.sync" />
+      </div>
+    </TopBar>
     <div class="flex-row gap10" :class="{ 'flex-col': isMobileView }">
       <TextField label="player name" v-model="character.playerName" />
       <TextField label="character name" v-model="character.characterName" />

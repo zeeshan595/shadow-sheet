@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import { boxShadow } from "@/theme";
-</script>
-
 <template>
   <div class="seperator"></div>
 </template>
@@ -10,5 +6,6 @@ import { boxShadow } from "@/theme";
 .seperator {
   border: 1px solid rgba(0, 0, 0, 0.2);
   margin-bottom: 10px;
+  max-height: 0;
 }
 </style>

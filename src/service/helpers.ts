@@ -7,3 +7,12 @@ export function stringToNum(str: string): number {
   } catch (e) {}
   return 0;
 }
+
+export function statToModifier(stat: string): string {
+  const mod = Math.floor(stringToNum(stat) / 2) - 5;
+  if (mod >= 0) {
+    return `+${mod}`;
+  } else {
+    return `${mod}`;
+  }
+}
