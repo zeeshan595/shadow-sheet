@@ -10,7 +10,7 @@ export const theme = ref<Theme>({
     paper: "rgba(41, 44, 60, 0.9)",
   },
   primary: {
-    contrastText: "",
+    contrastText: "rgb(187, 153, 255)",
     dark: "",
     light: "",
     main: "",
@@ -23,13 +23,16 @@ export const theme = ref<Theme>({
   },
   text: {
     disabled: "rgba(255, 255, 255, 0.3)",
-    primary: "rgb(187, 153, 255)",
+    primary: "#ffffff",
     secondary: "#ffffff",
   },
 });
 if (OBR) {
   OBR.onReady(() => {
-    OBR.theme.getTheme().then((t) => (theme.value = t));
+    OBR.theme.getTheme().then((t) => {
+      console.log(t);
+      theme.value = t;
+    });
     OBR.theme.onChange((t) => (theme.value = t));
   });
 }
