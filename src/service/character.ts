@@ -1,6 +1,7 @@
 import type { Character } from "@/types/character";
 import { ref } from "vue";
 import * as UUID from "uuid";
+import { stringToNum } from "./helpers";
 
 const CHARACTER_KEY = "characters";
 
@@ -10,6 +11,30 @@ export function saveCharacters(characters: Character[]) {
   localStorage.setItem(CHARACTER_KEY, JSON.stringify(characters));
 }
 
+function modifiersToStats(character: Character): Character {
+  const str = stringToNum(character.strength);
+  const dex = stringToNum(character.dexterity);
+  const con = stringToNum(character.constitution);
+  const int = stringToNum(character.intelligence);
+  const wis = stringToNum(character.wisdom);
+  const cha = stringToNum(character.charisma);
+
+  if (str >= 10) return character;
+  if (dex >= 10) return character;
+  if (con >= 10) return character;
+  if (int >= 10) return character;
+  if (wis >= 10) return character;
+  if (cha >= 10) return character;
+
+  character.strength = `${str * 2 + 10}`;
+  character.dexterity = `${dex * 2 + 10}`;
+  character.constitution = `${con * 2 + 10}`;
+  character.intelligence = `${int * 2 + 10}`;
+  character.wisdom = `${wis * 2 + 10}`;
+  character.charisma = `${cha * 2 + 10}`;
+  return character;
+}
+
 export function loadCharacters(): Character[] | null {
   const raw = localStorage.getItem(CHARACTER_KEY);
   const characters: Character[] = [];
@@ -17,6 +42,7 @@ export function loadCharacters(): Character[] | null {
     characters.push(...(JSON.parse(raw) as Character[]));
   }
   for (let i = 0; i < characters.length; i++) {
+    // update gear slots
     if (characters[i].gear.length < 20) {
       const itemsToAdd = 20 - characters[i].gear.length;
       characters[i].gear = [
@@ -24,6 +50,8 @@ export function loadCharacters(): Character[] | null {
         ...new Array(itemsToAdd).fill(""),
       ];
     }
+    // update stats
+    characters[i] = modifiersToStats(characters[i]);
   }
   const oldStyleCharacter = legacyCharacter();
   if (oldStyleCharacter) {
