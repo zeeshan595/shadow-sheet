@@ -7,7 +7,6 @@ const THEME_KEY = "dicebox-theme";
 
 export enum DiceBoxThemes {
   BlueGreenMetal = "blueGreenMetal",
-  Default = "default",
   DiceOfRolling = "diceOfRolling",
   Gemstone = "gemstone",
   GemstoneMarble = "gemstoneMarble",
@@ -29,12 +28,12 @@ diceBox.init();
 
 export async function setDiceBoxTheme(theme: DiceBoxThemes) {
   localStorage.setItem(THEME_KEY, theme);
-  await diceBox.updateConfig({ theme: theme });
+  await diceBox.updateConfig({ theme });
 }
 export function getDiceBoxTheme(): DiceBoxThemes {
-  const theme = localStorage.getItem(THEME_KEY);
-  if (!theme) return DiceBoxThemes.Default;
-  return (theme as DiceBoxThemes) ?? DiceBoxThemes.Default;
+  const theme: unknown = localStorage.getItem(THEME_KEY);
+  if (!theme) return DiceBoxThemes.Smooth;
+  return theme as DiceBoxThemes;
 }
 
 let diceClearTimeout: number | null = null;
