@@ -48,31 +48,31 @@ const emits = defineEmits<{
         </template>
       </div>
       <div v-if="!isMobileView" class="flex-row gap10">
-        <div class="align-center">
+        <div class="align-center justify-start">
           <span class="bold">STR</span> {{ statToModifier(character.strength) }}
         </div>
-        <div class="align-center">
+        <div class="align-center justify-start">
           <span class="bold">DEX</span>
           {{ statToModifier(character.dexterity) }}
         </div>
-        <div class="align-center">
+        <div class="align-center justify-start">
           <span class="bold">CON</span>
           {{ statToModifier(character.constitution) }}
         </div>
-        <div class="align-center">
+        <div class="align-center justify-start">
           <span class="bold">INT</span>
           {{ statToModifier(character.intelligence) }}
         </div>
-        <div class="align-center">
+        <div class="align-center justify-start">
           <span class="bold">WIS</span> {{ statToModifier(character.wisdom) }}
         </div>
-        <div class="align-center">
+        <div class="align-center justify-start">
           <span class="bold">CHA</span> {{ statToModifier(character.charisma) }}
         </div>
-        <div class="align-center">
+        <div class="align-center justify-start">
           <span class="bold">AC</span> {{ character.armor }}
         </div>
-        <div class="align-center">
+        <div class="align-center justify-start">
           <span class="bold">HP</span> {{ character.currentHealth }}
         </div>
       </div>
