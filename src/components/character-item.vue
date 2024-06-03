@@ -3,6 +3,7 @@ import { backgroundPaper, textSecondary, boxShadow } from "@/theme";
 import Seperator from "./seperator.vue";
 import type { Character } from "@/types/character";
 import { statToModifier } from "@/service/helpers";
+import { isMobileView } from "@/consts";
 
 const props = defineProps<{
   character: Character;
@@ -31,14 +32,23 @@ const emits = defineEmits<{
       </span>
     </div>
     <Seperator />
-    <div class="character-name flex-row gap20" @click="() => emits('click')">
-      <div class="flex-shrink flex-basis-0" style="min-width: 240px">
+    <div
+      class="character-name flex-row gap20 p10"
+      @click="() => emits('click')"
+    >
+      <div
+        class="flex-shrink"
+        :class="{
+          'min-width-240': !isMobileView,
+          'flex-basis-0': !isMobileView,
+        }"
+      >
         {{ props.character.characterName }}
         <template v-if="props.character.playerName">
           ({{ props.character.playerName }})
         </template>
       </div>
-      <div class="flex-row gap10">
+      <div v-if="!isMobileView" class="flex-row gap10">
         <div class="align-center">
           <span class="bold">STR</span> {{ statToModifier(character.strength) }}
         </div>
@@ -86,5 +96,8 @@ const emits = defineEmits<{
 }
 .bold {
   font-weight: bold;
+}
+.min-width-240 {
+  min-width: 240px;
 }
 </style>
