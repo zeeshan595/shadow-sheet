@@ -6,7 +6,7 @@
     "title": "Character Sheet",
     "icon": "/icon.svg",
     "popover": "/",
-    "height": 800,
-    "width": 800
+    "width": 800,
+    "height": 860
   }
 }

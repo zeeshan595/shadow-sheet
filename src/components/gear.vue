@@ -26,15 +26,20 @@ function onChange(payload: Event, index: number) {
   <div class="text-field justify-start">
     <div class="justify-start align-start flex-shrink flex-basis-0">
       <span class="label">gear</span>
-      <span class="sub-label">10 + STR x 2</span>
+        <span class="sub-label">10 or STR</span>
     </div>
     <div class="gap10 justify-start">
-      <input
+      <div
+        class="flex-row align-center gap5"
         v-for="(item, index) in props.modelValue"
-        type="text"
-        :value="item"
-        @change="(ev: Event) => onChange(ev, index)"
-      />
+      >
+        <span class="sub-label">{{ index + 1 }}</span>
+        <input
+          type="text"
+          :value="item"
+          @change="(ev: Event) => onChange(ev, index)"
+        />
+      </div>
     </div>
   </div>
 </template>

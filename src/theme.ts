@@ -35,6 +35,7 @@ document.body.style.background = theme.value.background.default;
 document.body.style.color = theme.value.text.secondary;
 
 // computed values
+export const background = computed(() => theme.value.background.default);
 export const backgroundPaper = computed(() => theme.value.background.paper);
 export const textSecondary = computed(() => theme.value.text.secondary);
 export const textPrimary = computed(() => theme.value.text.primary);
