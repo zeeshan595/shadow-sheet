@@ -83,10 +83,10 @@ function onMenuOptionsClick() {
         class="flex-row gap10 justify-start align-center"
         :class="{ 'flex-col': isMobileView }"
       >
-        <h2>Characters</h2>
         <Button @click="onMenuOptionsClick">
           <span class="options material-symbols-outlined"> more_horiz </span>
         </Button>
+        <h2>Characters</h2>
       </div>
     </TopBar>
     <div class="gap20" :class="{ mt100: !isMobileView }">
