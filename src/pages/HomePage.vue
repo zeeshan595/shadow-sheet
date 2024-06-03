@@ -15,20 +15,10 @@ import CharacterItem from "@/components/character-item.vue";
 import TopBar from "@/components/top-bar.vue";
 import { isMobileView } from "@/consts";
 
-function showOptions(character: Character) {
-  ContextMenu.value = {
-    items: ["save", "delete"],
-    click: (index: number) => {
-      switch (index) {
-        case 0:
-          downloadCharacter(character);
-          break;
-        case 1:
-          characters.value = characters.value.filter((c) => c !== character);
-          break;
-      }
-    },
-  };
+function deleteCharacter(character: Character) {
+  const CONFIRM_TEXT = `Are you sure you want to delete this character?\n${character.characterName} (${character.playerName})`;
+  if (confirm(CONFIRM_TEXT))
+    characters.value = characters.value.filter((c) => c !== character);
 }
 function onNewCharacterClick() {
   const temp = createNewCharacter();
@@ -104,7 +94,8 @@ function onMenuOptionsClick() {
         <CharacterItem
           :character="character"
           @click="() => router.push(`/character/${character.uuid}`)"
-          @options="() => showOptions(character)"
+          @save="() => downloadCharacter(character)"
+          @delete="() => deleteCharacter(character)"
         />
       </template>
       <Button @click="onNewCharacterClick">+</Button>

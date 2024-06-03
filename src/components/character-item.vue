@@ -9,23 +9,25 @@ const props = defineProps<{
 }>();
 const emits = defineEmits<{
   (e: "click"): void;
-  (e: "options"): void;
+  (e: "save"): void;
+  (e: "delete"): void;
 }>();
-
-function onOptionsClick(payload: MouseEvent) {
-  payload.preventDefault();
-  emits("options");
-}
 </script>
 
 <template>
   <div class="character">
-    <div class="flex-row gap10 justify-start flex-shrink flex-basis-0">
+    <div class="flex-row gap10 justify-start flex-shrink flex-basis-0 p10">
       <span
-        class="pointer p10 material-symbols-outlined"
-        @click="onOptionsClick"
+        class="material-symbols-outlined pointer"
+        @click="() => emits('save')"
       >
-        more_horiz
+        download
+      </span>
+      <span
+        class="material-symbols-outlined pointer"
+        @click="() => emits('delete')"
+      >
+        delete
       </span>
     </div>
     <Seperator />
