@@ -8,6 +8,7 @@ import Stat from "@/components/stat.vue";
 import TopBar from "@/components/top-bar.vue";
 import { useRoute } from "vue-router";
 import type { Character } from "@/types/character";
+import Seperator from "@/components/seperator.vue";
 
 const MOBILE_VIEW_MAX_WIDTH = 620;
 
@@ -78,6 +79,7 @@ onMounted(() => {
       <Stat label="wisdom" v-model="character.wisdom" />
       <Stat label="charisma" v-model="character.charisma" />
     </div>
+    <Seperator />
     <div class="flex-row gap10" :class="{ 'flex-col': isMobileView }">
       <div
         class="flex-shrink flex-basis-0 gap10"

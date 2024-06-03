@@ -96,7 +96,7 @@ function onBackClick() {
   </div>
 </template>
 
-<style>
+<style scoped>
 .top-bar {
   position: fixed;
   top: 0;

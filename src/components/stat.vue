@@ -18,15 +18,17 @@ const valueNum = computed(() => stringToNum(props.modelValue));
   <div class="align-center flex-shrink flex-basis-0 gap10">
     <TextField
       stat
+      small
       spaceBetween
       :label="props.label"
-      v-model="props.modelValue"
+      :modelValue="props.modelValue"
+      @update:modelValue="(v) => emits('update:modelValue', v)"
     />
     <span class="stat-modifier">{{ Math.floor(valueNum / 2) - 5 }}</span>
   </div>
 </template>
 
-<style>
+<style scoped>
 .stat-modifier {
   font-size: 34px;
 }

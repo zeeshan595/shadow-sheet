@@ -106,6 +106,8 @@ function onChange(payload: Event) {
   }
 
   &.stat {
+    justify-content: center;
+    align-items: center;
     flex-shrink: 1;
     flex-grow: 0;
     flex-basis: 0;
@@ -116,6 +118,13 @@ function onChange(payload: Event) {
       width: 45px;
       padding: 20px;
       text-align: center;
+    }
+
+    &.small {
+      input[type="text"] {
+        padding: 10px;
+        font-size: 24px;
+      }
     }
   }
 }
