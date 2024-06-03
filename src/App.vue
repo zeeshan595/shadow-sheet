@@ -5,13 +5,15 @@ import { ContextMenu } from "./hooks/context-menu";
 import { modal } from "./hooks/modal";
 import { RouterView } from "vue-router";
 import { characters, saveCharacters } from "./service/character";
-import "./service/owlbear";
-import "./service/diceBox";
 import { onMounted } from "vue";
 import { windowSize } from "./consts";
+import { setDiceBoxTheme, getDiceBoxTheme } from "./service/diceBox";
+import "./service/owlbear";
+import "./service/diceBox";
 
 setInterval(() => saveCharacters(characters.value), 1000);
 onMounted(() => {
+  setDiceBoxTheme(getDiceBoxTheme());
   windowSize.value = window.innerWidth;
   window.addEventListener("resize", () => {
     windowSize.value = window.innerWidth;
