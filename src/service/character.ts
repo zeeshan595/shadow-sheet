@@ -54,26 +54,7 @@ export function loadCharacters(): Character[] | null {
     // update stats
     characters[i] = modifiersToStats(characters[i]);
   }
-  const oldStyleCharacter = legacyCharacter();
-  if (oldStyleCharacter) {
-    characters.push(oldStyleCharacter);
-  }
   return characters;
-}
-
-export function legacyCharacter(): Character | null {
-  const raw = localStorage.getItem("character");
-  if (!raw) return null;
-  const character = JSON.parse(raw);
-  if (Array.isArray(character.skills)) {
-    character.skills = character.skills.join("\n");
-  }
-  if (typeof character.gear === "string") {
-    character.gear = [character.gear];
-  }
-  character.uuid = UUID.v4();
-  localStorage.removeItem("character");
-  return character as Character;
 }
 
 export function downloadCharacter(character: Character) {
