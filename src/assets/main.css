@@ -111,6 +111,9 @@ div {
 .min-width-0 {
   min-width: 0;
 }
+.no-input {
+  pointer-events: none;
+}
 #dice-box {
   display: block;
   position: fixed;

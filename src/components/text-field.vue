@@ -7,18 +7,29 @@ const props = defineProps<{
   stat?: boolean;
   large?: boolean;
   spaceBetween?: boolean;
-  clickableLabel?: boolean;
   mobileView?: boolean;
+  readonly?: boolean;
+  clickable?: boolean;
 }>();
 const emits = defineEmits<{
   (e: "update:modelValue", value: string): void;
   (e: "label-click"): void;
+  (e: "click"): void;
+  (e: "right-click"): void;
 }>();
 
 function onChange(payload: Event) {
   const target = payload.target as HTMLInputElement | HTMLTextAreaElement;
   if (!target) return;
   emits("update:modelValue", target.value);
+}
+function contextMenu(e: MouseEvent) {
+  e.preventDefault();
+  emits("right-click");
+}
+function leftClick(e: MouseEvent) {
+  e.preventDefault();
+  emits("click");
 }
 </script>
 
@@ -29,13 +40,13 @@ function onChange(payload: Event) {
       small: props.small,
       stat: props.stat,
       'justify-space-between': props.spaceBetween,
+      pointer: props.clickable,
     }"
+    @contextmenu="contextMenu"
+    @click="leftClick"
   >
     <div
       class="justify-start align-start flex-shrink flex-basis-0"
-      :class="{
-        clickable: props.clickableLabel,
-      }"
       @click="() => emits('label-click')"
     >
       <span class="label">{{ props.label }}</span>
@@ -47,15 +58,18 @@ function onChange(payload: Event) {
       v-if="!props.large"
       type="text"
       class="bg-paper shadow text-primary"
+      :class="{ 'no-input': props.readonly }"
       :value="modelValue"
       @change="onChange"
       :maxlength="props.stat ? 2 : undefined"
+      :readonly="props.readonly"
     />
     <textarea
       v-if="props.large"
       class="bg-paper shadow text-primary"
-      :class="{ 'mobile-view': mobileView }"
+      :class="{ 'mobile-view': mobileView, 'no-input': props.readonly }"
       :value="modelValue"
+      :readonly="props.readonly"
       @change="onChange"
     ></textarea>
   </div>
@@ -119,9 +133,5 @@ function onChange(payload: Event) {
       }
     }
   }
-}
-
-.clickable {
-  cursor: pointer;
 }
 </style>

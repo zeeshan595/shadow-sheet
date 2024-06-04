@@ -3,6 +3,7 @@ import { owlbearPlayerName } from "./owlbear";
 import * as UUID from "uuid";
 import { ref, watch } from "vue";
 import { CHARACTERS_STORE, getDb } from "./db";
+import { randomRange } from "./helpers";
 
 export const characters = ref<Character[]>([]);
 loadCharacters().then((c) => (characters.value = c));
@@ -153,6 +154,26 @@ export async function uploadCharacter(): Promise<Character | null> {
   return character;
 }
 
+function newCharacterStat(): number {
+  const roll = randomRange(1, 6) + randomRange(1, 6) + randomRange(1, 6);
+  return roll;
+}
+
+function newCharacterGold(): number {
+  return (randomRange(1, 6) + randomRange(1, 6)) * 5 - 7;
+}
+
+function newCharacterGear(): string[] {
+  const gear = new Array(20).fill("");
+  gear[0] = "flint and Steel";
+  gear[1] = "Torch (2)";
+  gear[2] = "Rations (3)";
+  gear[3] = "Iron Spikes (10)";
+  gear[4] = "Grappling hook";
+  gear[5] = "Rope, 60'";
+  return gear;
+}
+
 export function createNewCharacter(): Character {
   return {
     uuid: UUID.v4(),
@@ -165,20 +186,20 @@ export function createNewCharacter(): Character {
     characterClass: "",
     level: "1",
 
-    strength: "10",
-    dexterity: "10",
-    constitution: "10",
-    intelligence: "10",
-    wisdom: "10",
-    charisma: "10",
+    strength: `${newCharacterStat()}`,
+    dexterity: `${newCharacterStat()}`,
+    constitution: `${newCharacterStat()}`,
+    intelligence: `${newCharacterStat()}`,
+    wisdom: `${newCharacterStat()}`,
+    charisma: `${newCharacterStat()}`,
 
     currentHealth: "5",
     health: "5",
     armor: "10",
-    luck: "0",
+    luck: "1",
 
-    gear: new Array(20).fill(""),
-    gold: "30",
+    gear: newCharacterGear(),
+    gold: `${newCharacterGold()}`,
     notes: "",
     skills: "",
   };

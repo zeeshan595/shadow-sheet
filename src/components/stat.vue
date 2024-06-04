@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import TextField from "./text-field.vue";
-import { statToModifier } from "@/service/helpers";
+import { statToModifier, stringToNum } from "@/service/helpers";
 
 const props = defineProps<{
   label: string;
@@ -12,6 +12,13 @@ const emits = defineEmits<{
 }>();
 
 const modifier = computed(() => statToModifier(props.modelValue));
+
+function click() {
+  emits("update:modelValue", `${stringToNum(props.modelValue) + 1}`);
+}
+function rightClick() {
+  emits("update:modelValue", `${stringToNum(props.modelValue) - 1}`);
+}
 </script>
 
 <template>
@@ -19,10 +26,14 @@ const modifier = computed(() => statToModifier(props.modelValue));
     <TextField
       stat
       small
+      readonly
+      clickable
       spaceBetween
       :label="props.label"
       :modelValue="props.modelValue"
       @update:modelValue="(v) => emits('update:modelValue', v)"
+      @click="click"
+      @right-click="rightClick"
     />
     <span class="stat-modifier">{{ modifier }}</span>
   </div>

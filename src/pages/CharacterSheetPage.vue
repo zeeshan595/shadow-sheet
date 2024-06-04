@@ -13,6 +13,7 @@ import TopBar from "@/components/top-bar.vue";
 import TextField from "@/components/text-field.vue";
 import Button from "@/components/button.vue";
 import Toggle from "@/components/toggle.vue";
+import { stringToNum } from "@/service/helpers";
 
 const route = useRoute();
 const character = computed<Character>({
@@ -37,6 +38,34 @@ const character = computed<Character>({
 });
 function onBackClick() {
   router.push("/");
+}
+function currentHealthClick() {
+  character.value.currentHealth = `${
+    stringToNum(character.value.currentHealth) + 1
+  }`;
+}
+function currentHealthRightClick() {
+  character.value.currentHealth = `${
+    stringToNum(character.value.currentHealth) - 1
+  }`;
+}
+function healthClick() {
+  character.value.health = `${stringToNum(character.value.health) + 1}`;
+}
+function healthRightClick() {
+  character.value.health = `${stringToNum(character.value.health) - 1}`;
+}
+function armorClick() {
+  character.value.armor = `${stringToNum(character.value.armor) + 1}`;
+}
+function armorRightClick() {
+  character.value.armor = `${stringToNum(character.value.armor) - 1}`;
+}
+function luckClick() {
+  character.value.luck = `${stringToNum(character.value.luck) + 1}`;
+}
+function luckRightClick() {
+  character.value.luck = `${stringToNum(character.value.luck) - 1}`;
 }
 </script>
 
@@ -94,15 +123,43 @@ function onBackClick() {
           'flex-wrap': isMobileView,
         }"
       >
-        <TextField stat label="health" v-model="character.currentHealth" />
-        <TextField stat label="max health" v-model="character.health" />
         <TextField
           stat
+          readonly
+          clickable
+          label="health"
+          v-model="character.currentHealth"
+          @click="currentHealthClick"
+          @right-click="currentHealthRightClick"
+        />
+        <TextField
+          stat
+          readonly
+          clickable
+          label="max health"
+          v-model="character.health"
+          @click="healthClick"
+          @right-click="healthRightClick"
+        />
+        <TextField
+          stat
+          readonly
+          clickable
           label="armor"
           sub-label="10 + DEX"
           v-model="character.armor"
+          @click="armorClick"
+          @right-click="armorRightClick"
         />
-        <TextField stat label="luck" v-model="character.luck" />
+        <TextField
+          stat
+          readonly
+          clickable
+          label="luck"
+          v-model="character.luck"
+          @click="luckClick"
+          @right-click="luckRightClick"
+        />
       </div>
       <div class="gap10">
         <TextField
