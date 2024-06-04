@@ -5,6 +5,8 @@ import { randomRange } from "./helpers";
 
 const THEME_KEY = "dicebox-theme";
 
+const audio = new Audio("/assets/dice-roll.mp3");
+audio.loop = false;
 export enum DiceBoxThemes {
   BlueGreenMetal = "blueGreenMetal",
   DiceOfRolling = "diceOfRolling",
@@ -49,6 +51,7 @@ export type DiceRollResult = {
   value: number;
 };
 export async function rollDice(options: RollDiceOptions, player?: string) {
+  audio.play();
   if (diceClearTimeout) clearTimeout(diceClearTimeout);
   const results: DiceRollResult[] = await diceBox.roll(options.dice);
   let total = 0;
