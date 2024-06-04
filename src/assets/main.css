@@ -108,6 +108,9 @@ div {
 .pointer {
   cursor: pointer;
 }
+.min-width-0 {
+  min-width: 0;
+}
 #dice-box {
   display: block;
   position: fixed;

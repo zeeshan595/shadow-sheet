@@ -29,7 +29,7 @@ function onChange(payload: Event, index: number) {
         <span class="sub-label primary-main">{{ index + 1 }}</span>
         <input
           type="text"
-          class="bg-paper shadow text-primary"
+          class="bg-paper shadow text-primary min-width-0"
           :value="item"
           @change="(ev: Event) => onChange(ev, index)"
         />
