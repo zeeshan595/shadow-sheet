@@ -154,9 +154,13 @@ export async function uploadCharacter(): Promise<Character | null> {
   return character;
 }
 
-function newCharacterStat(): number {
-  const roll = randomRange(1, 6) + randomRange(1, 6) + randomRange(1, 6);
-  return roll;
+function newCharacterStat(): number[] {
+  const roll = () => randomRange(1, 6) + randomRange(1, 6) + randomRange(1, 6);
+  let rolls = [roll(), roll(), roll(), roll(), roll(), roll()];
+  while (Math.max(...rolls) < 14) {
+    rolls = [roll(), roll(), roll(), roll(), roll(), roll()];
+  }
+  return rolls;
 }
 
 function newCharacterGold(): number {
@@ -175,6 +179,7 @@ function newCharacterGear(): string[] {
 }
 
 export function createNewCharacter(): Character {
+  const stats = newCharacterStat();
   return {
     uuid: UUID.v4(),
     sync: false,
@@ -186,12 +191,12 @@ export function createNewCharacter(): Character {
     characterClass: "",
     level: "1",
 
-    strength: `${newCharacterStat()}`,
-    dexterity: `${newCharacterStat()}`,
-    constitution: `${newCharacterStat()}`,
-    intelligence: `${newCharacterStat()}`,
-    wisdom: `${newCharacterStat()}`,
-    charisma: `${newCharacterStat()}`,
+    strength: `${stats[0]}`,
+    dexterity: `${stats[1]}`,
+    constitution: `${stats[2]}`,
+    intelligence: `${stats[3]}`,
+    wisdom: `${stats[4]}`,
+    charisma: `${stats[5]}`,
 
     currentHealth: "5",
     health: "5",
