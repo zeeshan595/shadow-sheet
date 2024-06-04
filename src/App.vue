@@ -4,17 +4,13 @@ import ModalComponent from "@/components/modal.vue";
 import { ContextMenu } from "./hooks/context-menu";
 import { modal } from "./hooks/modal";
 import { RouterView } from "vue-router";
-import { characters, saveCharacters } from "./service/character";
 import { computed, onMounted } from "vue";
 import { windowWidth } from "./consts";
-import { setDiceBoxTheme, getDiceBoxTheme } from "./service/diceBox";
 import { theme } from "@/theme";
 import "./service/owlbear";
 import "./service/diceBox";
 
 onMounted(() => {
-  // save characters every second
-  setInterval(() => saveCharacters(characters.value), 1000);
   // set window width size to current window width
   windowWidth.value = window.innerWidth;
   // if window size changes then update window width size

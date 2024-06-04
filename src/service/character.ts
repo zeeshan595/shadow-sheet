@@ -1,60 +1,40 @@
 import type { Character } from "@/types/character";
-import { ref } from "vue";
-import * as UUID from "uuid";
-import { stringToNum } from "./helpers";
 import { owlbearPlayerName } from "./owlbear";
+import * as UUID from "uuid";
+import { ref, watch } from "vue";
+import { CHARACTERS_STORE, getDb } from "./db";
 
-const CHARACTER_KEY = "characters";
+export const characters = ref<Character[]>([]);
+loadCharacters().then((c) => (characters.value = c));
 
-export const characters = ref<Character[]>(loadCharacters() ?? []);
+watch(characters, saveCharacters, { deep: true });
 
-export function saveCharacters(characters: Character[]) {
-  localStorage.setItem(CHARACTER_KEY, JSON.stringify(characters));
+export async function saveCharacters(characters: Character[]) {
+  const db = await getDb();
+  const transaction = db.transaction(CHARACTERS_STORE, "readwrite");
+  const store = transaction.objectStore(CHARACTERS_STORE);
+  store.clear();
+  for (const character of characters) {
+    const cloneableCharacter = { ...character, gear: [...character.gear] };
+    await store.put(cloneableCharacter, character.uuid);
+  }
+  transaction.commit();
 }
 
-function modifiersToStats(character: Character): Character {
-  const str = stringToNum(character.strength);
-  const dex = stringToNum(character.dexterity);
-  const con = stringToNum(character.constitution);
-  const int = stringToNum(character.intelligence);
-  const wis = stringToNum(character.wisdom);
-  const cha = stringToNum(character.charisma);
-
-  if (str >= 5) return character;
-  if (dex >= 5) return character;
-  if (con >= 5) return character;
-  if (int >= 5) return character;
-  if (wis >= 5) return character;
-  if (cha >= 5) return character;
-
-  character.strength = `${str * 2 + 10}`;
-  character.dexterity = `${dex * 2 + 10}`;
-  character.constitution = `${con * 2 + 10}`;
-  character.intelligence = `${int * 2 + 10}`;
-  character.wisdom = `${wis * 2 + 10}`;
-  character.charisma = `${cha * 2 + 10}`;
-  return character;
-}
-
-export function loadCharacters(): Character[] | null {
-  const raw = localStorage.getItem(CHARACTER_KEY);
-  const characters: Character[] = [];
-  if (raw) {
-    characters.push(...(JSON.parse(raw) as Character[]));
+export async function loadCharacters(): Promise<Character[]> {
+  const db = await getDb();
+  const transaction = db.transaction(CHARACTERS_STORE, "readonly");
+  const store = transaction.objectStore(CHARACTERS_STORE);
+  const req = await store.getAll();
+  if (!req) {
+    return [];
   }
-  for (let i = 0; i < characters.length; i++) {
-    // update gear slots
-    if (characters[i].gear.length < 20) {
-      const itemsToAdd = 20 - characters[i].gear.length;
-      characters[i].gear = [
-        ...characters[i].gear,
-        ...new Array(itemsToAdd).fill(""),
-      ];
-    }
-    // update stats
-    characters[i] = modifiersToStats(characters[i]);
-  }
-  return characters;
+  transaction.commit();
+  return new Promise((resolve) => {
+    req.onsuccess = () => {
+      resolve(req.result as Character[]);
+    };
+  });
 }
 
 export function downloadCharacter(character: Character) {
