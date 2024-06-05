@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { rollDice } from "@/service/diceBox";
-import { modal } from "@/hooks/modal";
 import { isMobileView } from "@/consts";
 import { owlbearPlayerName } from "@/service/owlbear";
 import Dice from "./dice.vue";
+import Button from "./button.vue";
+import History from "./history.vue";
 
+type ModalProps = {
+  message: string;
+  actions: string[];
+  onActionClick: (index: number) => void;
+};
+const modal = ref<ModalProps | null>();
 const diceToRoll = ref<string[]>([]);
+const showHistory = ref(false);
 
 function addDiceRoll(dice: string) {
   diceToRoll.value.push(dice);
@@ -36,9 +44,32 @@ function addDiceRoll(dice: string) {
     },
   };
 }
+
+function onHistoryClick() {
+  showHistory.value = true;
+}
 </script>
 
 <template>
+  <History :visible="showHistory" @update:visible="(v) => (showHistory = v)" />
+  <div v-if="modal" class="dice-modal-container">
+    <div class="modal flex-grow gap20 bg-paper shadow">
+      <div
+        class="flex-grow flex-basis-100 justify-start align-start"
+        style="width: 100%"
+      >
+        {{ modal.message }}
+      </div>
+      <div class="flex-row justify-center flex-shrink flex-basis-0 gap20">
+        <Button
+          v-for="(action, index) in modal.actions"
+          @click="() => modal!.onActionClick(index)"
+        >
+          {{ action }}
+        </Button>
+      </div>
+    </div>
+  </div>
   <div
     :class="{
       'top-bar': !isMobileView,
@@ -52,14 +83,16 @@ function addDiceRoll(dice: string) {
     >
       <slot></slot>
       <div
-        class="flex-row gap20"
+        class="flex-row gap20 align-center"
         :class="{
           'flex-wrap': isMobileView,
           'justify-end': !isMobileView,
           'justify-center': isMobileView,
-          'align-center': isMobileView,
         }"
       >
+        <span class="material-symbols-outlined pointer" @click="onHistoryClick">
+          history
+        </span>
         <Dice type="d4" @click="() => addDiceRoll('d4')" />
         <Dice type="d6" @click="() => addDiceRoll('d6')" />
         <Dice type="d8" @click="() => addDiceRoll('d8')" />
@@ -72,12 +105,29 @@ function addDiceRoll(dice: string) {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .top-bar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   padding: 20px;
+}
+.dice-modal-container {
+  display: block;
+  position: fixed;
+  top: 100px;
+  right: 260px;
+
+  .modal {
+    display: flex;
+    position: absolute;
+    padding: 20px;
+    border-radius: 7px;
+    min-width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 50;
+  }
 }
 </style>

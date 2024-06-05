@@ -2,11 +2,12 @@
 import DiceBox from "@3d-dice/dice-box";
 import { sendNotification } from "./owlbear";
 import { randomRange } from "./helpers";
+import { computed, ref } from "vue";
 
 const THEME_KEY = "dicebox-theme";
-
 const audio = new Audio("/assets/dice-roll.mp3");
 audio.loop = false;
+export const history = ref<string[]>([]);
 export enum DiceBoxThemes {
   BlueGreenMetal = "blueGreenMetal",
   DiceOfRolling = "diceOfRolling",
@@ -94,6 +95,11 @@ export async function rollDice(options: RollDiceOptions, player?: string) {
       finalText = `Total ${total}, ADV. ${success}, DIS. ${fail}`;
     }
     // send notifications
-    sendNotification(`${playerText}${diceDetails} = ${finalText}`);
+    finalText = `${playerText}${diceDetails} = ${finalText}`;
+    history.value = [finalText, ...history.value];
+    if (history.value.length > 20) {
+      history.value = history.value.slice(0, 20);
+    }
+    sendNotification(finalText);
   }
 }

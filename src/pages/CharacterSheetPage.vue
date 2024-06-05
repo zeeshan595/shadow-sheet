@@ -71,7 +71,7 @@ function luckRightClick() {
 
 <template>
   <div class="gap10" :class="{ 'character-sheet': !isMobileView }">
-    <TopBar :player-name="character.playerName">
+    <TopBar>
       <Button @click="onBackClick">
         <span class="material-symbols-outlined"> arrow_back </span>
       </Button>

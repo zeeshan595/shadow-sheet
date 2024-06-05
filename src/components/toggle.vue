@@ -17,9 +17,7 @@ function onClick() {
 </script>
 
 <template>
-  <div
-    class="flex-row justify-start align-center gap10 flex-shrink flex-basis-0"
-  >
+  <div class="justify-start align-center gap10 flex-shrink flex-basis-0">
     <span class="label">Sync</span>
     <label class="switch">
       <input type="checkbox" :checked="props.modelValue" @click="onClick" />

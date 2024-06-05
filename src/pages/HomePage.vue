@@ -83,9 +83,12 @@ function onMenuOptionsClick() {
         class="flex-row gap10 justify-start align-center"
         :class="{ 'flex-col': isMobileView }"
       >
-        <Button @click="onMenuOptionsClick">
-          <span class="options material-symbols-outlined"> more_horiz </span>
-        </Button>
+        <span
+          class="options material-symbols-outlined"
+          @click="onMenuOptionsClick"
+        >
+          more_horiz
+        </span>
         <h2>Characters</h2>
       </div>
     </TopBar>
