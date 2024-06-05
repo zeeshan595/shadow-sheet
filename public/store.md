@@ -31,10 +31,10 @@ A feature rich character sheet for shadowdark
 
 **Screenshots**
 
-![rolling dice](https://character-sheet.online/assets/images/menu.jpg)
+![character menu](https://character-sheet.online/assets/images/menu.jpg)
 ![character sync](https://character-sheet.online/assets/images/sync.jpg)
 ![rolling dice](https://character-sheet.online/assets/images/dice.jpg)
-![rolling dice](https://character-sheet.online/assets/images/notification.jpg)
+![notification](https://character-sheet.online/assets/images/notification.jpg)
 
 **Support**
 
