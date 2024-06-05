@@ -95,11 +95,6 @@ export async function rollDice(options: RollDiceOptions) {
       finalText = `Total ${total}, ADV. ${success}, DIS. ${fail}`;
     }
     // send notifications
-    finalText = `${playerText}${diceDetails} = ${finalText}`;
-    history.value = [finalText, ...history.value];
-    if (history.value.length > 20) {
-      history.value = history.value.slice(0, 20);
-    }
-    sendNotification(finalText);
+    sendNotification(`${playerText}${diceDetails} = ${finalText}`);
   }
 }
