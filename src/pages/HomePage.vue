@@ -7,6 +7,8 @@ import {
   uploadCharacter,
   createNewCharacter,
   deleteAllCharacters,
+  deleteCharacter,
+  saveCharacter,
 } from "@/service/character";
 import type { Character } from "@/types/character";
 import { DiceBoxThemes, rollDice, setDiceBoxTheme } from "@/service/diceBox";
@@ -15,9 +17,12 @@ import CharacterItem from "@/components/character-item.vue";
 import TopBar from "@/components/top-bar.vue";
 import { isMobileView } from "@/consts";
 
-function deleteCharacter(character: Character) {
+function onDeleteCharacter(character: Character) {
   const CONFIRM_TEXT = `Are you sure you want to delete this character?\n${character.characterName} (${character.playerName})`;
   if (confirm(CONFIRM_TEXT)) {
+    characters.value = characters.value.filter(
+      (c) => c.uuid !== character.uuid
+    );
     deleteCharacter(character);
   }
 }
@@ -25,6 +30,7 @@ function onNewCharacterClick() {
   const temp = createNewCharacter();
   characters.value = [...characters.value, temp];
   router.push(`/character/${temp.uuid}`);
+  saveCharacter(temp);
 }
 function onDiceThemeClick() {
   ContextMenu.value = {
@@ -39,10 +45,10 @@ function onDiceThemeClick() {
     },
   };
 }
-function onDeleteAllCharacters() {
+async function onDeleteAllCharacters() {
   if (confirm("Are you sure you want to delete all characters?")) {
+    await deleteAllCharacters();
     characters.value = [];
-    deleteAllCharacters();
   }
 }
 function onMenuOptionsClick() {
@@ -66,6 +72,7 @@ function onMenuOptionsClick() {
             } else {
               characters.value = [...characters.value, newCharacter];
             }
+            saveCharacter(newCharacter);
           }
           break;
         case 2:
@@ -99,7 +106,7 @@ function onMenuOptionsClick() {
           :character="character"
           @click="() => router.push(`/character/${character.uuid}`)"
           @save="() => downloadCharacter(character)"
-          @delete="() => deleteCharacter(character)"
+          @delete="() => onDeleteCharacter(character)"
         />
       </template>
       <Button @click="onNewCharacterClick">+</Button>

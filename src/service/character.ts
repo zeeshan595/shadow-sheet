@@ -29,7 +29,9 @@ export async function deleteAllCharacters() {
   const db = await getDb();
   const transaction = db.transaction(CHARACTERS_STORE, "readwrite");
   const store = transaction.objectStore(CHARACTERS_STORE);
-  await store.delete(characters.value.map((c) => c.uuid));
+  for (const uuid of characters.value.map((c) => c.uuid)) {
+    await store.delete(uuid);
+  }
   transaction.commit();
 }
 

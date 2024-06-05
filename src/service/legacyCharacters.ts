@@ -33,11 +33,10 @@ function fixGearSlots(character: Character): Character {
 }
 
 export function migrateFromLocalStorage(db: IDBDatabase) {
+  const store = db.createObjectStore(CHARACTERS_STORE);
   const raw = localStorage.getItem("characters");
   if (!raw) return;
   const characters = JSON.parse(raw) as Character[];
-
-  const store = db.createObjectStore(CHARACTERS_STORE);
 
   for (const legacyCharacter of characters) {
     const character = modifiersToStats(fixGearSlots(legacyCharacter));
