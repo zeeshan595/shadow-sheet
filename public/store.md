@@ -10,7 +10,7 @@ tags:
   - Automation
   - Combat
 manifest: https://character-sheet.online/manifest.json
-learn-more: https://github.com/zeeshan595/character-sheet
+learn-more: https://github.com/zeeshan595/shadow-sheet
 ---
 
 # Shadow Sheet
@@ -40,7 +40,7 @@ A feature rich character sheet for shadowdark *Unofficial*
 
 You can donate to me by going here <https://github.com/sponsors/zeeshan595/>
 
-If you want to report a bug / request a feature go here <https://github.com/zeeshan595/character-sheet/issues>
+If you want to report a bug / request a feature go here <https://github.com/zeeshan595/shadow-sheet/issues>
 
 If you need support for this extension you can email <owlbear.character.sheet@gmail.com>
 
