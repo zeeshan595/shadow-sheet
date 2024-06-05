@@ -1,23 +1,36 @@
 import type { Character } from "@/types/character";
 import { owlbearPlayerName } from "./owlbear";
 import * as UUID from "uuid";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { CHARACTERS_STORE, getDb } from "./db";
 import { randomRange } from "./helpers";
 
 export const characters = ref<Character[]>([]);
 loadCharacters().then((c) => (characters.value = c));
 
-watch(characters, saveCharacters, { deep: true });
-
-export async function saveCharacters(characters: Character[]) {
+export async function saveCharacter(character: Character) {
   const db = await getDb();
   const transaction = db.transaction(CHARACTERS_STORE, "readwrite");
   const store = transaction.objectStore(CHARACTERS_STORE);
-  store.clear();
-  for (const character of characters) {
-    const cloneableCharacter = { ...character, gear: [...character.gear] };
-    await store.put(cloneableCharacter, character.uuid);
+  const cloneableCharacter = { ...character, gear: [...character.gear] };
+  await store.put(cloneableCharacter, character.uuid);
+  transaction.commit();
+}
+
+export async function deleteCharacter(character: Character) {
+  const db = await getDb();
+  const transaction = db.transaction(CHARACTERS_STORE, "readwrite");
+  const store = transaction.objectStore(CHARACTERS_STORE);
+  await store.delete(character.uuid);
+  transaction.commit();
+}
+
+export async function deleteAllCharacters() {
+  const db = await getDb();
+  const transaction = db.transaction(CHARACTERS_STORE, "readwrite");
+  const store = transaction.objectStore(CHARACTERS_STORE);
+  for (const uuid of characters.value.map((c) => c.uuid)) {
+    await store.delete(uuid);
   }
   transaction.commit();
 }
