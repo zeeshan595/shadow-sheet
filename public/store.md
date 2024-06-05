@@ -1,6 +1,6 @@
 ---
-title: Character Sheet
-description: A feature rich character sheet
+title: Shadow Sheet
+description: A feature rich character sheet for shadowdark
 author: Zeeshan Abid
 image: https://character-sheet.online/assets/images/header.jpg
 icon: https://character-sheet.online/icon.png
@@ -15,7 +15,7 @@ learn-more: owlbear.character.sheet@gmail.com
 
 # Dice
 
-A feature rich character sheet that can be used for systems with roll high on D20 and 6 DnD stats (STR, DEX, CON, INT, WIS, CHA).
+A feature rich character sheet for shadowdark
 
 **Features**
 

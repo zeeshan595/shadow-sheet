@@ -1,9 +1,9 @@
 {
-  "name": "Character Sheet",
-  "version": "2.0.0",
+  "name": "Shadow Sheet",
+  "version": "3.0.0",
   "manifest_version": 1,
   "action": {
-    "title": "Character Sheet",
+    "title": "Shadow Sheet",
     "icon": "/icon.svg",
     "popover": "/",
     "width": 800,
