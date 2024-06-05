@@ -10,7 +10,7 @@ tags:
   - Automation
   - Combat
 manifest: https://character-sheet.online/manifest.json
-learn-more: owlbear.character.sheet@gmail.com
+learn-more: https://github.com/zeeshan595/character-sheet
 ---
 
 # Dice
