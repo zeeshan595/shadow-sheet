@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, watch } from "vue";
 import { router } from "@/router";
 import { characters } from "@/service/character";
 import { useRoute } from "vue-router";
 import { isMobileView } from "@/consts";
-import { owlbearRole } from "@/service/owlbear";
+import { owlbearRole, sendCharacterToGM } from "@/service/owlbear";
 import type { Character } from "@/types/character";
 import Seperator from "@/components/seperator.vue";
 import Gear from "@/components/gear.vue";
@@ -36,6 +36,7 @@ const character = computed<Character>({
     characters.value = temp;
   },
 });
+watch(character, sendCharacterToGM, { deep: true });
 function onBackClick() {
   router.push("/");
 }

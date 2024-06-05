@@ -2,7 +2,6 @@
 import { ref } from "vue";
 import { rollDice } from "@/service/diceBox";
 import { isMobileView } from "@/consts";
-import { owlbearPlayerName } from "@/service/owlbear";
 import Dice from "./dice.vue";
 import Button from "./button.vue";
 import History from "./history.vue";

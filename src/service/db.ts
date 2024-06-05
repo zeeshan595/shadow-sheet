@@ -1,4 +1,4 @@
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { migrateFromLocalStorage } from "./legacyCharacters";
 
 export const CHARACTERS_STORE = "characters";
