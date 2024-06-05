@@ -1,8 +1,8 @@
 ---
 title: Character Sheet
-description: A feature rich character sheet for shadow dark
+description: A feature rich character sheet
 author: Zeeshan Abid
-image: https://raw.githubusercontent.com/owlbear-rodeo/dice/main/docs/header.jpg
+image: https://character-sheet.online/assets/images/header.jpg
 icon: https://character-sheet.online/icon.png
 tags:
   - Dice
@@ -15,40 +15,26 @@ learn-more: owlbear.character.sheet@gmail.com
 
 # Dice
 
-A feature rich character sheet for shadow dark
+A feature rich character sheet that can be used for systems with roll high on D20 and 6 DnD stats (STR, DEX, CON, INT, WIS, CHA).
 
-You can add dice to your dice tray by clicking one of the dice icons in the left bar.
+**Features**
 
-When you want to roll the dice simply click the Roll button.
+- Can roll any dice in the character sheet
+- Change dice theme
+- Can roll dice using your modifiers
+- Notifies all players with the dice result
+- Shows advantage or disadvantage on multiple D20 rolls
+- Able to create multiple chracters and store them in browser
+- Import and export character sheets
+- Works on mobile
 
-![roll interface](https://raw.githubusercontent.com/owlbear-rodeo/dice/main/docs/rolls.jpg)
+**Screenshots**
 
-Once rolled the extension will use a physics simulation to determine the results of the roll.
-
-**Real-Time Syncing**
-
-The dice roller will sync this simulation over the network so all connected players can see the roll in real-time.
-
-By default other players dice trays will show up as a small preview in the bottom right. You can expand this preview by clicking it.
-
-![player roll](https://raw.githubusercontent.com/owlbear-rodeo/dice/main/docs/player.jpg)
-
-**Private Rolls**
-
-To make a roll privately you can select the eye icon in the sidebar when making a roll.
-
-**Bonus and Advantage**
-
-To add a bonus or advantage/disadvantage to your next roll you can click the +/- icon in the sidebar.
-
-![bonus](https://raw.githubusercontent.com/owlbear-rodeo/dice/main/docs/bonus.jpg)
-
-**Recent Rolls**
-
-To re-roll one of your recent rolls you can click the search glass icon in the sidebar.
-
-![recent rolls](https://raw.githubusercontent.com/owlbear-rodeo/dice/main/docs/recent.jpg)
+![rolling dice](https://character-sheet.online/assets/images/menu.jpg)
+![character sync](https://character-sheet.online/assets/images/sync.jpg)
+![rolling dice](https://character-sheet.online/assets/images/dice.jpg)
+![rolling dice](https://character-sheet.online/assets/images/notification.jpg)
 
 **Support**
 
-If you need support for this extension you can email <support@owlbear.rodeo>
+If you need support for this extension you can email <owlbear.character.sheet@gmail.com>
