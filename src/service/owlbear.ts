@@ -1,5 +1,5 @@
 import OBR from "@owlbear-rodeo/sdk";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { characters } from "./character";
 import type { Character } from "../types/character";
 
@@ -18,16 +18,20 @@ export function sendNotification(message: string) {
   });
 }
 function sendCharacterToGM() {
-  setInterval(() => {
-    for (const character of characters.value.filter(
-      (character) => character.sync
-    )) {
-      OBR.broadcast.sendMessage(
-        OWLBEAR_SYNC_CHANNEL_ID,
-        JSON.stringify(character)
-      );
-    }
-  }, 5000);
+  watch(
+    characters,
+    (characters) => {
+      for (const character of characters.filter(
+        (character) => character.sync
+      )) {
+        OBR.broadcast.sendMessage(
+          OWLBEAR_SYNC_CHANNEL_ID,
+          JSON.stringify(character)
+        );
+      }
+    },
+    { deep: true }
+  );
 }
 function fetchCharactersFromPlayers() {
   OBR.broadcast.onMessage(OWLBEAR_SYNC_CHANNEL_ID, (event) => {
