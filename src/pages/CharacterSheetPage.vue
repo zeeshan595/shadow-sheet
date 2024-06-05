@@ -78,28 +78,22 @@ function luckRightClick() {
 </script>
 
 <template>
-  <div
-    class="gap10"
-    :class="{
-      'character-sheet': !isMobileView,
-      'character-sheet-player': !isMobileView && owlbearRole === 'PLAYER',
-    }"
-  >
-    <TopBar>
-      <Button @click="onBackClick">
-        <span class="material-symbols-outlined"> arrow_back </span>
-      </Button>
-      <div
-        v-if="owlbearRole === 'PLAYER'"
-        class="flex-shrink flex-basis-0"
-        :class="{
-          'justify-center': isMobileView,
-          'align-center': isMobileView,
-        }"
-      >
-        <Toggle v-model="character.sync" />
-      </div>
-    </TopBar>
+  <TopBar>
+    <Button @click="onBackClick">
+      <span class="material-symbols-outlined"> arrow_back </span>
+    </Button>
+    <div
+      v-if="owlbearRole === 'PLAYER'"
+      class="flex-shrink flex-basis-0"
+      :class="{
+        'justify-center': isMobileView,
+        'align-center': isMobileView,
+      }"
+    >
+      <Toggle v-model="character.sync" />
+    </div>
+  </TopBar>
+  <div class="gap10 page-padding">
     <div class="flex-row gap10" :class="{ 'flex-col': isMobileView }">
       <TextField label="player name" v-model="character.playerName" />
       <TextField label="character name" v-model="character.characterName" />
@@ -218,12 +212,3 @@ function luckRightClick() {
     </div>
   </div>
 </template>
-
-<style scoped>
-.character-sheet {
-  margin-top: 100px;
-}
-.character-sheet-player {
-  margin-top: 120px;
-}
-</style>

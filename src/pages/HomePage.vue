@@ -85,21 +85,21 @@ function onMenuOptionsClick() {
 </script>
 
 <template>
-  <div class="gap20">
-    <TopBar>
-      <div
-        class="flex-row gap10 justify-start align-center"
-        :class="{ 'flex-col': isMobileView }"
+  <TopBar>
+    <div
+      class="flex-row gap10 justify-start align-center"
+      :class="{ 'flex-col': isMobileView }"
+    >
+      <span
+        class="options material-symbols-outlined"
+        @click="onMenuOptionsClick"
       >
-        <span
-          class="options material-symbols-outlined"
-          @click="onMenuOptionsClick"
-        >
-          more_horiz
-        </span>
-        <h2>Characters</h2>
-      </div>
-    </TopBar>
+        more_horiz
+      </span>
+      <h2>Characters</h2>
+    </div>
+  </TopBar>
+  <div class="gap20 page-padding">
     <div class="gap20" :class="{ mt100: !isMobileView }">
       <template v-for="character in characters">
         <CharacterItem

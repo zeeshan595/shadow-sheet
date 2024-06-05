@@ -22,10 +22,6 @@ body {
 .material-symbols-outlined {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
 }
-
-#app {
-  padding: 10px 20px;
-}
 #dice-box {
   display: block;
   position: fixed;
@@ -65,6 +61,9 @@ div {
   justify-content: center;
 }
 
+.page-padding {
+  padding: 10px 20px;
+}
 .box {
   border: 2px solid #f4f4f4;
   color: #f4f4f4;
@@ -78,9 +77,6 @@ div {
 }
 .flex-col {
   flex-direction: column;
-}
-.mt100 {
-  margin-top: 100px;
 }
 .gap5 {
   gap: 10px;
