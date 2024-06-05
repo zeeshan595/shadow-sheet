@@ -6,7 +6,7 @@ import {
   downloadCharacter,
   uploadCharacter,
   createNewCharacter,
-  saveCharacters,
+  deleteAllCharacters,
 } from "@/service/character";
 import type { Character } from "@/types/character";
 import { DiceBoxThemes, rollDice, setDiceBoxTheme } from "@/service/diceBox";
@@ -17,8 +17,9 @@ import { isMobileView } from "@/consts";
 
 function deleteCharacter(character: Character) {
   const CONFIRM_TEXT = `Are you sure you want to delete this character?\n${character.characterName} (${character.playerName})`;
-  if (confirm(CONFIRM_TEXT))
-    characters.value = characters.value.filter((c) => c !== character);
+  if (confirm(CONFIRM_TEXT)) {
+    deleteCharacter(character);
+  }
 }
 function onNewCharacterClick() {
   const temp = createNewCharacter();
@@ -41,7 +42,7 @@ function onDiceThemeClick() {
 function onDeleteAllCharacters() {
   if (confirm("Are you sure you want to delete all characters?")) {
     characters.value = [];
-    saveCharacters(characters.value);
+    deleteAllCharacters();
   }
 }
 function onMenuOptionsClick() {

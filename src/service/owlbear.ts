@@ -1,6 +1,6 @@
 import OBR from "@owlbear-rodeo/sdk";
 import { ref } from "vue";
-import { characters } from "./character";
+import { characters, saveCharacter } from "./character";
 import { history } from "./diceBox";
 import type { Character } from "../types/character";
 
@@ -68,7 +68,13 @@ if (OBR && OBR.isAvailable) {
         temp[existingCharacterIndex] = character;
         characters.value = temp;
       }
+      saveCharacter(character);
     });
+
+    // send existing characters to GM
+    for (const character of characters.value) {
+      sendCharacterToGM(character);
+    }
     isReady = true;
   });
 }
