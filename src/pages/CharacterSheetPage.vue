@@ -70,7 +70,13 @@ function luckRightClick() {
 </script>
 
 <template>
-  <div class="gap10" :class="{ 'character-sheet': !isMobileView }">
+  <div
+    class="gap10"
+    :class="{
+      'character-sheet': !isMobileView,
+      'character-sheet-player': !isMobileView && owlbearRole === 'PLAYER',
+    }"
+  >
     <TopBar>
       <Button @click="onBackClick">
         <span class="material-symbols-outlined"> arrow_back </span>
@@ -207,6 +213,9 @@ function luckRightClick() {
 
 <style scoped>
 .character-sheet {
-  margin-top: 90px;
+  margin-top: 100px;
+}
+.character-sheet-player {
+  margin-top: 120px;
 }
 </style>
