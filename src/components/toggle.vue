@@ -17,7 +17,10 @@ function onClick() {
 </script>
 
 <template>
-  <div class="justify-start align-center gap10 flex-shrink flex-basis-0">
+  <div
+    class="justify-start align-center gap10 flex-shrink flex-basis-0"
+    @click="onClick"
+  >
     <span class="label">Sync</span>
     <label class="switch">
       <input type="checkbox" :checked="props.modelValue" @click="onClick" />
@@ -36,8 +39,8 @@ function onClick() {
 .switch {
   position: relative;
   display: inline-block;
-  width: 60px;
-  height: 34px;
+  width: 32px;
+  height: 16px;
 }
 
 /* Hide default HTML checkbox */
@@ -63,10 +66,10 @@ function onClick() {
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
+  height: 16px;
+  width: 16px;
+  left: 1px;
+  bottom: 0px;
   background-color: white;
   -webkit-transition: 0.4s;
   transition: 0.4s;
@@ -82,9 +85,9 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
+  -webkit-transform: translateX(14px);
+  -ms-transform: translateX(14px);
+  transform: translateX(14px);
 }
 
 /* Rounded sliders */

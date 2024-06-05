@@ -1,11 +1,42 @@
-@import "./base.css";
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
 
 body {
+  transition: color 0.5s, background-color 0.5s;
+  line-height: 1.6;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   min-width: 280px;
 }
 
-#app {
-  padding: 10px 20px;
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+#dice-box {
+  display: block;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  pointer-events: none;
+}
+#dice-box > canvas {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  pointer-events: none;
 }
 
 a,
@@ -30,6 +61,9 @@ div {
   justify-content: center;
 }
 
+.page-padding {
+  padding: 10px 20px;
+}
 .box {
   border: 2px solid #f4f4f4;
   color: #f4f4f4;
@@ -43,9 +77,6 @@ div {
 }
 .flex-col {
   flex-direction: column;
-}
-.mt100 {
-  margin-top: 100px;
 }
 .gap5 {
   gap: 10px;
@@ -112,21 +143,5 @@ div {
   min-width: 0;
 }
 .no-input {
-  pointer-events: none;
-}
-#dice-box {
-  display: block;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: 1000;
-  pointer-events: none;
-}
-#dice-box > canvas {
-  display: block;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  z-index: 1000;
   pointer-events: none;
 }

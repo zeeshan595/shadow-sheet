@@ -106,10 +106,8 @@ function onHistoryClick() {
 
 <style scoped lang="scss">
 .top-bar {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   padding: 20px;
 }
 .dice-modal-container {
