@@ -38,7 +38,7 @@ function addDiceRoll(dice: string) {
       diceToRoll.value = [];
       switch (index) {
         case 1:
-          rollDice({ dice: finalDice }, owlbearPlayerName.value);
+          rollDice({ dice: finalDice });
           break;
       }
     },

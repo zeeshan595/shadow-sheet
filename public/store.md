@@ -22,6 +22,7 @@ A feature rich character sheet that can be used for systems with roll high on D2
 - Can roll any dice in the character sheet
 - Change dice theme
 - Can roll dice using your modifiers
+- Can see roll history
 - Notifies all players with the dice result
 - Shows advantage or disadvantage on multiple D20 rolls
 - Able to create multiple chracters and store them in browser

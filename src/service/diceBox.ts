@@ -1,8 +1,8 @@
 // @ts-ignore
 import DiceBox from "@3d-dice/dice-box";
-import { sendNotification } from "./owlbear";
+import { sendNotification, owlbearPlayerName } from "./owlbear";
 import { randomRange } from "./helpers";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 
 const THEME_KEY = "dicebox-theme";
 const audio = new Audio("/assets/dice-roll.mp3");
@@ -52,7 +52,7 @@ export type DiceRollResult = {
   sides: number;
   value: number;
 };
-export async function rollDice(options: RollDiceOptions, player?: string) {
+export async function rollDice(options: RollDiceOptions) {
   audio.play();
   if (diceClearTimeout) clearTimeout(diceClearTimeout);
   const results: DiceRollResult[] = await diceBox.roll(options.dice);
@@ -64,8 +64,8 @@ export async function rollDice(options: RollDiceOptions, player?: string) {
   if (!options.hidden) {
     // player text
     let playerText = "Rolled ";
-    if (player) {
-      playerText = `${player} rolled `;
+    if (owlbearPlayerName.value) {
+      playerText = `${owlbearPlayerName.value} rolled `;
     }
 
     // details text
