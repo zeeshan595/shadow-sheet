@@ -41,6 +41,7 @@ if (OBR && OBR.isAvailable) {
 
     // handle player data
     OBR.player.getName().then((name) => (owlbearPlayerName.value = name));
+    OBR.player.getRole().then((role) => (owlbearRole.value = role));
     OBR.player.onChange((player) => {
       owlbearPlayerName.value = player.name;
       owlbearRole.value = player.role;
