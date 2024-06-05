@@ -22,7 +22,7 @@ const emits = defineEmits<{
           <span class="material-symbols-outlined"> close </span>
         </div>
       </div>
-      <div class="gap10">
+      <div class="history-items gap10">
         <div v-for="item in history" class="bg-default rounded p10">
           {{ item }}
         </div>
@@ -48,7 +48,7 @@ const emits = defineEmits<{
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 10px;
-    min-height: calc(100% - 60px);
+    height: calc(100% - 60px);
 
     div {
       flex-shrink: 1;
@@ -62,5 +62,9 @@ const emits = defineEmits<{
       top: 40px;
     }
   }
+}
+.history-items {
+  overflow-y: scroll;
+  width: 100%;
 }
 </style>
