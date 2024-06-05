@@ -64,7 +64,7 @@ const emits = defineEmits<{
   }
 }
 .history-items {
-  overflow-y: scroll;
+  overflow-y: auto;
   width: 100%;
 }
 </style>
