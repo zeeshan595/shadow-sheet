@@ -15,7 +15,7 @@ learn-more: https://github.com/zeeshan595/character-sheet
 
 # Shadow Sheet
 
-A feature rich character sheet for shadowdark
+A feature rich character sheet for shadowdark *Unofficial*
 
 **Features**
 
@@ -43,3 +43,6 @@ You can donate to me by going here <https://github.com/sponsors/zeeshan595/>
 If you want to report a bug / request a feature go here <https://github.com/zeeshan595/character-sheet/issues>
 
 If you need support for this extension you can email <owlbear.character.sheet@gmail.com>
+
+
+Shadow Sheet is an independent product published under the Shadowdark RPG Third-Party License and is not affiliated with The Arcane Library, LLC. Shadowdark RPG © 2023 The Arcane Library, LLC
