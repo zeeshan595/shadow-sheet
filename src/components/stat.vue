@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import TextField from "./text-field.vue";
 import { statToModifier, stringToNum } from "@/service/helpers";
+import { rollDice } from "@/service/diceBox";
 
 const props = defineProps<{
   label: string;
@@ -19,6 +20,19 @@ function click() {
 function rightClick() {
   emits("update:modelValue", `${stringToNum(props.modelValue) - 1}`);
 }
+function rollWithModifier() {
+  rollDice({
+    dice: "1d20",
+    modifier: stringToNum(modifier.value),
+  });
+}
+function rollTwiceWithModifier(e: MouseEvent) {
+  e.preventDefault();
+  rollDice({
+    dice: "2d20",
+    modifier: stringToNum(modifier.value),
+  });
+}
 </script>
 
 <template>
@@ -35,7 +49,13 @@ function rightClick() {
       @click="click"
       @right-click="rightClick"
     />
-    <span class="stat-modifier">{{ modifier }}</span>
+    <span
+      class="stat-modifier pointer"
+      @click="rollWithModifier"
+      @contextmenu="rollTwiceWithModifier"
+    >
+      {{ modifier }}
+    </span>
   </div>
 </template>
 

@@ -43,6 +43,7 @@ export function getDiceBoxTheme(): DiceBoxThemes {
 let diceClearTimeout: number | null = null;
 export type RollDiceOptions = {
   dice: string | string[];
+  modifier?: number;
   hidden?: boolean;
 };
 export type DiceRollResult = {
@@ -67,9 +68,16 @@ export async function rollDice(options: RollDiceOptions, player?: string) {
     }
 
     // details text
-    const diceDetails = results
-      .map((r) => `${r.value}(d${r.sides})`)
-      .join(" + ");
+    let diceDetails = results.map((r) => `${r.value}(d${r.sides})`).join(" + ");
+
+    if (options.modifier !== undefined) {
+      total += options.modifier;
+      if (options.modifier >= 0) {
+        diceDetails += ` + ${options.modifier}`;
+      } else {
+        diceDetails += ` - ${options.modifier * -1}`;
+      }
+    }
 
     // advantage & dis-advantage
     let finalText = `Total ${total}`;
@@ -79,6 +87,10 @@ export async function rollDice(options: RollDiceOptions, player?: string) {
     ) {
       let success = Math.max(...results.map((r) => r.value));
       let fail = Math.min(...results.map((r) => r.value));
+      if (options.modifier !== undefined) {
+        success += options.modifier;
+        fail += options.modifier;
+      }
       finalText = `Total ${total}, ADV. ${success}, DIS. ${fail}`;
     }
     // send notifications
