@@ -15,7 +15,10 @@ const emits = defineEmits<{
     >
       <div class="flex-row">
         <h2>Roll History</h2>
-        <div class="close-button pointer" @click="() => emits('update:visible', false)">
+        <div
+          class="close-button pointer"
+          @click="() => emits('update:visible', false)"
+        >
           <span class="material-symbols-outlined"> close </span>
         </div>
       </div>
