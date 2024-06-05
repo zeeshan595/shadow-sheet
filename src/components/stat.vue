@@ -62,5 +62,7 @@ function rollTwiceWithModifier(e: MouseEvent) {
 <style scoped>
 .stat-modifier {
   font-size: 34px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 </style>
