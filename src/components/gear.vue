@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
+  strength?: number;
   modelValue: string[];
 }>();
 const emits = defineEmits<{
@@ -19,7 +20,10 @@ function onChange(payload: Event, index: number) {
   <div class="text-field justify-start text-primary">
     <div class="justify-start align-start flex-shrink flex-basis-0">
       <span class="label">gear</span>
-      <span class="sub-label primary-main">10 or STR</span>
+      <span v-if="!strength" class="sub-label primary-main">10 or STR</span>
+      <span v-if="strength" class="sub-label primary-main">
+        {{ Math.max(strength, 10) }} items
+      </span>
     </div>
     <div class="gap10 justify-start">
       <div

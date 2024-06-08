@@ -55,6 +55,7 @@ a,
 
 div {
   display: flex;
+  flex-shrink: 1;
   flex-grow: 1;
   flex-direction: column;
   flex-basis: 100%;

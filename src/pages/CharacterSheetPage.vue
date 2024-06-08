@@ -13,6 +13,7 @@ import TopBar from "@/components/top-bar.vue";
 import TextField from "@/components/text-field.vue";
 import Button from "@/components/button.vue";
 import Toggle from "@/components/toggle.vue";
+import { stringToNum } from "@/service/helpers";
 
 const route = useRoute();
 const character = computed<Character>({
@@ -80,7 +81,7 @@ function onBackClick() {
       <TextField label="class" v-model="character.characterClass" />
     </div>
     <div
-      class="flex-row gap10 flex-shrink flex-basis-0"
+      class="flex-row gap10 flex-basis-0"
       :class="{
         'flex-wrap': isMobileView,
       }"
@@ -158,7 +159,7 @@ function onBackClick() {
           />
         </div>
         <div class="flex-shrink flex-basis-0">
-          <Gear v-model="character.gear" />
+          <Gear v-model="character.gear" :strength="stringToNum(character.strength)" />
         </div>
       </div>
     </div>
