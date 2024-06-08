@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { history } from "@/service/diceBox";
+import { ref } from "vue";
+
+//import { history } from "@/service/diceBox";
+
+const history = ref<string[]>([]);
+for (let i = 0; i < 1000; i++) {
+  history.value.push(i.toString());
+}
 
 const props = defineProps<{
   visible: boolean;
@@ -22,9 +29,11 @@ const emits = defineEmits<{
           <span class="material-symbols-outlined"> close </span>
         </div>
       </div>
-      <div class="history-items gap10">
-        <div v-for="item in history" class="bg-default rounded p10">
-          {{ item }}
+      <div class="history-items-container">
+        <div class="history-items gap10">
+          <div v-for="item in history" class="bg-default rounded p10">
+            {{ item }}
+          </div>
         </div>
       </div>
     </div>
@@ -63,8 +72,13 @@ const emits = defineEmits<{
     }
   }
 }
-.history-items {
+.history-items-container {
+  display: block;
   overflow-y: auto;
   width: 100%;
+
+  .history-items {
+    width: 100%;
+  }
 }
 </style>
