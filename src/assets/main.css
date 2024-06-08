@@ -61,6 +61,21 @@ div {
   justify-content: center;
 }
 
+.absolute {
+  position: absolute;
+}
+.relative {
+  position: relative;
+}
+.font-small {
+  font-size: 12px;
+}
+.bold {
+  font-weight: bold;
+}
+.uppercase {
+  text-transform: uppercase;
+}
 .page-padding {
   padding: 10px 20px;
 }

@@ -40,7 +40,7 @@ const emits = defineEmits<{
   right: 0;
   top: 0;
   bottom: 0;
-  z-index: 20;
+  z-index: 900;
 
   .history-window {
     margin-left: 20px;
