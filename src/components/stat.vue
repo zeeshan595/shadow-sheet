@@ -39,14 +39,14 @@ function rollTwiceWithModifier(e: MouseEvent) {
 </script>
 
 <template>
-  <div class="align-center flex-shrink flex-basis-0 gap10">
+  <div class="align-center flex-basis-0 gap10">
     <span v-if="props.label" class="uppercase font-small bold">{{
       props.label
     }}</span>
     <span v-if="props.subLabel" class="uppercase font-small bold primary-main">
       {{ props.subLabel }}
     </span>
-    <div class="flex-row flex-shrink flex-basis-0">
+    <div class="flex-row flex-basis-0">
       <button
         @click="decreaseValue"
         class="left bg-paper shadow text-primary pointer"
