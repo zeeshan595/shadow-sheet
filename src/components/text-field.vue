@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  label: string;
+  label?: string;
   subLabel?: string;
   modelValue: string;
   small?: boolean;
@@ -9,7 +9,6 @@ const props = defineProps<{
   spaceBetween?: boolean;
   mobileView?: boolean;
   readonly?: boolean;
-  clickable?: boolean;
 }>();
 const emits = defineEmits<{
   (e: "update:modelValue", value: string): void;
@@ -40,12 +39,12 @@ function leftClick(e: MouseEvent) {
       small: props.small,
       stat: props.stat,
       'justify-space-between': props.spaceBetween,
-      pointer: props.clickable,
     }"
     @contextmenu="contextMenu"
     @click="leftClick"
   >
     <div
+      v-if="props.label"
       class="justify-start align-start flex-shrink flex-basis-0"
       @click="() => emits('label-click')"
     >

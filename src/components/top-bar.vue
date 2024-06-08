@@ -109,12 +109,14 @@ function onHistoryClick() {
   position: sticky;
   top: 0;
   padding: 20px;
+  z-index: 100;
 }
 .dice-modal-container {
   display: block;
   position: fixed;
   top: 100px;
   right: 260px;
+  z-index: 200;
 
   .modal {
     display: flex;

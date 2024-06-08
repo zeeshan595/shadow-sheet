@@ -13,7 +13,6 @@ import TopBar from "@/components/top-bar.vue";
 import TextField from "@/components/text-field.vue";
 import Button from "@/components/button.vue";
 import Toggle from "@/components/toggle.vue";
-import { stringToNum } from "@/service/helpers";
 
 const route = useRoute();
 const character = computed<Character>({
@@ -46,34 +45,6 @@ watch(
 );
 function onBackClick() {
   router.push("/");
-}
-function currentHealthClick() {
-  character.value.currentHealth = `${
-    stringToNum(character.value.currentHealth) + 1
-  }`;
-}
-function currentHealthRightClick() {
-  character.value.currentHealth = `${
-    stringToNum(character.value.currentHealth) - 1
-  }`;
-}
-function healthClick() {
-  character.value.health = `${stringToNum(character.value.health) + 1}`;
-}
-function healthRightClick() {
-  character.value.health = `${stringToNum(character.value.health) - 1}`;
-}
-function armorClick() {
-  character.value.armor = `${stringToNum(character.value.armor) + 1}`;
-}
-function armorRightClick() {
-  character.value.armor = `${stringToNum(character.value.armor) - 1}`;
-}
-function luckClick() {
-  character.value.luck = `${stringToNum(character.value.luck) + 1}`;
-}
-function luckRightClick() {
-  character.value.luck = `${stringToNum(character.value.luck) - 1}`;
 }
 </script>
 
@@ -112,15 +83,24 @@ function luckRightClick() {
       class="flex-row gap10 flex-shrink flex-basis-0"
       :class="{
         'flex-wrap': isMobileView,
-        'justify-space-between': !isMobileView,
       }"
     >
-      <Stat label="strength" v-model="character.strength" />
-      <Stat label="dexterity" v-model="character.dexterity" />
-      <Stat label="constitution" v-model="character.constitution" />
-      <Stat label="intelligence" v-model="character.intelligence" />
-      <Stat label="wisdom" v-model="character.wisdom" />
-      <Stat label="charisma" v-model="character.charisma" />
+      <Stat small modifier label="strength" v-model="character.strength" />
+      <Stat small modifier label="dexterity" v-model="character.dexterity" />
+      <Stat
+        small
+        modifier
+        label="constitution"
+        v-model="character.constitution"
+      />
+      <Stat
+        small
+        modifier
+        label="intelligence"
+        v-model="character.intelligence"
+      />
+      <Stat small modifier label="wisdom" v-model="character.wisdom" />
+      <Stat small modifier label="charisma" v-model="character.charisma" />
     </div>
     <Seperator />
     <div class="flex-row gap10" :class="{ 'flex-col': isMobileView }">
@@ -131,43 +111,15 @@ function luckRightClick() {
           'flex-wrap': isMobileView,
         }"
       >
-        <TextField
+        <Stat clickable label="health" v-model="character.currentHealth" />
+        <Stat clickable label="max health" v-model="character.health" />
+        <Stat
           stat
-          readonly
-          clickable
-          label="health"
-          v-model="character.currentHealth"
-          @click="currentHealthClick"
-          @right-click="currentHealthRightClick"
-        />
-        <TextField
-          stat
-          readonly
-          clickable
-          label="max health"
-          v-model="character.health"
-          @click="healthClick"
-          @right-click="healthRightClick"
-        />
-        <TextField
-          stat
-          readonly
-          clickable
           label="armor"
           sub-label="10 + DEX"
           v-model="character.armor"
-          @click="armorClick"
-          @right-click="armorRightClick"
         />
-        <TextField
-          stat
-          readonly
-          clickable
-          label="luck"
-          v-model="character.luck"
-          @click="luckClick"
-          @right-click="luckRightClick"
-        />
+        <Stat clickable label="luck" v-model="character.luck" />
       </div>
       <div class="gap10">
         <TextField
