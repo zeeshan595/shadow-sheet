@@ -1,12 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
-//import { history } from "@/service/diceBox";
-
-const history = ref<string[]>([]);
-for (let i = 0; i < 1000; i++) {
-  history.value.push(i.toString());
-}
+import { history } from "@/service/diceBox";
 
 const props = defineProps<{
   visible: boolean;
