@@ -47,7 +47,10 @@ function rollTwiceWithModifier(e: MouseEvent) {
       {{ props.subLabel }}
     </span>
     <div class="flex-row flex-shrink flex-basis-0">
-      <button @click="decreaseValue" class="left bg-paper shadow text-primary">
+      <button
+        @click="decreaseValue"
+        class="left bg-paper shadow text-primary pointer"
+      >
         <div class="absolute">
           <span class="icon relative material-symbols-outlined">
             chevron_left
@@ -61,7 +64,10 @@ function rollTwiceWithModifier(e: MouseEvent) {
         :modelValue="props.modelValue"
         @update:modelValue="(v) => emits('update:modelValue', v)"
       />
-      <button @click="increaseValue" class="right bg-paper shadow text-primary">
+      <button
+        @click="increaseValue"
+        class="right bg-paper shadow text-primary pointer"
+      >
         <div class="absolute">
           <span class="icon relative material-symbols-outlined">
             chevron_right
