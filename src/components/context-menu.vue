@@ -65,7 +65,7 @@ watch(isShowing, (newVal: boolean) => {
   display: block;
   position: fixed;
   border-radius: 7px;
-  z-index: 100;
+  z-index: 150;
 
   div {
     padding: 10px 20px;
