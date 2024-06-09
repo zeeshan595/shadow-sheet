@@ -2,7 +2,7 @@
 title: Shadow Sheet
 description: A feature rich character sheet for shadowdark
 author: Zeeshan Abid
-image: https://character-sheet.online/assets/images/header.jpg
+image: https://character-sheet.online/assets/images/menu.jpg
 icon: https://character-sheet.online/icon.png
 tags:
   - Dice
@@ -15,10 +15,11 @@ learn-more: https://github.com/zeeshan595/shadow-sheet
 
 # Shadow Sheet
 
-A feature rich character sheet for shadowdark *Unofficial*
+A feature rich character sheet for shadowdark _Unofficial_
 
 **Features**
 
+- Sync your characters with your GM
 - Can roll any dice in the character sheet
 - Change dice theme
 - Can roll dice using your modifiers
@@ -31,10 +32,13 @@ A feature rich character sheet for shadowdark *Unofficial*
 
 **Screenshots**
 
-![character menu](https://character-sheet.online/assets/images/menu.jpg)
-![character sync](https://character-sheet.online/assets/images/sync.jpg)
-![rolling dice](https://character-sheet.online/assets/images/dice.jpg)
+![character](https://character-sheet.online/assets/images/character.jpg)
+![dice-rolling](https://character-sheet.online/assets/images/dice-rolling.jpg)
 ![notification](https://character-sheet.online/assets/images/notification.jpg)
+![options](https://character-sheet.online/assets/images/options.jpg)
+![roll-history](https://character-sheet.online/assets/images/dice-rolling.jpg)
+![roll-menu](https://character-sheet.online/assets/images/roll-menu.jpg)
+![sync](https://character-sheet.online/assets/images/sync.jpg)
 
 **Support**
 
@@ -43,6 +47,5 @@ You can donate to me by going here <https://github.com/sponsors/zeeshan595/>
 If you want to report a bug / request a feature go here <https://github.com/zeeshan595/shadow-sheet/issues>
 
 If you need support for this extension you can email <owlbear.character.sheet@gmail.com>
-
 
 Shadow Sheet is an independent product published under the Shadowdark RPG Third-Party License and is not affiliated with The Arcane Library, LLC. Shadowdark RPG © 2023 The Arcane Library, LLC
