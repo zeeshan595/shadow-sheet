@@ -2,14 +2,14 @@
 title: Shadow Sheet
 description: A feature rich character sheet for shadowdark
 author: Zeeshan Abid
-image: https://character-sheet.online/assets/images/menu.jpg
-icon: https://character-sheet.online/icon.png
+image: https://shadow-sheet.online/assets/images/menu.jpg
+icon: https://shadow-sheet.online/icon.png
 tags:
   - Dice
   - Tool
   - Automation
   - Combat
-manifest: https://character-sheet.online/manifest.json
+manifest: https://shadow-sheet.online/manifest.json
 learn-more: https://github.com/zeeshan595/shadow-sheet
 ---
 
@@ -32,13 +32,13 @@ A feature rich character sheet for shadowdark _Unofficial_
 
 **Screenshots**
 
-![character](https://character-sheet.online/assets/images/character.jpg)
-![dice-rolling](https://character-sheet.online/assets/images/dice-rolling.jpg)
-![notification](https://character-sheet.online/assets/images/notification.jpg)
-![options](https://character-sheet.online/assets/images/options.jpg)
-![roll-history](https://character-sheet.online/assets/images/dice-rolling.jpg)
-![roll-menu](https://character-sheet.online/assets/images/roll-menu.jpg)
-![sync](https://character-sheet.online/assets/images/sync.jpg)
+![character](https://shadow-sheet.online/assets/images/character.jpg)
+![dice-rolling](https://shadow-sheet.online/assets/images/dice-rolling.jpg)
+![notification](https://shadow-sheet.online/assets/images/notification.jpg)
+![options](https://shadow-sheet.online/assets/images/options.jpg)
+![roll-history](https://shadow-sheet.online/assets/images/dice-rolling.jpg)
+![roll-menu](https://shadow-sheet.online/assets/images/roll-menu.jpg)
+![sync](https://shadow-sheet.online/assets/images/sync.jpg)
 
 **Support**
 
