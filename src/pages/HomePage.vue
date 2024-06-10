@@ -91,7 +91,7 @@ function onMenuOptionsClick() {
       :class="{ 'flex-col': isMobileView }"
     >
       <span
-        class="options material-symbols-outlined"
+        class="options material-symbols-outlined pointer"
         @click="onMenuOptionsClick"
       >
         more_horiz

@@ -126,6 +126,82 @@ export function isCharacterValid(character: Character): boolean {
   return true;
 }
 
+function convertShadowDarklingCharacter(data: any): Character {
+  // convert spells and attacks
+  let attacks = '';
+  for (const item of [...data['gear'], ...data['magicItems']]) {
+    if (item['magicItemType'] && item['magicItemType'] === 'magicWeapon') {
+      attacks += `${item['name']}, `
+    }
+    if (item['type'] && item['type'] === 'weapon') {
+      attacks += `${item['name']}, `
+    }
+  }
+  if (data['spellsKnown'] && data['spellsKnown'] !== 'None') {
+    attacks += `\n\nSpells: ${data['spellsKnown']}`;
+  }
+
+  // convert skills
+  let skills = ''
+  for (let i = 0; i < data['bonuses'].length; i++) {
+    const bonus = data['bonuses'][i];
+    if (bonus.bonusAmount) {
+      skills += `${bonus.bonusName}\n`
+    }
+  }
+
+  // convert gear
+  const gear: string[] = [];
+  const totalItems = [...data['gear'], ...data['treasures'], ...data['magicItems']];
+  for (const item of totalItems) {
+    let amount = '';
+    if (item['totalUnits'] && item['totalUnits'] > 1) {
+      amount = ` (${item['totalUnits']})`;
+    }
+    gear.push(`${item['name']}${amount}`)
+    for (let i = 1; i < item.slots; i++) {
+      gear.push('^^^')
+    }
+  }
+  if (gear.length < 20) {
+    gear.push(...new Array(20 - gear.length).fill(''));
+  }
+  const character: Character = {
+    uuid: UUID.v4(),
+    playerName: owlbearPlayerName.value,
+    characterName: data['name'],
+    level: `${data['level']}`,
+    ancestry: data['ancestry'],
+    background: data['background'],
+    characterClass: data['class'],
+
+    // stats
+    strength: `${data['stats']['STR']}`,
+    dexterity: `${data['stats']['DEX']}`,
+    constitution: `${data['stats']['CON']}`,
+    intelligence: `${data['stats']['INT']}`,
+    wisdom: `${data['stats']['WIS']}`,
+    charisma: `${data['stats']['CHA']}`,
+
+    currentHealth: `${data['maxHitPoints']}`,
+    health: `${data['maxHitPoints']}`,
+    armor: `${data['armorClass']}`,
+    luck: '0',
+    gold: `${data['gold']}gp, ${data['silver']}sp, ${data['copper']}cp`,
+    notes: `title: ${data['title']},
+deity: ${data['deity']},
+alignment: ${data['alignment']},
+languges: ${data['languages']},
+XP: ${data['XP']}
+`,
+    sync: false,
+    attacks,
+    skills,
+    gear,
+  };
+  return character;
+}
+
 export async function uploadCharacter(): Promise<Character | null> {
   const input = document.createElement("input");
   input.setAttribute("type", "file");
@@ -143,7 +219,12 @@ export async function uploadCharacter(): Promise<Character | null> {
         const data = event.target.result as string;
         if (!data) return resolve(null);
         document.body.removeChild(input);
-        resolve(JSON.parse(data) as Character);
+        const rawData = JSON.parse(data);
+        if ('activeSources' in rawData) {
+          resolve(convertShadowDarklingCharacter(rawData));
+        } else {
+          resolve(rawData as Character);
+        }
       });
       reader.readAsText(file);
     };
