@@ -7,8 +7,8 @@ import type { Character } from "../types/character";
 export const owlbearPlayerName = ref<string>("You");
 export const owlbearRole = ref<"GM" | "PLAYER">("GM");
 
-const OWLBEAR_SYNC_CHANNEL_ID = "owlbear.character-sheet.sync";
-const OWLBEAR_NOTIFY_CHANNEL_ID = "owlbear.character-sheet.notify";
+const OWLBEAR_SYNC_CHANNEL_ID = "owlbear.shadow-sheet.sync";
+const OWLBEAR_NOTIFY_CHANNEL_ID = "owlbear.shadow-sheet.notify";
 
 function pushMessageToHistory(message: string) {
   history.value = [message, ...history.value];
