@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const props = defineProps<{
   type: "d4" | "d6" | "d8" | "d10" | "d12" | "d20" | "d100";
 }>();
@@ -9,7 +8,10 @@ const emits = defineEmits<{
 </script>
 
 <template>
-  <div class="flex-row flex-shrink flex-basis-0" @click="() => emits('click')">
+  <div
+    class="flex-row flex-shrink flex-basis-0 tooltip"
+    @click="() => emits('click')"
+  >
     <img
       v-if="props.type === 'd4'"
       src="@/assets/dice/d4.png"
@@ -52,6 +54,7 @@ const emits = defineEmits<{
       alt="d100"
       class="dice-image"
     />
+    <span class="tooltiptext">{{ type }}</span>
   </div>
 </template>
 

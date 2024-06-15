@@ -89,9 +89,15 @@ function onHistoryClick() {
           'justify-center': isMobileView,
         }"
       >
-        <span class="material-symbols-outlined pointer" @click="onHistoryClick">
-          history
-        </span>
+        <div class="tooltip flex-shrink flex-basis-0">
+          <span
+            class="material-symbols-outlined pointer"
+            @click="onHistoryClick"
+          >
+            history
+          </span>
+          <span class="tooltiptext">History</span>
+        </div>
         <Dice type="d4" @click="() => addDiceRoll('d4')" />
         <Dice type="d6" @click="() => addDiceRoll('d6')" />
         <Dice type="d8" @click="() => addDiceRoll('d8')" />
