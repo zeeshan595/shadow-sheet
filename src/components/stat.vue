@@ -52,9 +52,7 @@ function rollTwiceWithModifier(e: MouseEvent) {
         class="left bg-paper shadow text-primary pointer"
       >
         <div class="absolute">
-          <span class="icon relative material-symbols-outlined">
-            chevron_left
-          </span>
+          <span class="icon relative material-symbols-outlined"> remove </span>
         </div>
       </button>
       <TextField
@@ -69,20 +67,21 @@ function rollTwiceWithModifier(e: MouseEvent) {
         class="right bg-paper shadow text-primary pointer"
       >
         <div class="absolute">
-          <span class="icon relative material-symbols-outlined">
-            chevron_right
-          </span>
+          <span class="icon relative material-symbols-outlined"> add </span>
         </div>
       </button>
     </div>
-    <span
-      v-if="props.modifier"
-      class="stat-modifier pointer"
-      @click="rollWithModifier"
-      @contextmenu="rollTwiceWithModifier"
-    >
-      {{ modifier }}
-    </span>
+    <div class="tooltip">
+      <span
+        v-if="props.modifier"
+        class="stat-modifier pointer"
+        @click="rollWithModifier"
+        @contextmenu="rollTwiceWithModifier"
+      >
+        {{ modifier }}
+      </span>
+      <span class="tooltiptext">Roll for {{ props.label }}</span>
+    </div>
   </div>
 </template>
 
