@@ -5,10 +5,10 @@ author: Zeeshan Abid
 image: https://shadow-sheet.online/assets/images/menu.jpg
 icon: https://shadow-sheet.online/icon.png
 tags:
-  - Dice
-  - Tool
-  - Automation
-  - Combat
+  - dice
+  - tool
+  - automation
+  - combat
 manifest: https://shadow-sheet.online/manifest.json
 learn-more: https://github.com/zeeshan595/shadow-sheet
 ---
