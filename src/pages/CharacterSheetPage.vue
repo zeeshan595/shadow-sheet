@@ -37,10 +37,8 @@ const character = computed<Character>({
     characters.value = temp;
   },
 });
-const damageDice = ref<string>("2d6");
-const damageModifier = ref<string>("1");
-const attackDice = ref<string>("1d20");
-const attackModifier = ref<string>("3");
+const attackDice = ref<string>("1d20+1d4+3");
+const damageDice = ref<string>("2d6+1");
 watch(
   character,
   (character) => {
@@ -52,26 +50,30 @@ watch(
 function onBackClick() {
   router.push("/");
 }
-function handleParsedDiceRoll(dice: string, modifier?: number) {
-  const diceTrimmed = dice.trim();
-  if (!/^([0-9]{1,2}d(4|6|8|10|12|20|100)\+?)+$/.test(diceTrimmed)) {
+function handleParsedDiceRoll(dice: string) {
+  let diceTrimmed = dice.trim();
+  const regex = /^([0-9]{1,2}d(4|6|8|10|12|20|100)\+?)+((\+|\-){1}[0-9]+)?$/;
+  const matches = regex.exec(diceTrimmed);
+  if (!matches) {
     return alert("Invalid dice type");
   }
-  const diceSplit = diceTrimmed.split('+').filter(d => d.length > 0);
+  let modifier: number | undefined = undefined;
+  if (matches[3]) {
+    modifier = stringToNum(matches[3]);
+    diceTrimmed = diceTrimmed.slice(0, diceTrimmed.length - matches[3].length);
+  }
+  console.log(diceTrimmed);
+  let diceSplit = diceTrimmed.split("+").filter((d) => d.length > 0);
   rollDice({
     dice: diceSplit,
     modifier,
   });
 }
 function rollDamageDice() {
-  const dice = damageDice.value;
-  const modifier = stringToNum(damageModifier.value);
-  handleParsedDiceRoll(dice, modifier === 0 ? undefined : modifier);
+  handleParsedDiceRoll(damageDice.value);
 }
 function rollAttackDice() {
-  const dice = attackDice.value;
-  const modifier = stringToNum(attackModifier.value);
-  handleParsedDiceRoll(dice, modifier === 0 ? undefined : modifier);
+  handleParsedDiceRoll(attackDice.value);
 }
 </script>
 
@@ -135,26 +137,16 @@ function rollAttackDice() {
     >
       <TextField
         :mobile-view="isMobileView"
-        label="atk Dice"
+        label="attack roll"
         v-model="attackDice"
-      />
-      <TextField
-        :mobile-view="isMobileView"
-        label="atk Modifiers"
-        v-model="attackModifier"
       />
       <Button @click="rollAttackDice" class="shadow">
         <span class="material-symbols-outlined"> ifl </span>
       </Button>
       <TextField
         :mobile-view="isMobileView"
-        label="dmg Dice"
+        label="damage roll"
         v-model="damageDice"
-      />
-      <TextField
-        :mobile-view="isMobileView"
-        label="dmg Modifiers"
-        v-model="damageModifier"
       />
       <Button @click="rollDamageDice" class="shadow">
         <span class="material-symbols-outlined"> ifl </span>
