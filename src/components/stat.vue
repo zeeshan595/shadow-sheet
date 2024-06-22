@@ -39,7 +39,7 @@ function rollTwiceWithModifier(e: MouseEvent) {
 </script>
 
 <template>
-  <div class="align-center flex-basis-0 gap10">
+  <div class="align-center flex-basis-0">
     <span v-if="props.label" class="uppercase font-small bold">{{
       props.label
     }}</span>

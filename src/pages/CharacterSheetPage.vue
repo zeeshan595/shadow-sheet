@@ -67,7 +67,7 @@ function onBackClick() {
       <Toggle v-model="character.sync" />
     </div>
   </TopBar>
-  <div class="gap10 page-padding">
+  <div class="gap10 page-padding gap10">
     <div class="flex-row gap10" :class="{ 'flex-col': isMobileView }">
       <TextField label="player name" v-model="character.playerName" />
       <TextField label="character name" v-model="character.characterName" />
@@ -111,7 +111,7 @@ function onBackClick() {
       style="margin-bottom: 10px"
     >
       <div
-        class="flex-shrink flex-basis-0"
+        class="flex-shrink flex-basis-0 gap20"
         :class="{
           'flex-row': isMobileView,
           'flex-wrap': isMobileView,
@@ -137,20 +137,16 @@ function onBackClick() {
         />
       </div>
     </div>
-    <Seperator />
     <div
-      class="flex-row gap10 justify-start"
+      class="flex-row gap10 justify-start gap20"
       :class="{ 'flex-col': isMobileView }"
     >
-      <div>
-        <TextField
-          large
-          :mobile-view="isMobileView"
-          label="notes"
-          v-model="character.notes"
-        />
-      </div>
-      <VertialSeperator />
+      <TextField
+        large
+        :mobile-view="isMobileView"
+        label="notes"
+        v-model="character.notes"
+      />
       <div
         class="gap10 justify-start"
         :style="!isMobileView ? 'min-height: 400px; max-width: 250px' : ''"
