@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { router } from "@/router";
 import { characters, saveCharacter } from "@/service/character";
 import { useRoute } from "vue-router";
@@ -37,8 +37,6 @@ const character = computed<Character>({
     characters.value = temp;
   },
 });
-const attackDice = ref<string>("1d20+1d4+3");
-const damageDice = ref<string>("2d6+1");
 watch(
   character,
   (character) => {
@@ -55,7 +53,7 @@ function handleParsedDiceRoll(dice: string) {
   const regex = /^([0-9]{1,2}d(4|6|8|10|12|20|100)\+?)+((\+|\-){1}[0-9]+)?$/;
   const matches = regex.exec(diceTrimmed);
   if (!matches) {
-    return alert("Invalid dice type");
+    return alert("Invalid roll entry, please use this notation '1d20'");
   }
   let modifier: number | undefined = undefined;
   if (matches[3]) {
@@ -70,10 +68,10 @@ function handleParsedDiceRoll(dice: string) {
   });
 }
 function rollDamageDice() {
-  handleParsedDiceRoll(damageDice.value);
+  handleParsedDiceRoll(character.value.damageRoll!);
 }
 function rollAttackDice() {
-  handleParsedDiceRoll(attackDice.value);
+  handleParsedDiceRoll(character.value.attackRoll!);
 }
 </script>
 
@@ -138,7 +136,7 @@ function rollAttackDice() {
       <TextField
         :mobile-view="isMobileView"
         label="attack roll"
-        v-model="attackDice"
+        v-model="character.attackRoll"
       />
       <Button @click="rollAttackDice" class="shadow">
         <span class="material-symbols-outlined"> ifl </span>
@@ -146,7 +144,7 @@ function rollAttackDice() {
       <TextField
         :mobile-view="isMobileView"
         label="damage roll"
-        v-model="damageDice"
+        v-model="character.damageRoll"
       />
       <Button @click="rollDamageDice" class="shadow">
         <span class="material-symbols-outlined"> ifl </span>

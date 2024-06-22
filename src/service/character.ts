@@ -46,7 +46,17 @@ export async function loadCharacters(): Promise<Character[]> {
   transaction.commit();
   return new Promise((resolve) => {
     req.onsuccess = () => {
-      resolve(req.result as Character[]);
+      const character = req.result as Character[];
+      const mappedCharacters = character.map(character => {
+        if (character.attackRoll) {
+          character.attackRoll = "1d20+1d4+3";
+        }
+        if (character.damageRoll) {
+          character.damageRoll = "2d6+1";
+        }
+        return character;
+      });
+      resolve(mappedCharacters);
     };
   });
 }
@@ -110,6 +120,8 @@ export function isCharacterValid(character: Character): boolean {
     gear: "object", // array is a type of 'object'
     notes: "string",
     gold: "string",
+    attackRoll: "string",
+    damageRoll: "string"
   };
   for (const field of Object.keys(fieldsToVerify) as Array<keyof Character>) {
     if (typeof character[field] !== fieldsToVerify[field]) {
@@ -198,6 +210,8 @@ XP: ${data['XP']}
     attacks,
     skills,
     gear,
+    attackRoll: "1d20+1d4+3",
+    damageRoll: "2d6+1"
   };
   return character;
 }
@@ -301,5 +315,7 @@ export function createNewCharacter(): Character {
     gold: `${newCharacterGold()}`,
     notes: "",
     skills: "",
+    attackRoll: "1d20+1d4+3",
+    damageRoll: "2d6+1"
   };
 }
