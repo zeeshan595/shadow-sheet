@@ -15,6 +15,7 @@ import Button from "@/components/button.vue";
 import Toggle from "@/components/toggle.vue";
 import { stringToNum } from "@/service/helpers";
 import { rollDice } from "@/service/diceBox";
+import VertialSeperator from "@/components/vertial-seperator.vue";
 
 const route = useRoute();
 const character = computed<Character>({
@@ -47,31 +48,6 @@ watch(
 );
 function onBackClick() {
   router.push("/");
-}
-function handleParsedDiceRoll(dice: string) {
-  let diceTrimmed = dice.trim();
-  const regex = /^([0-9]{1,2}d(4|6|8|10|12|20|100)\+?)+((\+|\-){1}[0-9]+)?$/;
-  const matches = regex.exec(diceTrimmed);
-  if (!matches) {
-    return alert("Invalid roll entry, please use this notation '1d20'");
-  }
-  let modifier: number | undefined = undefined;
-  if (matches[3]) {
-    modifier = stringToNum(matches[3]);
-    diceTrimmed = diceTrimmed.slice(0, diceTrimmed.length - matches[3].length);
-  }
-  console.log(diceTrimmed);
-  let diceSplit = diceTrimmed.split("+").filter((d) => d.length > 0);
-  rollDice({
-    dice: diceSplit,
-    modifier,
-  });
-}
-function rollDamageDice() {
-  handleParsedDiceRoll(character.value.damageRoll!);
-}
-function rollAttackDice() {
-  handleParsedDiceRoll(character.value.attackRoll!);
 }
 </script>
 
@@ -130,46 +106,20 @@ function rollAttackDice() {
       <Stat small modifier label="charisma" v-model="character.charisma" />
     </div>
     <div
-      class="flex-row flex-shrink flex-basis-0 gap10"
-      :class="{ 'flex-wrap': isMobileView }"
+      class="flex-row gap10"
+      :class="{ 'flex-col': isMobileView }"
+      style="margin-bottom: 10px"
     >
-      <TextField
-        :mobile-view="isMobileView"
-        label="attack roll"
-        v-model="character.attackRoll"
-      />
-      <Button @click="rollAttackDice" class="shadow">
-        <span class="material-symbols-outlined"> ifl </span>
-      </Button>
-      <TextField
-        :mobile-view="isMobileView"
-        label="damage roll"
-        v-model="character.damageRoll"
-      />
-      <Button @click="rollDamageDice" class="shadow">
-        <span class="material-symbols-outlined"> ifl </span>
-      </Button>
-    </div>
-    <Seperator />
-    <div class="flex-row gap10" :class="{ 'flex-col': isMobileView }">
       <div
-        class="flex-shrink flex-basis-0 gap10"
+        class="flex-shrink flex-basis-0"
         :class="{
           'flex-row': isMobileView,
           'flex-wrap': isMobileView,
         }"
       >
         <Stat clickable label="health" v-model="character.currentHealth" />
-        <Seperator />
         <Stat clickable label="max health" v-model="character.health" />
-        <Seperator />
-        <Stat
-          stat
-          label="armor"
-          sub-label="10 + DEX"
-          v-model="character.armor"
-        />
-        <Seperator />
+        <Stat stat label="armor" v-model="character.armor" />
         <Stat clickable label="luck" v-model="character.luck" />
       </div>
       <div class="gap10">
@@ -187,16 +137,20 @@ function rollAttackDice() {
         />
       </div>
     </div>
+    <Seperator />
     <div
       class="flex-row gap10 justify-start"
       :class="{ 'flex-col': isMobileView }"
     >
-      <TextField
-        large
-        :mobile-view="isMobileView"
-        label="notes"
-        v-model="character.notes"
-      />
+      <div>
+        <TextField
+          large
+          :mobile-view="isMobileView"
+          label="notes"
+          v-model="character.notes"
+        />
+      </div>
+      <VertialSeperator />
       <div
         class="gap10 justify-start"
         :style="!isMobileView ? 'min-height: 400px; max-width: 250px' : ''"

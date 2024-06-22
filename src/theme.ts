@@ -59,7 +59,7 @@ const DEFAULT_THEMES = {
 
 export const theme = ref<Theme & ShadowType>(DEFAULT_THEMES.DARK);
 document.body.style.background = theme.value.background.default;
-document.body.style.color = theme.value.text.primary;
+document.body.style.color = theme.value.text.secondary;
 
 function setTheme(t: Theme) {
   if (!t) return;
@@ -68,7 +68,7 @@ function setTheme(t: Theme) {
     shadow: defaultShadow,
   };
   document.body.style.background = t.background.default;
-  document.body.style.color = t.text.primary;
+  document.body.style.color = t.text.secondary;
 }
 if (OBR) {
   OBR.onReady(() => {

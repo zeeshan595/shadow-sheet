@@ -30,7 +30,4 @@ export type Character = {
   gear: string[];
   notes: string;
   gold: string;
-
-  attackRoll: string;
-  damageRoll: string;
 };

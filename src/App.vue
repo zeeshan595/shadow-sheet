@@ -19,7 +19,7 @@ onMounted(() => {
 const styleVariables = computed(() => ({
   "--bg-default": theme.value.background.default,
   "--bg-paper": theme.value.background.paper,
-  "--text-parimart": theme.value.text.primary,
+  "--text-primary": theme.value.text.secondary,
   "--shadow": theme.value.shadow,
   "--primary-main": theme.value.primary.main,
 }));
