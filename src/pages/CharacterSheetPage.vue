@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { router } from "@/router";
 import { characters, saveCharacter } from "@/service/character";
 import { useRoute } from "vue-router";
@@ -14,6 +14,7 @@ import TextField from "@/components/text-field.vue";
 import Button from "@/components/button.vue";
 import Toggle from "@/components/toggle.vue";
 import { stringToNum } from "@/service/helpers";
+import { rollDice } from "@/service/diceBox";
 
 const route = useRoute();
 const character = computed<Character>({
@@ -36,6 +37,8 @@ const character = computed<Character>({
     characters.value = temp;
   },
 });
+const attackDice = ref<string>("2d6");
+const attackModifier = ref<string>("2");
 watch(
   character,
   (character) => {
@@ -46,6 +49,15 @@ watch(
 );
 function onBackClick() {
   router.push("/");
+}
+function rollAttackDice() {
+  const dice = attackDice.value;
+  const modifier = stringToNum(attackModifier.value);
+
+  rollDice({
+    dice,
+    modifier: modifier === 0 ? undefined : modifier,
+  });
 }
 </script>
 
@@ -113,13 +125,16 @@ function onBackClick() {
         }"
       >
         <Stat clickable label="health" v-model="character.currentHealth" />
+        <Seperator />
         <Stat clickable label="max health" v-model="character.health" />
+        <Seperator />
         <Stat
           stat
           label="armor"
           sub-label="10 + DEX"
           v-model="character.armor"
         />
+        <Seperator />
         <Stat clickable label="luck" v-model="character.luck" />
       </div>
       <div class="gap10">
@@ -129,6 +144,19 @@ function onBackClick() {
           label="skills & talents"
           v-model="character.skills"
         />
+        <div class="flex-row flex-shrink flex-basis-0 gap10">
+          <TextField
+            :mobile-view="isMobileView"
+            label="Attack Dice"
+            v-model="attackDice"
+          />
+          <TextField
+            :mobile-view="isMobileView"
+            label="Attack Modifiers"
+            v-model="attackModifier"
+          />
+          <Button @click="rollAttackDice" class="shadow">Roll</Button>
+        </div>
         <TextField
           large
           :mobile-view="isMobileView"
@@ -159,7 +187,10 @@ function onBackClick() {
           />
         </div>
         <div class="flex-shrink flex-basis-0">
-          <Gear v-model="character.gear" :strength="stringToNum(character.strength)" />
+          <Gear
+            v-model="character.gear"
+            :strength="stringToNum(character.strength)"
+          />
         </div>
       </div>
     </div>
