@@ -53,11 +53,13 @@ function onBackClick() {
   router.push("/");
 }
 function handleParsedDiceRoll(dice: string, modifier?: number) {
-  if (!/^[0-9]{1,2}d(4|6|8|10|12|20|100)$/.test(dice)) {
+  const diceTrimmed = dice.trim();
+  if (!/^([0-9]{1,2}d(4|6|8|10|12|20|100)\+?)+$/.test(diceTrimmed)) {
     return alert("Invalid dice type");
   }
+  const diceSplit = diceTrimmed.split('+').filter(d => d.length > 0);
   rollDice({
-    dice,
+    dice: diceSplit,
     modifier,
   });
 }
