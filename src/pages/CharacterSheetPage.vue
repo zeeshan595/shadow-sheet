@@ -37,8 +37,10 @@ const character = computed<Character>({
     characters.value = temp;
   },
 });
-const attackDice = ref<string>("2d6");
-const attackModifier = ref<string>("2");
+const damageDice = ref<string>("2d6");
+const damageModifier = ref<string>("2");
+const attackDice = ref<string>("1d20");
+const attackModifier = ref<string>("4");
 watch(
   character,
   (character) => {
@@ -49,6 +51,15 @@ watch(
 );
 function onBackClick() {
   router.push("/");
+}
+function rollDamageDice() {
+  const dice = damageDice.value;
+  const modifier = stringToNum(damageModifier.value);
+
+  rollDice({
+    dice,
+    modifier: modifier === 0 ? undefined : modifier,
+  });
 }
 function rollAttackDice() {
   const dice = attackDice.value;
@@ -115,6 +126,22 @@ function rollAttackDice() {
       <Stat small modifier label="wisdom" v-model="character.wisdom" />
       <Stat small modifier label="charisma" v-model="character.charisma" />
     </div>
+    <div
+      class="flex-row flex-shrink flex-basis-0 gap10"
+      :class="{ 'flex-wrap': isMobileView }"
+    >
+      <TextField
+        :mobile-view="isMobileView"
+        label="Attack Dice"
+        v-model="attackDice"
+      />
+      <TextField
+        :mobile-view="isMobileView"
+        label="Attack Modifiers"
+        v-model="attackModifier"
+      />
+      <Button @click="rollAttackDice" class="shadow">Roll</Button>
+    </div>
     <Seperator />
     <div class="flex-row gap10" :class="{ 'flex-col': isMobileView }">
       <div
@@ -144,18 +171,21 @@ function rollAttackDice() {
           label="skills & talents"
           v-model="character.skills"
         />
-        <div class="flex-row flex-shrink flex-basis-0 gap10">
+        <div
+          class="flex-row flex-shrink flex-basis-0 gap10"
+          :class="{ 'flex-wrap': isMobileView }"
+        >
           <TextField
             :mobile-view="isMobileView"
-            label="Attack Dice"
-            v-model="attackDice"
+            label="Damage Dice"
+            v-model="damageDice"
           />
           <TextField
             :mobile-view="isMobileView"
-            label="Attack Modifiers"
-            v-model="attackModifier"
+            label="Damage Modifiers"
+            v-model="damageModifier"
           />
-          <Button @click="rollAttackDice" class="shadow">Roll</Button>
+          <Button @click="rollDamageDice" class="shadow">Roll</Button>
         </div>
         <TextField
           large
