@@ -95,6 +95,6 @@ export async function rollDice(options: RollDiceOptions) {
       finalText = `Total ${total}, ADV. ${success}, DIS. ${fail}`;
     }
     // send notifications
-    sendNotification(`${playerText}${diceDetails} = ${finalText}`);
+    sendNotification(`${playerText}${diceDetails} = ${finalText}`, true);
   }
 }

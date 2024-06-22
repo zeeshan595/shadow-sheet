@@ -16,9 +16,11 @@ function pushMessageToHistory(message: string) {
     history.value = history.value.slice(0, 20);
   }
 }
-export function sendNotification(message: string) {
+export function sendNotification(message: string, pushToHistory?: boolean) {
   if (!OBR || !OBR.isAvailable) {
-    pushMessageToHistory(message);
+    if (pushToHistory) {
+      pushMessageToHistory(message);
+    }
     return alert(message);
   }
   OBR.broadcast.sendMessage(OWLBEAR_NOTIFY_CHANNEL_ID, message, {

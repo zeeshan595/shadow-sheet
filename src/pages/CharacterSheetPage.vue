@@ -52,23 +52,24 @@ watch(
 function onBackClick() {
   router.push("/");
 }
+function handleParsedDiceRoll(dice: string, modifier?: number) {
+  if (!/^[0-9]{1,2}d(4|6|8|10|12|20|100)$/.test(dice)) {
+    return alert("Invalid dice type");
+  }
+  rollDice({
+    dice,
+    modifier,
+  });
+}
 function rollDamageDice() {
   const dice = damageDice.value;
   const modifier = stringToNum(damageModifier.value);
-
-  rollDice({
-    dice,
-    modifier: modifier === 0 ? undefined : modifier,
-  });
+  handleParsedDiceRoll(dice, modifier === 0 ? undefined : modifier);
 }
 function rollAttackDice() {
   const dice = attackDice.value;
   const modifier = stringToNum(attackModifier.value);
-
-  rollDice({
-    dice,
-    modifier: modifier === 0 ? undefined : modifier,
-  });
+  handleParsedDiceRoll(dice, modifier === 0 ? undefined : modifier);
 }
 </script>
 
