@@ -38,9 +38,9 @@ const character = computed<Character>({
   },
 });
 const damageDice = ref<string>("2d6");
-const damageModifier = ref<string>("2");
+const damageModifier = ref<string>("1");
 const attackDice = ref<string>("1d20");
-const attackModifier = ref<string>("4");
+const attackModifier = ref<string>("3");
 watch(
   character,
   (character) => {
