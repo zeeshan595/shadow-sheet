@@ -73,7 +73,9 @@ const emits = defineEmits<{
           <span class="bold">AC</span> {{ character.armor }}
         </div>
         <div class="align-center justify-start">
-          <span class="bold">HP</span> {{ character.currentHealth }}
+          <span class="bold">HP</span>
+          {{ character.currentHealth }} /
+          {{ character.health }}
         </div>
       </div>
     </div>

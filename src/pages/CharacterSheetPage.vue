@@ -133,15 +133,30 @@ function rollAttackDice() {
     >
       <TextField
         :mobile-view="isMobileView"
-        label="Attack Dice"
+        label="atk Dice"
         v-model="attackDice"
       />
       <TextField
         :mobile-view="isMobileView"
-        label="Attack Modifiers"
+        label="atk Modifiers"
         v-model="attackModifier"
       />
-      <Button @click="rollAttackDice" class="shadow">Roll</Button>
+      <Button @click="rollAttackDice" class="shadow">
+        <span class="material-symbols-outlined"> ifl </span>
+      </Button>
+      <TextField
+        :mobile-view="isMobileView"
+        label="dmg Dice"
+        v-model="damageDice"
+      />
+      <TextField
+        :mobile-view="isMobileView"
+        label="dmg Modifiers"
+        v-model="damageModifier"
+      />
+      <Button @click="rollDamageDice" class="shadow">
+        <span class="material-symbols-outlined"> ifl </span>
+      </Button>
     </div>
     <Seperator />
     <div class="flex-row gap10" :class="{ 'flex-col': isMobileView }">
@@ -172,22 +187,6 @@ function rollAttackDice() {
           label="skills & talents"
           v-model="character.skills"
         />
-        <div
-          class="flex-row flex-shrink flex-basis-0 gap10"
-          :class="{ 'flex-wrap': isMobileView }"
-        >
-          <TextField
-            :mobile-view="isMobileView"
-            label="Damage Dice"
-            v-model="damageDice"
-          />
-          <TextField
-            :mobile-view="isMobileView"
-            label="Damage Modifiers"
-            v-model="damageModifier"
-          />
-          <Button @click="rollDamageDice" class="shadow">Roll</Button>
-        </div>
         <TextField
           large
           :mobile-view="isMobileView"
