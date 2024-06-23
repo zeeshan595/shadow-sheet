@@ -4,6 +4,11 @@ import { sendNotification, owlbearPlayerName } from "./owlbear";
 import { randomRange } from "./helpers";
 import { ref } from "vue";
 
+export const showDiceRoller = ref(false);
+export const rollModifiers = ref<string>("0");
+export const rollAdvantage = ref(0);
+export const diceToRoll = ref<string[]>([]);
+
 const THEME_KEY = "dicebox-theme";
 const audio = new Audio("/assets/dice-roll.mp3");
 audio.loop = false;
@@ -41,60 +46,93 @@ export function getDiceBoxTheme(): DiceBoxThemes {
   return theme as DiceBoxThemes;
 }
 
-let diceClearTimeout: number | null = null;
 export type RollDiceOptions = {
   dice: string | string[];
   modifier?: number;
-  hidden?: boolean;
+  advantage?: number;
 };
 export type DiceRollResult = {
   diceType: string;
   sides: number;
   value: number;
 };
-export async function rollDice(options: RollDiceOptions) {
+export async function rollDicePreview(dice: string[]) {
+  // play audio
   audio.play();
-  if (diceClearTimeout) clearTimeout(diceClearTimeout);
+
+  // roll dice
+  await diceBox.roll(dice);
+}
+export async function rollDice(options: RollDiceOptions) {
+  // play audio
+  audio.play();
+
+  // roll dice
   const results: DiceRollResult[] = await diceBox.roll(options.dice);
+
+  // roll extra dice for advantage
+  const isUsingAdvantage = options.advantage !== undefined && options.advantage !== 0;
+  let advantageResults: DiceRollResult[][] = [];
+  if (isUsingAdvantage) {
+    advantageResults.push(results);
+    for (let i = 0; i < Math.abs(options.advantage!); i++) {
+      audio.play();
+      advantageResults.push(await diceBox.roll(options.dice));
+    }
+  }
+
   let total = 0;
-  for (const result of results) {
-    total += result.value;
+  if (isUsingAdvantage) {
+    // get value with advantage or dis-advantage
+    const diceResult = advantageResults.map(
+      r => r.map(d => d.value).reduce((sum, a) => sum + a, 0)
+    );
+    if (options.advantage! > 0) {
+      total = Math.max(...diceResult);
+    } else {
+      total = Math.min(...diceResult);
+    }
+  } else {
+    // get total dice sum
+    const diceResult = results.map(d => d.value).reduce((sum, a) => sum + a, 0);
+    total = diceResult;
   }
-  diceClearTimeout = setTimeout(() => diceBox.clear(), 5000);
-  if (!options.hidden) {
-    // player text
-    let playerText = "Rolled ";
-    if (owlbearPlayerName.value) {
-      playerText = `${owlbearPlayerName.value} rolled `;
-    }
 
-    // details text
-    let diceDetails = results.map((r) => `${r.value}(d${r.sides})`).join(" + ");
-
-    if (options.modifier !== undefined) {
-      total += options.modifier;
-      if (options.modifier >= 0) {
-        diceDetails += ` + ${options.modifier}`;
-      } else {
-        diceDetails += ` - ${options.modifier * -1}`;
-      }
-    }
-
-    // advantage & dis-advantage
-    let finalText = `Total ${total}`;
-    if (
-      results.length > 1 &&
-      results.filter((d) => d.sides === 20).length === results.length
-    ) {
-      let success = Math.max(...results.map((r) => r.value));
-      let fail = Math.min(...results.map((r) => r.value));
-      if (options.modifier !== undefined) {
-        success += options.modifier;
-        fail += options.modifier;
-      }
-      finalText = `Total ${total}, ADV. ${success}, DIS. ${fail}`;
-    }
-    // send notifications
-    sendNotification(`${playerText}${diceDetails} = ${finalText}`, true);
+  // player text
+  let playerText = "Rolled ";
+  if (owlbearPlayerName.value) {
+    playerText = `${owlbearPlayerName.value} rolled `;
   }
+
+  // details text
+  let diceDetails = results.map((r) => `${r.value}(d${r.sides})`).join(" + ");
+  if (isUsingAdvantage) {
+    for (let i = 1; i < advantageResults.length; i++) {
+      const result = advantageResults[i];
+      diceDetails += ' || ';
+      diceDetails += result.map((r) => `${r.value}(d${r.sides})`).join(" + ");
+    }
+  }
+
+  if (options.modifier !== undefined && options.modifier !== 0) {
+    total += options.modifier;
+    if (options.modifier >= 0) {
+      diceDetails += ` + ${options.modifier}`;
+    } else {
+      diceDetails += ` - ${options.modifier * -1}`;
+    }
+  }
+
+  // advantage & dis-advantage
+  let finalText = `Total ${total}`;
+  if (isUsingAdvantage) {
+    if (options.advantage! > 0) {
+      finalText += ' with +ADV';
+    } else if (options.advantage! < 0) {
+      finalText += ' with -DIS';
+    }
+  }
+  // send notifications
+  sendNotification(`${playerText}${diceDetails} = ${finalText}`, true);
+  diceBox.clear();
 }

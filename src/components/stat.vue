@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import TextField from "./text-field.vue";
 import { statToModifier, stringToNum } from "@/service/helpers";
-import { rollDice } from "@/service/diceBox";
+import { diceToRoll, rollAdvantage, rollDice, rollModifiers, showDiceRoller } from "@/service/diceBox";
 
 const props = defineProps<{
   small?: boolean;
@@ -24,17 +24,10 @@ function decreaseValue() {
   emits("update:modelValue", `${stringToNum(props.modelValue) - 1}`);
 }
 function rollWithModifier() {
-  rollDice({
-    dice: "1d20",
-    modifier: stringToNum(modifier.value),
-  });
-}
-function rollTwiceWithModifier(e: MouseEvent) {
-  e.preventDefault();
-  rollDice({
-    dice: "2d20",
-    modifier: stringToNum(modifier.value),
-  });
+  diceToRoll.value = ["d20"];
+  rollModifiers.value = `${modifier.value}`;
+  rollAdvantage.value = 0;
+  showDiceRoller.value = true;
 }
 </script>
 
@@ -76,7 +69,6 @@ function rollTwiceWithModifier(e: MouseEvent) {
         v-if="props.modifier"
         class="stat-modifier pointer"
         @click="rollWithModifier"
-        @contextmenu="rollTwiceWithModifier"
       >
         {{ modifier }}
       </span>

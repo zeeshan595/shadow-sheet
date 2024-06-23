@@ -11,7 +11,11 @@ import {
   saveCharacter,
 } from "@/service/character";
 import type { Character } from "@/types/character";
-import { DiceBoxThemes, rollDice, setDiceBoxTheme } from "@/service/diceBox";
+import {
+  DiceBoxThemes,
+  rollDicePreview,
+  setDiceBoxTheme,
+} from "@/service/diceBox";
 import Button from "@/components/button.vue";
 import CharacterItem from "@/components/character-item.vue";
 import TopBar from "@/components/top-bar.vue";
@@ -37,10 +41,7 @@ function onDiceThemeClick() {
     items: Object.keys(DiceBoxThemes),
     click: (index: number) => {
       setDiceBoxTheme(Object.values(DiceBoxThemes)[index]).then(() => {
-        rollDice({
-          dice: ["1d4", "1d6", "1d8", "1d10", "1d12", "1d20"],
-          hidden: true,
-        });
+        rollDicePreview(["1d4", "1d6", "1d8", "1d10", "1d12", "1d20"]);
       });
     },
   };

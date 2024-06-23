@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, watch } from "vue";
 import { router } from "@/router";
 import { characters, saveCharacter } from "@/service/character";
 import { useRoute } from "vue-router";
 import { isMobileView } from "@/consts";
 import { owlbearRole, sendCharacterToGM } from "@/service/owlbear";
 import type { Character } from "@/types/character";
-import Seperator from "@/components/seperator.vue";
 import Gear from "@/components/gear.vue";
 import Stat from "@/components/stat.vue";
 import TopBar from "@/components/top-bar.vue";
@@ -14,8 +13,6 @@ import TextField from "@/components/text-field.vue";
 import Button from "@/components/button.vue";
 import Toggle from "@/components/toggle.vue";
 import { stringToNum } from "@/service/helpers";
-import { rollDice } from "@/service/diceBox";
-import VertialSeperator from "@/components/vertial-seperator.vue";
 
 const route = useRoute();
 const character = computed<Character>({

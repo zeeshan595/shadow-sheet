@@ -1,22 +1,21 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { rollDice } from "@/service/diceBox";
+import { computed, ref, watch } from "vue";
 import { isMobileView } from "@/consts";
+import {
+  diceToRoll,
+  rollAdvantage,
+  rollDice,
+  rollModifiers,
+  showDiceRoller,
+} from "@/service/diceBox";
+import { stringToNum } from "@/service/helpers";
 import Dice from "./dice.vue";
-import Button from "./button.vue";
 import History from "./history.vue";
+import Button from "./button.vue";
+import Stat from "./stat.vue";
+import Checkbox from "./checkbox.vue";
 
-type ModalProps = {
-  message: string;
-  actions: string[];
-  onActionClick: (index: number) => void;
-};
-const modal = ref<ModalProps | null>();
-const diceToRoll = ref<string[]>([]);
-const showHistory = ref(false);
-
-function addDiceRoll(dice: string) {
-  diceToRoll.value.push(dice);
+const diceNotation = computed(() => {
   const dices: Record<string, number> = {};
   for (const dice of diceToRoll.value) {
     if (dices[dice]) {
@@ -29,19 +28,46 @@ function addDiceRoll(dice: string) {
   for (const dice of Object.keys(dices)) {
     finalDice.push(`${dices[dice]}${dice}`);
   }
-  modal.value = {
-    message: finalDice.join(" + "),
-    actions: ["Cancel", "Roll"],
-    onActionClick(index) {
-      modal.value = null;
-      diceToRoll.value = [];
-      switch (index) {
-        case 1:
-          rollDice({ dice: finalDice });
-          break;
-      }
-    },
-  };
+  return finalDice;
+});
+const showHistory = ref(false);
+
+const rollWithAdvantage = computed({
+  get() {
+    return rollAdvantage.value > 0;
+  },
+  set(value) {
+    rollAdvantage.value = value ? 1 : 0;
+  },
+});
+const rollWithDisadvantage = computed({
+  get() {
+    return rollAdvantage.value < 0;
+  },
+  set(value) {
+    rollAdvantage.value = value ? -1 : 0;
+  },
+});
+
+function addDiceRoll(dice: string) {
+  diceToRoll.value.push(dice);
+  showDiceRoller.value = true;
+}
+
+function cancelRoll() {
+  diceToRoll.value = [];
+  showDiceRoller.value = false;
+}
+
+function triggerRoll() {
+  const modifier = stringToNum(rollModifiers.value);
+  const advantage = rollAdvantage.value;
+  rollDice({
+    dice: diceNotation.value,
+    modifier,
+    advantage,
+  });
+  cancelRoll();
 }
 
 function onHistoryClick() {
@@ -51,25 +77,8 @@ function onHistoryClick() {
 
 <template>
   <History :visible="showHistory" @update:visible="(v) => (showHistory = v)" />
-  <div v-if="modal" class="dice-modal-container">
-    <div class="modal flex-grow gap20 bg-paper shadow">
-      <div
-        class="flex-grow flex-basis-100 justify-start align-start"
-        style="width: 100%"
-      >
-        {{ modal.message }}
-      </div>
-      <div class="flex-row justify-center flex-shrink flex-basis-0 gap20">
-        <Button
-          v-for="(action, index) in modal.actions"
-          @click="() => modal!.onActionClick(index)"
-        >
-          {{ action }}
-        </Button>
-      </div>
-    </div>
-  </div>
   <div
+    class="gap20"
     :class="{
       'top-bar': !isMobileView,
       'bg-paper': !isMobileView,
@@ -105,6 +114,28 @@ function onHistoryClick() {
         <Dice type="d12" @click="() => addDiceRoll('d12')" />
         <Dice type="d20" @click="() => addDiceRoll('d20')" />
         <Dice type="d100" @click="() => addDiceRoll('d100')" />
+      </div>
+    </div>
+    <div v-if="showDiceRoller">
+      <div
+        class="modal justify-end gap10"
+        :class="{
+          'align-center': isMobileView,
+          'align-end': !isMobileView,
+        }"
+        style="padding-right: 20px"
+      >
+        <span class="gap10">
+          <span class="bold uppercase">rolling</span>
+          {{ diceNotation.join(" + ") }}
+        </span>
+        <Stat small label="modifiers" v-model="rollModifiers" />
+        <Checkbox label="Advantage" v-model="rollWithAdvantage" />
+        <Checkbox label="Disadvantage" v-model="rollWithDisadvantage" />
+        <div class="flex-row gap10">
+          <Button @click="cancelRoll" class="shadow">Cancel</Button>
+          <Button @click="triggerRoll" class="shadow">Roll</Button>
+        </div>
       </div>
     </div>
   </div>

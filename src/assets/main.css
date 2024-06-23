@@ -16,7 +16,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-width: 280px;
+  min-width: 320px;
 }
 
 .material-symbols-outlined {
@@ -162,6 +162,9 @@ div {
 }
 .align-center {
   align-items: center;
+}
+.align-end {
+  align-items: end;
 }
 .align-space-between {
   align-content: space-between;
