@@ -49,7 +49,7 @@ body {
 .tooltip .tooltiptext {
   position: absolute;
   margin-top: 100px;
-  z-index: 200;
+  z-index: 300;
   transition: 1s;
   visibility: hidden;
   opacity: 0;

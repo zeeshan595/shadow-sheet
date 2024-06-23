@@ -116,13 +116,14 @@ function onHistoryClick() {
         <Dice type="d100" @click="() => addDiceRoll('d100')" />
       </div>
     </div>
-    <div v-if="showDiceRoller">
+    <div
+      v-if="showDiceRoller"
+      :class="{
+        'dice-modal-container': !isMobileView,
+      }"
+    >
       <div
-        class="modal justify-end gap10"
-        :class="{
-          'align-center': isMobileView,
-          'align-end': !isMobileView,
-        }"
+        class="modal justify-end gap10 shadow p20 bg-paper align-center"
         style="padding-right: 20px"
       >
         <span class="gap10">
