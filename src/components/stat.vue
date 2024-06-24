@@ -30,7 +30,7 @@ function decreaseValue() {
 }
 function rollWithModifier() {
   diceToRoll.value = ["d20"];
-  rollModifiers.value = `${modifier.value}`;
+  rollModifiers.value = stringToNum(modifier.value).toString();
   rollAdvantage.value = 0;
   showDiceRoller.value = true;
 }
