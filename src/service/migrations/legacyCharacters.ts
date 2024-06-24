@@ -1,6 +1,6 @@
 import type { Character } from "@/types/character";
-import { stringToNum } from "./helpers";
-import { CHARACTERS_STORE } from "./db";
+import { stringToNum } from "../helpers";
+import { CHARACTERS_STORE } from "../db";
 
 function modifiersToStats(character: Character): Character {
   const str = stringToNum(character.strength);

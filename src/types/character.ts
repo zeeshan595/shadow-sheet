@@ -1,3 +1,7 @@
+export type CharacterTracker = {
+  name: string;
+  value: number;
+};
 export type Character = {
   // tools
   uuid: string;
@@ -19,12 +23,7 @@ export type Character = {
   wisdom: string;
   charisma: string;
 
-  // resources
-  currentHealth: string;
-  health: string;
-  armor: string;
-  luck: string;
-
+  trackers: CharacterTracker[];
   skills: string;
   attacks: string;
   gear: string[];

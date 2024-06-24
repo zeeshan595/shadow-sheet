@@ -3,6 +3,7 @@ import Seperator from "./seperator.vue";
 import type { Character } from "@/types/character";
 import { statToModifier } from "@/service/helpers";
 import { isMobileView } from "@/consts";
+import { computed } from "vue";
 
 const props = defineProps<{
   character: Character;
@@ -12,11 +13,19 @@ const emits = defineEmits<{
   (e: "save"): void;
   (e: "delete"): void;
 }>();
+const trackers = computed(() => {
+  if (props.character.trackers.length <= 5) {
+    return props.character.trackers;
+  }
+  return props.character.trackers.slice(0, 5);
+});
 </script>
 
 <template>
   <div class="rounded bg-paper">
-    <div class="flex-row gap10 justify-start flex-shrink flex-basis-0 p10">
+    <div
+      class="flex-row gap10 justify-start align-center flex-shrink flex-basis-0 p10"
+    >
       <span
         class="material-symbols-outlined pointer"
         @click="() => emits('save')"
@@ -29,6 +38,29 @@ const emits = defineEmits<{
       >
         delete
       </span>
+      <div class="flex-row justify-end gap20">
+        <div class="align-center justify-start flex-shrink flex-basis-0">
+          <span class="bold">STR</span> {{ statToModifier(character.strength) }}
+        </div>
+        <div class="align-center justify-start flex-shrink flex-basis-0">
+          <span class="bold">DEX</span>
+          {{ statToModifier(character.dexterity) }}
+        </div>
+        <div class="align-center justify-start flex-shrink flex-basis-0">
+          <span class="bold">CON</span>
+          {{ statToModifier(character.constitution) }}
+        </div>
+        <div class="align-center justify-start flex-shrink flex-basis-0">
+          <span class="bold">INT</span>
+          {{ statToModifier(character.intelligence) }}
+        </div>
+        <div class="align-center justify-start flex-shrink flex-basis-0">
+          <span class="bold">WIS</span> {{ statToModifier(character.wisdom) }}
+        </div>
+        <div class="align-center justify-start flex-shrink flex-basis-0">
+          <span class="bold">CHA</span> {{ statToModifier(character.charisma) }}
+        </div>
+      </div>
     </div>
     <Seperator />
     <div
@@ -47,35 +79,10 @@ const emits = defineEmits<{
           ({{ props.character.playerName }})
         </template>
       </div>
-      <div v-if="!isMobileView" class="flex-row gap10">
-        <div class="align-center justify-start">
-          <span class="bold">STR</span> {{ statToModifier(character.strength) }}
-        </div>
-        <div class="align-center justify-start">
-          <span class="bold">DEX</span>
-          {{ statToModifier(character.dexterity) }}
-        </div>
-        <div class="align-center justify-start">
-          <span class="bold">CON</span>
-          {{ statToModifier(character.constitution) }}
-        </div>
-        <div class="align-center justify-start">
-          <span class="bold">INT</span>
-          {{ statToModifier(character.intelligence) }}
-        </div>
-        <div class="align-center justify-start">
-          <span class="bold">WIS</span> {{ statToModifier(character.wisdom) }}
-        </div>
-        <div class="align-center justify-start">
-          <span class="bold">CHA</span> {{ statToModifier(character.charisma) }}
-        </div>
-        <div class="align-center justify-start">
-          <span class="bold">AC</span> {{ character.armor }}
-        </div>
-        <div class="align-center justify-start">
-          <span class="bold">HP</span>
-          {{ character.currentHealth }} /
-          {{ character.health }}
+      <div v-if="!isMobileView" class="flex-row gap10 justify-end align-center">
+        <div v-for="tracker in trackers" class="align-center justify-start flex-shrink flex-basis-0">
+          <span class="bold uppercase">{{ tracker.name }}</span>
+          {{ tracker.value }}
         </div>
       </div>
     </div>

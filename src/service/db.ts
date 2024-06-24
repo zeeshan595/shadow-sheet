@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { migrateFromLocalStorage } from "./legacyCharacters";
+import { migrateFromLocalStorage } from "./migrations/legacyCharacters";
 
 export const CHARACTERS_STORE = "characters";
 

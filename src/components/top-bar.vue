@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 import { isMobileView } from "@/consts";
 import {
   diceToRoll,
@@ -13,7 +13,6 @@ import Dice from "./dice.vue";
 import History from "./history.vue";
 import Button from "./button.vue";
 import Stat from "./stat.vue";
-import Checkbox from "./checkbox.vue";
 
 const diceNotation = computed(() => {
   const dices: Record<string, number> = {};

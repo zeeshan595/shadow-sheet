@@ -12,7 +12,13 @@ export async function saveCharacter(character: Character) {
   const db = await getDb();
   const transaction = db.transaction(CHARACTERS_STORE, "readwrite");
   const store = transaction.objectStore(CHARACTERS_STORE);
-  const cloneableCharacter = { ...character, gear: [...character.gear] };
+  const cloneableCharacter: Character = {
+    ...character,
+    gear: [...character.gear],
+    trackers: [
+      ...character.trackers.map(t => ({ ...t }))
+    ],
+  };
   await store.put(cloneableCharacter, character.uuid);
   transaction.commit();
 }
@@ -46,8 +52,23 @@ export async function loadCharacters(): Promise<Character[]> {
   transaction.commit();
   return new Promise((resolve) => {
     req.onsuccess = () => {
-      const character = req.result as Character[];
-      resolve(character);
+      const charactersUnmapped = req.result;
+      const characters = charactersUnmapped.map(character => {
+        if ('health' in character) {
+          character.trackers = [
+            { name: 'health', value: character['health'] },
+            { name: 'armor', value: character['armor'] },
+            { name: 'luck', value: character['luck'] }
+          ];
+          delete character.currentHealth;
+          delete character.health;
+          delete character.armor;
+          delete character.luck;
+        }
+
+        return character as Character;
+      });
+      resolve(characters);
     };
   });
 }
@@ -100,12 +121,7 @@ export function isCharacterValid(character: Character): boolean {
     wisdom: "string",
     charisma: "string",
 
-    // resources
-    currentHealth: "string",
-    health: "string",
-    armor: "string",
-    luck: "string",
-
+    trackers: "object", // array is a type of 'object'
     skills: "string",
     attacks: "string",
     gear: "object", // array is a type of 'object'
@@ -184,10 +200,11 @@ function convertShadowDarklingCharacter(data: any): Character {
     wisdom: `${data['stats']['WIS']}`,
     charisma: `${data['stats']['CHA']}`,
 
-    currentHealth: `${data['maxHitPoints']}`,
-    health: `${data['maxHitPoints']}`,
-    armor: `${data['armorClass']}`,
-    luck: '0',
+    trackers: [
+      { name: 'health', value: data['maxHitPoints'] },
+      { name: 'armor', value: data['armorClass'] },
+      { name: 'luck', value: 0 }
+    ],
     gold: `${data['gold']}gp, ${data['silver']}sp, ${data['copper']}cp`,
     notes: `title: ${data['title']},
 deity: ${data['deity']},
@@ -293,11 +310,11 @@ export function createNewCharacter(): Character {
     wisdom: `${stats[4]}`,
     charisma: `${stats[5]}`,
 
-    currentHealth: "5",
-    health: "5",
-    armor: "10",
-    luck: "1",
-
+    trackers: [
+      { name: 'health', value: 5 },
+      { name: 'armor', value: 10 },
+      { name: 'luck', value: 1 }
+    ],
     gear: newCharacterGear(),
     gold: `${newCharacterGold()}`,
     notes: "",

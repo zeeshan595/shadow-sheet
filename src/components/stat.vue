@@ -18,6 +18,7 @@ const props = defineProps<{
 }>();
 const emits = defineEmits<{
   (e: "update:modelValue", value: string): void;
+  (e: "label:click"): void;
 }>();
 
 const modifier = computed(() => statToModifier(props.modelValue));
@@ -38,9 +39,13 @@ function rollWithModifier() {
 
 <template>
   <div class="align-center flex-basis-0">
-    <span v-if="props.label" class="uppercase font-small bold">{{
-      props.label
-    }}</span>
+    <span
+      @click="() => emits('label:click')"
+      v-if="props.label"
+      class="uppercase font-small bold"
+    >
+      {{ props.label }}
+    </span>
     <span v-if="props.subLabel" class="uppercase font-small bold primary-main">
       {{ props.subLabel }}
     </span>
