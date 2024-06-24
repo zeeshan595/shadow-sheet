@@ -66,36 +66,30 @@ export async function rollDicePreview(dice: string[]) {
 export async function rollDice(options: RollDiceOptions) {
   // play audio
   audio.play();
+  const isUsingAdvantage = options.advantage !== undefined && options.advantage !== 0;
 
   // roll dice
-  const results: DiceRollResult[] = await diceBox.roll(options.dice);
+  const results: DiceRollResult[][] = [await diceBox.roll(options.dice)];
 
   // roll extra dice for advantage
-  const isUsingAdvantage = options.advantage !== undefined && options.advantage !== 0;
-  let advantageResults: DiceRollResult[][] = [];
   if (isUsingAdvantage) {
-    advantageResults.push(results);
     for (let i = 0; i < Math.abs(options.advantage!); i++) {
       audio.play();
-      advantageResults.push(await diceBox.roll(options.dice));
+      results.push(await diceBox.roll(options.dice));
     }
   }
 
   let total = 0;
-  if (isUsingAdvantage) {
-    // get value with advantage or dis-advantage
-    const diceResult = advantageResults.map(
-      r => r.map(d => d.value).reduce((sum, a) => sum + a, 0)
-    );
-    if (options.advantage! > 0) {
-      total = Math.max(...diceResult);
-    } else {
-      total = Math.min(...diceResult);
-    }
+  // get value with advantage or dis-advantage
+  const diceResult = results.map(
+    r => r.map(d => d.value).reduce((sum, a) => sum + a, 0)
+  );
+  if (options.advantage && options.advantage > 0) {
+    total = Math.max(...diceResult);
+  } else if (options.advantage && options.advantage < 0) {
+    total = Math.min(...diceResult);
   } else {
-    // get total dice sum
-    const diceResult = results.map(d => d.value).reduce((sum, a) => sum + a, 0);
-    total = diceResult;
+    total = diceResult[0];
   }
 
   // player text
@@ -105,12 +99,16 @@ export async function rollDice(options: RollDiceOptions) {
   }
 
   // details text
-  let diceDetails = results.map((r) => `${r.value}(d${r.sides})`).join(" + ");
-  if (isUsingAdvantage) {
-    for (let i = 1; i < advantageResults.length; i++) {
-      const result = advantageResults[i];
-      diceDetails += ' || ';
+  let diceDetails = '';
+  if (results.length === 1) {
+    diceDetails = results[0].map((r) => `${r.value}(d${r.sides})`).join(" + ");
+  } else {
+    for (let i = 0; i < results.length; i++) {
+      const result = results[i];
+      if (i > 0) diceDetails += ' || ';
+      diceDetails += '(';
       diceDetails += result.map((r) => `${r.value}(d${r.sides})`).join(" + ");
+      diceDetails += ')';
     }
   }
 

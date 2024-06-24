@@ -4,13 +4,20 @@ const props = defineProps<{
 }>();
 const emits = defineEmits<{
   (e: "click"): void;
+  (e: "rightClick"): void;
 }>();
+
+function contextMenuClick(e: Event) {
+  e.preventDefault();
+  emits("rightClick");
+}
 </script>
 
 <template>
   <div
     class="flex-row flex-shrink flex-basis-0 tooltip"
     @click="() => emits('click')"
+    @contextmenu="contextMenuClick"
   >
     <img
       v-if="props.type === 'd4'"

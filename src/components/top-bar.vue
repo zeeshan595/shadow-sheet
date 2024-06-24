@@ -32,26 +32,28 @@ const diceNotation = computed(() => {
 });
 const showHistory = ref(false);
 
-const rollWithAdvantage = computed({
+const advantage = computed({
   get() {
-    return rollAdvantage.value > 0;
+    return rollAdvantage.value.toString();
   },
   set(value) {
-    rollAdvantage.value = value ? 1 : 0;
-  },
-});
-const rollWithDisadvantage = computed({
-  get() {
-    return rollAdvantage.value < 0;
-  },
-  set(value) {
-    rollAdvantage.value = value ? -1 : 0;
+    rollAdvantage.value = stringToNum(value);
   },
 });
 
 function addDiceRoll(dice: string) {
   diceToRoll.value.push(dice);
   showDiceRoller.value = true;
+}
+
+function removeDiceRoll(dice: string) {
+  const diceIndex = diceToRoll.value.findIndex((d) => d === dice);
+  if (diceIndex === -1) return;
+  diceToRoll.value = [
+    ...diceToRoll.value.slice(0, diceIndex),
+    ...diceToRoll.value.slice(diceIndex + 1),
+  ];
+  showDiceRoller.value = diceToRoll.value.length > 0;
 }
 
 function cancelRoll() {
@@ -107,23 +109,53 @@ function onHistoryClick() {
           </span>
           <span class="tooltiptext">History</span>
         </div>
-        <Dice type="d4" @click="() => addDiceRoll('d4')" />
-        <Dice type="d6" @click="() => addDiceRoll('d6')" />
-        <Dice type="d8" @click="() => addDiceRoll('d8')" />
-        <Dice type="d10" @click="() => addDiceRoll('d10')" />
-        <Dice type="d12" @click="() => addDiceRoll('d12')" />
-        <Dice type="d20" @click="() => addDiceRoll('d20')" />
-        <Dice type="d100" @click="() => addDiceRoll('d100')" />
+        <Dice
+          type="d4"
+          @click="() => addDiceRoll('d4')"
+          @right-click="() => removeDiceRoll('d4')"
+        />
+        <Dice
+          type="d6"
+          @click="() => addDiceRoll('d6')"
+          @right-click="() => removeDiceRoll('d6')"
+        />
+        <Dice
+          type="d8"
+          @click="() => addDiceRoll('d8')"
+          @right-click="() => removeDiceRoll('d8')"
+        />
+        <Dice
+          type="d10"
+          @click="() => addDiceRoll('d10')"
+          @right-click="() => removeDiceRoll('d10')"
+        />
+        <Dice
+          type="d12"
+          @click="() => addDiceRoll('d12')"
+          @right-click="() => removeDiceRoll('d12')"
+        />
+        <Dice
+          type="d20"
+          @click="() => addDiceRoll('d20')"
+          @right-click="() => removeDiceRoll('d20')"
+        />
+        <Dice
+          type="d100"
+          @click="() => addDiceRoll('d100')"
+          @right-click="() => removeDiceRoll('d100')"
+        />
       </div>
     </div>
     <div
-      v-if="showDiceRoller"
+      v-if="!isMobileView || showDiceRoller"
       :class="{
         'dice-modal-container': !isMobileView,
+        'hidden-modal': !showDiceRoller && !isMobileView,
+        'shown-modal': showDiceRoller && !isMobileView,
       }"
     >
       <div
-        class="modal justify-end gap10 shadow p20 bg-paper align-center"
+        class="modal justify-end gap10 shadow p20 bg-paper align-center gap10"
         style="padding-right: 20px"
       >
         <span class="gap10">
@@ -131,8 +163,7 @@ function onHistoryClick() {
           {{ diceNotation.join(" + ") }}
         </span>
         <Stat small label="modifiers" v-model="rollModifiers" />
-        <Checkbox label="Advantage" v-model="rollWithAdvantage" />
-        <Checkbox label="Disadvantage" v-model="rollWithDisadvantage" />
+        <Stat small label="advantage" v-model="advantage" />
         <div class="flex-row gap10">
           <Button @click="cancelRoll" class="shadow">Cancel</Button>
           <Button @click="triggerRoll" class="shadow">Roll</Button>
@@ -153,18 +184,27 @@ function onHistoryClick() {
   display: block;
   position: fixed;
   top: 100px;
-  right: 260px;
+  right: 360px;
   z-index: 200;
+  transition: 0.5s;
+  opacity: 0;
 
   .modal {
     display: flex;
     position: absolute;
     padding: 20px;
     border-radius: 7px;
-    min-width: 200px;
+    min-width: 300px;
     margin-left: auto;
     margin-right: auto;
     z-index: 50;
   }
+}
+.hidden-modal {
+  opacity: 0;
+  pointer-events: none;
+}
+.shown-modal {
+  opacity: 1;
 }
 </style>

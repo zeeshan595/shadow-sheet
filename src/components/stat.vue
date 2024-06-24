@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import TextField from "./text-field.vue";
 import { statToModifier, stringToNum } from "@/service/helpers";
-import { diceToRoll, rollAdvantage, rollDice, rollModifiers, showDiceRoller } from "@/service/diceBox";
+import {
+  diceToRoll,
+  rollAdvantage,
+  rollModifiers,
+  showDiceRoller,
+} from "@/service/diceBox";
 
 const props = defineProps<{
   small?: boolean;
