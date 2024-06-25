@@ -176,14 +176,14 @@ function deleteTracker() {
         <TextField
           large
           :mobile-view="isMobileView"
-          label="skills & talents"
-          v-model="character.skills"
+          label="attacks & spells"
+          v-model="character.attacks"
         />
         <TextField
           large
           :mobile-view="isMobileView"
-          label="attacks & spells"
-          v-model="character.attacks"
+          label="skills & talents"
+          v-model="character.skills"
         />
       </div>
     </div>
