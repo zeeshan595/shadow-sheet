@@ -38,7 +38,7 @@ const trackers = computed(() => {
       >
         delete
       </span>
-      <div class="flex-row justify-end gap20">
+      <div class="flex-row justify-end gap20 font-small">
         <div class="align-center justify-start flex-shrink flex-basis-0">
           <span class="bold">STR</span> {{ statToModifier(character.strength) }}
         </div>
@@ -79,7 +79,7 @@ const trackers = computed(() => {
           ({{ props.character.playerName }})
         </template>
       </div>
-      <div v-if="!isMobileView" class="flex-row gap10 justify-end align-center">
+      <div v-if="!isMobileView" class="flex-row gap20 justify-end align-center font-small">
         <div v-for="tracker in trackers" class="align-center justify-start flex-shrink flex-basis-0">
           <span class="bold uppercase">{{ tracker.name }}</span>
           {{ tracker.value }}
