@@ -22,7 +22,7 @@ const trackers = computed(() => {
 </script>
 
 <template>
-  <div class="rounded bg-paper">
+  <div class="rounded bg-paper p10">
     <div
       class="flex-row gap10 justify-start align-center flex-shrink flex-basis-0 p10"
     >
