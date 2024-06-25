@@ -22,6 +22,7 @@ const styleVariables = computed(() => ({
   "--text-primary": theme.value.text.secondary,
   "--shadow": theme.value.shadow,
   "--primary-main": theme.value.primary.main,
+  "--primary-dark": theme.value.primary.dark
 }));
 </script>
 
@@ -51,5 +52,8 @@ const styleVariables = computed(() => ({
 }
 .primary-main {
   color: var(--primary-main);
+}
+a:hover {
+  background-color: var(--primary-dark);
 }
 </style>

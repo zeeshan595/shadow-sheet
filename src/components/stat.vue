@@ -96,6 +96,13 @@ function rollWithModifier() {
   font-size: 34px;
   padding-right: 20px;
   padding-left: 20px;
+  background-color: none;
+}
+a {
+  background-color: none;
+  &:hover {
+    background: none;
+  }
 }
 button {
   position: relative;
