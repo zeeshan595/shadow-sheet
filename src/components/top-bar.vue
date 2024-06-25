@@ -154,6 +154,7 @@ function onHistoryClick() {
       }"
     >
       <div
+        id="dice-roll"
         class="modal justify-end gap10 shadow p20 bg-paper align-center gap10"
         style="padding-right: 20px"
       >

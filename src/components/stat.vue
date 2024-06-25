@@ -77,13 +77,15 @@ function rollWithModifier() {
       </button>
     </div>
     <div class="tooltip">
-      <span
-        v-if="props.modifier"
-        class="stat-modifier pointer"
-        @click="rollWithModifier"
-      >
-        {{ modifier }}
-      </span>
+      <a href="#dice-roll">
+        <span
+          v-if="props.modifier"
+          class="stat-modifier pointer text-primary"
+          @click="rollWithModifier"
+        >
+          {{ modifier }}
+        </span>
+      </a>
       <span class="tooltiptext">Roll for {{ props.label }}</span>
     </div>
   </div>
