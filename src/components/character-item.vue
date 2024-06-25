@@ -71,7 +71,6 @@ const trackers = computed(() => {
         class="flex-shrink"
         :class="{
           'min-width-240': !isMobileView,
-          'flex-basis-0': !isMobileView,
         }"
       >
         {{ props.character.characterName }}
