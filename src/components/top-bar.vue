@@ -87,7 +87,7 @@ function onHistoryClick() {
     }"
   >
     <div
-      id="dice-roll"
+      :id="isMobileView ? 'dice-roll' : ''"
       class="flex-row gap10 justify-start"
       :class="{ 'flex-col': isMobileView }"
     >
