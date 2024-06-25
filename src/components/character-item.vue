@@ -67,19 +67,20 @@ const trackers = computed(() => {
       class="character-name flex-row gap20 p10 pointer"
       @click="() => emits('click')"
     >
-      <div
-        class="flex-shrink"
-        :class="{
-          'min-width-240': !isMobileView,
-        }"
-      >
+      <div>
         {{ props.character.characterName }}
         <template v-if="props.character.playerName">
           ({{ props.character.playerName }})
         </template>
       </div>
-      <div v-if="!isMobileView" class="flex-row gap20 justify-end align-center font-small">
-        <div v-for="tracker in trackers" class="align-center justify-start flex-shrink flex-basis-0">
+      <div
+        v-if="!isMobileView"
+        class="flex-row gap20 justify-end align-center font-small"
+      >
+        <div
+          v-for="tracker in trackers"
+          class="align-center justify-start flex-shrink flex-basis-0"
+        >
           <span class="bold uppercase">{{ tracker.name }}</span>
           {{ tracker.value }}
         </div>
