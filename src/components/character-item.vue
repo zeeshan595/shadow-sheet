@@ -13,6 +13,14 @@ const emits = defineEmits<{
   (e: "save"): void;
   (e: "delete"): void;
 }>();
+const stats = computed(() => [
+  { name: "STR", value: props.character.strength },
+  { name: "DEX", value: props.character.dexterity },
+  { name: "CON", value: props.character.constitution },
+  { name: "INT", value: props.character.intelligence },
+  { name: "WIS", value: props.character.wisdom },
+  { name: "CHA", value: props.character.charisma },
+]);
 const trackers = computed(() => {
   if (props.character.trackers.length <= 5) {
     return props.character.trackers;
@@ -38,27 +46,13 @@ const trackers = computed(() => {
       >
         delete
       </span>
-      <div class="flex-row justify-end gap20 font-small">
-        <div class="align-center justify-start flex-shrink flex-basis-0">
-          <span class="bold">STR</span> {{ statToModifier(character.strength) }}
-        </div>
-        <div class="align-center justify-start flex-shrink flex-basis-0">
-          <span class="bold">DEX</span>
-          {{ statToModifier(character.dexterity) }}
-        </div>
-        <div class="align-center justify-start flex-shrink flex-basis-0">
-          <span class="bold">CON</span>
-          {{ statToModifier(character.constitution) }}
-        </div>
-        <div class="align-center justify-start flex-shrink flex-basis-0">
-          <span class="bold">INT</span>
-          {{ statToModifier(character.intelligence) }}
-        </div>
-        <div class="align-center justify-start flex-shrink flex-basis-0">
-          <span class="bold">WIS</span> {{ statToModifier(character.wisdom) }}
-        </div>
-        <div class="align-center justify-start flex-shrink flex-basis-0">
-          <span class="bold">CHA</span> {{ statToModifier(character.charisma) }}
+      <div v-if="!isMobileView" class="flex-row justify-end gap20 font-small">
+        <div
+          v-for="stat in stats"
+          class="flex-row gap10 align-center justify-start flex-shrink flex-basis-0"
+        >
+          <span class="bold">{{ stat.name }}</span>
+          <span>{{ statToModifier(stat.value) }}</span>
         </div>
       </div>
     </div>
@@ -79,10 +73,10 @@ const trackers = computed(() => {
       >
         <div
           v-for="tracker in trackers"
-          class="align-center justify-start flex-shrink flex-basis-0"
+          class="flex-row gap10 align-center justify-start flex-shrink flex-basis-0"
         >
           <span class="bold uppercase">{{ tracker.name }}</span>
-          {{ tracker.value }}
+          <span>{{ tracker.value }}</span>
         </div>
       </div>
     </div>
