@@ -14,6 +14,7 @@ const props = defineProps<{
   modifier?: boolean;
   label?: string;
   subLabel?: string;
+  isLabelClickable?: boolean;
   modelValue: string;
 }>();
 const emits = defineEmits<{
@@ -43,6 +44,7 @@ function rollWithModifier() {
       @click="() => emits('label:click')"
       v-if="props.label"
       class="uppercase font-small bold"
+      :class="{ clickable: props.isLabelClickable }"
     >
       {{ props.label }}
     </span>

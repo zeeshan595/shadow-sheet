@@ -157,6 +157,7 @@ function deleteTracker() {
       <Stat
         v-for="(tracker, index) in character.trackers"
         small
+        is-label-clickable
         :label="tracker.name"
         :model-value="`${tracker.value}`"
         @update:model-value="(value) => updateTracker(index, value)"
