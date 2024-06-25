@@ -44,7 +44,7 @@ function rollWithModifier() {
       @click="() => emits('label:click')"
       v-if="props.label"
       class="uppercase font-small bold"
-      :class="{ clickable: props.isLabelClickable }"
+      :class="{ pointer: props.isLabelClickable }"
     >
       {{ props.label }}
     </span>
