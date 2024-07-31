@@ -41,6 +41,11 @@ const advantage = computed({
 });
 
 function addDiceRoll(dice: string) {
+  if (!showDiceRoller.value) {
+    rollModifiers.value = '0';
+    rollAdvantage.value = 0;
+    diceToRoll.value = [];
+  }
   diceToRoll.value.push(dice);
   showDiceRoller.value = true;
 }
