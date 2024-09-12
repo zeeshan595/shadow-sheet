@@ -6,7 +6,7 @@
   "author": "Zeeshan",
   "action": {
     "title": "Shadow Sheet",
-    "icon": "/icon.png",
+    "icon": "/icon.svg",
     "popover": "/",
     "width": 800,
     "height": 860
