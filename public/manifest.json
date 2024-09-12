@@ -2,9 +2,11 @@
   "name": "Shadow Sheet",
   "version": "4.0.1",
   "manifest_version": 1,
+  "homepage_url": "https://github.com/zeeshan595/shadow-sheet",
+  "author": "Zeeshan",
   "action": {
     "title": "Shadow Sheet",
-    "icon": "/icon.svg",
+    "icon": "/icon.png",
     "popover": "/",
     "width": 800,
     "height": 860
