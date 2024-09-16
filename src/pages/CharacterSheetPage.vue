@@ -112,7 +112,7 @@ function deleteTracker() {
         'align-center': isMobileView,
       }"
     >
-      <Toggle v-model="character.sync" />
+      <Toggle v-model="character.sync">Sync</Toggle>
     </div>
   </TopBar>
   <div class="gap10 page-padding gap10">

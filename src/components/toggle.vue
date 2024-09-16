@@ -21,7 +21,7 @@ function onClick() {
     class="justify-start align-center gap10 flex-shrink flex-basis-0"
     @click="onClick"
   >
-    <span class="label">Sync</span>
+    <span class="label"><slot></slot></span>
     <label class="switch">
       <input type="checkbox" :checked="props.modelValue" @click="onClick" />
       <span class="slider round"></span>

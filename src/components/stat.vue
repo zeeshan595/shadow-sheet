@@ -31,7 +31,11 @@ function decreaseValue() {
   emits("update:modelValue", `${stringToNum(props.modelValue) - 1}`);
 }
 function rollWithModifier() {
-  diceToRoll.value = ["d20"];
+  if (localStorage.getItem("use2D10") == "1") {
+    diceToRoll.value = ["d10", "d10"];
+  } else {
+    diceToRoll.value = ["d20"];
+  }
   rollModifiers.value = stringToNum(modifier.value).toString();
   rollAdvantage.value = 0;
   showDiceRoller.value = true;

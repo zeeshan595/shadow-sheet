@@ -19,7 +19,11 @@ import {
 import Button from "@/components/button.vue";
 import CharacterItem from "@/components/character-item.vue";
 import TopBar from "@/components/top-bar.vue";
+import Options from "@/components/options.vue";
 import { isMobileView } from "@/consts";
+import { ref } from "vue";
+
+const showOptions = ref(false);
 
 function onDeleteCharacter(character: Character) {
   const CONFIRM_TEXT = `Are you sure you want to delete this character?\n${character.characterName} (${character.playerName})`;
@@ -86,6 +90,7 @@ function onMenuOptionsClick() {
 </script>
 
 <template>
+  <Options :visible="showOptions" @update:visible="(v) => (showOptions = v)" />
   <TopBar>
     <div
       class="flex-row gap10 justify-start align-center"
@@ -93,7 +98,7 @@ function onMenuOptionsClick() {
     >
       <span
         class="options material-symbols-outlined pointer"
-        @click="onMenuOptionsClick"
+        @click="showOptions = true"
       >
         more_horiz
       </span>
